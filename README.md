@@ -16,7 +16,7 @@ Funciona no computador e no celular. No celular dá para instalar como app:
 | Clientes | Syndex Ações | Claude |
 | Clientes | Carteira por estado | Claude |
 | Cotações e propostas | Syndex Cotações | Claude |
-| Cotações e propostas | Solicitação para Pricing | Claude |
+| Cotações e propostas | Solicitação para Pricing | Portal (`/pricing`) |
 | Cotações e propostas | Gerador de propostas | Claude |
 | Cotações e propostas | Estimativa de custo | Claude |
 | Rotina | Despesas de viagem | Site (GitHub) |
@@ -30,6 +30,7 @@ As ferramentas que abrem no Claude são links privados: só funcionam para quem 
 
 - `index.html` — o portal (menu, busca, cards e links)
 - `cotacao/` — página pública Peça sua cotação (o pedido vai pelo WhatsApp)
+- `pricing/` — Solicitação para Pricing (gera o PDF)
 - `assets/` — logo, símbolo e fundo da marca Syndex
 - `manifest.webmanifest`, `sw.js`, `icon-*.png`, `apple-touch-icon.png` — para instalar como app
 
