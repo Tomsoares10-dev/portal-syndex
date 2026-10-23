@@ -15,9 +15,9 @@ Funciona no computador e no celular. No celular dá para instalar como app:
 |---|---|---|
 | Clientes | Syndex Ações | Claude |
 | Clientes | Carteira por estado | Claude |
-| Cotações e propostas | Syndex Cotações | Claude |
+| Cotações e propostas | Syndex Cotações | Portal (`/cotacao-frete`, em branco) |
 | Cotações e propostas | Solicitação para Pricing | Portal (`/pricing`) |
-| Cotações e propostas | Gerador de propostas | Claude |
+| Cotações e propostas | Gerador de propostas | Em breve |
 | Cotações e propostas | Estimativa de custo | Portal (`/estimativa`) |
 | Rotina | Despesas de viagem | Site (GitHub) |
 | Rotina | Syndex Reposição | Claude |
@@ -32,6 +32,7 @@ As ferramentas que abrem no Claude são links privados: só funcionam para quem 
 - `cotacao/` — página pública Peça sua cotação (o pedido vai pelo WhatsApp)
 - `pricing/` — Solicitação para Pricing (gera o PDF)
 - `estimativa/` — Estimativa de custo de importação (gera o PDF)
+- `cotacao-frete/` — Syndex Cotações, cotação de frete marítimo em PDF (modelo em branco)
 - `assets/` — logo, símbolo e fundo da marca Syndex
 - `manifest.webmanifest`, `sw.js`, `icon-*.png`, `apple-touch-icon.png` — para instalar como app
 

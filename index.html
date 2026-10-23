@@ -149,6 +149,9 @@ svg.i { width: 20px; height: 20px; flex-shrink: 0; fill: none; stroke: currentCo
 .tool-cta { margin-top: auto; display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: var(--navy); }
 .tool-cta .where { font-weight: 600; color: var(--muted); }
 .tool-cta svg { width: 16px; height: 16px; }
+.tool.soon { cursor: default; opacity: .75; }
+.tool.soon:hover { border-color: var(--line); box-shadow: none; }
+.tool-cta.soon-cta { color: var(--muted); font-weight: 600; }
 
 .client {
   display: flex; flex-wrap: wrap; align-items: center; gap: 20px; padding: 24px 26px;
@@ -315,7 +318,7 @@ footer p { margin: 0; max-width: 70ch; }
             </div>
           </div>
           <div class="shortcuts">
-            <a class="btn primary" href="https://claude.ai/artifact/4nGR8FmvmBeS9GLd244i1k" target="_blank" rel="noopener"><svg class="i"><use href="#i-plus"/></svg>Nova cotação de frete</a>
+            <a class="btn primary" href="cotacao-frete/" target="_blank" rel="noopener"><svg class="i"><use href="#i-plus"/></svg>Nova cotação de frete</a>
             <a class="btn" href="https://tomsoares10-dev.github.io/despesas-syndex/" target="_blank" rel="noopener">Lançar despesa de viagem</a>
             <a class="btn" href="https://tomsoares10-dev.github.io/syndex-foto-grupo-whatsapp/" target="_blank" rel="noopener">Foto de grupo WhatsApp</a>
           </div>
@@ -349,20 +352,20 @@ footer p { margin: 0; max-width: 70ch; }
         <section class="section" id="cotacoes" aria-labelledby="t-cotacoes">
           <div class="section-head"><h2 id="t-cotacoes">Cotações e propostas</h2><span>4 ferramentas</span></div>
           <div class="grid">
-            <a class="tool" data-tool data-keys="cotacao frete maritimo container conteiner armador pdf" href="https://claude.ai/artifact/4nGR8FmvmBeS9GLd244i1k" target="_blank" rel="noopener">
+            <a class="tool" data-tool data-keys="cotacao frete maritimo container conteiner armador pdf" href="cotacao-frete/" target="_blank" rel="noopener">
               <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-ship"/></svg></span><span class="chip">Marítimo · PDF</span></div>
               <div class="tool-text"><span class="tool-name">Syndex Cotações</span><span class="tool-desc">Cotação de frete marítimo em PDF: portos, armador, frete por contêiner, freetime e validade.</span></div>
-              <span class="tool-cta"><span class="label">Abrir</span> <span class="where">no Claude</span><svg class="i"><use href="#i-arrow"/></svg></span>
+              <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
             </a>
             <a class="tool" data-tool data-keys="pricing ficha cadastro cnpj cep operacao" href="pricing/" target="_blank" rel="noopener">
               <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-clip"/></svg></span><span class="chip">Ficha · PDF</span></div>
               <div class="tool-text"><span class="tool-name">Solicitação para Pricing</span><span class="tool-desc">Dados do cliente e da operação para o time de pricing, com CEP preenchido sozinho.</span></div>
               <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
             </a>
-            <a class="tool" data-tool data-keys="proposta comercial gerador pdf" href="https://claude.ai/artifact/UWqHH9jshHycNt7Wi9booH" target="_blank" rel="noopener">
+            <a class="tool soon" data-tool data-keys="proposta comercial gerador pdf" aria-disabled="true">
               <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-doc"/></svg></span><span class="chip">Proposta · PDF</span></div>
               <div class="tool-text"><span class="tool-name">Gerador de propostas</span><span class="tool-desc">Proposta comercial no padrão visual da Syndex, pronta para enviar.</span></div>
-              <span class="tool-cta"><span class="label">Abrir</span> <span class="where">no Claude</span><svg class="i"><use href="#i-arrow"/></svg></span>
+              <span class="tool-cta soon-cta">Em breve</span>
             </a>
             <a class="tool" data-tool data-keys="estimativa custo importacao despacho frete internacional checklist" href="estimativa/" target="_blank" rel="noopener">
               <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-calc"/></svg></span><span class="chip">1 página</span></div>
