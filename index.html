@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Portal Syndex</title>
+<meta name="description" content="Portal interno com as ferramentas da Syndex Logística e Gestão Aduaneira.">
+<meta name="theme-color" content="#02488F">
+<meta name="robots" content="noindex">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Syndex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Portal Syndex — menu lateral fixo no computador; no celular, topo + barra inferior */
+:root {
+  --ground: #F3F6FB;
+  --surface: #FFFFFF;
+  --ink: #12244A;
+  --ink-2: #3A4B70;
+  --muted: #55658A;
+  --line: #DCE3EF;
+  --line-2: #C9D4E6;
+  --navy: #02488F;
+  --navy-deep: #013A73;
+  --tint: #E7EEF8;
+  --tint-2: #EEF3FA;
+  --green-ink: #2E7A31;
+  --on-navy: #D6E2F3;
+  --sans: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+a { color: var(--navy); }
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--green-ink); outline-offset: 2px; }
+svg.i { width: 20px; height: 20px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.mono { font-family: var(--mono); font-weight: 500; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Estrutura ---------- */
+.app { display: flex; min-height: 100vh; }
+.side {
+  width: 248px; flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  background: var(--surface); border-right: 1px solid var(--line);
+  padding: 28px 18px 24px; padding-left: max(18px, env(safe-area-inset-left, 0px));
+  display: flex; flex-direction: column; gap: 28px;
+}
+.brand { display: flex; flex-direction: column; gap: 6px; padding: 0 10px; text-decoration: none; }
+.brand img { width: 168px; height: auto; }
+.brand span { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.nav { display: flex; flex-direction: column; gap: 4px; }
+.nav a {
+  display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 10px;
+  color: var(--ink); font-size: 15px; font-weight: 600; text-decoration: none;
+}
+.nav a:hover { background: var(--tint-2); }
+.nav a.on { background: var(--tint); color: var(--navy); font-weight: 700; }
+.nav a .label { flex: 1; }
+.nav a .n { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.side-foot { margin-top: auto; }
+.mini {
+  display: flex; flex-direction: column; gap: 8px; padding: 16px; border-radius: 12px;
+  background: var(--ground); border: 1px solid var(--line);
+}
+.mini strong { font-size: 14px; }
+.mini span { font-size: 13px; color: var(--muted); }
+.mini a { align-self: flex-start; font-size: 13px; font-weight: 700; text-decoration: none; }
+
+.main {
+  flex: 1; min-width: 0; padding: 32px 40px 56px;
+  padding-right: max(40px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
+
+/* topo e barra do celular */
+.topbar, .bottomnav { display: none; }
+
+/* ---------- Boas-vindas ---------- */
+.hero {
+  background: url(assets/syndex-fundo.jpg) center / cover no-repeat, var(--surface);
+  border: 1px solid var(--line); border-radius: 18px;
+  padding: 36px 36px 30px; display: flex; flex-direction: column; gap: 24px;
+}
+.hero-top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px; }
+.hello { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.date { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--green-ink); }
+.hello h1 { margin: 0; font-size: 38px; line-height: 1.1; font-weight: 800; letter-spacing: -0.01em; color: var(--navy); }
+.hello p { margin: 0; font-size: 16px; color: var(--ink-2); }
+.search { flex: 0 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.search label { font-size: 13px; font-weight: 700; color: var(--ink-2); }
+.search-box {
+  display: flex; align-items: center; gap: 10px; height: 46px; padding: 0 14px;
+  background: var(--surface); border: 1px solid var(--line-2); border-radius: 11px;
+}
+.search-box:focus-within { border-color: var(--navy); }
+.search-box svg { color: var(--muted); width: 18px; height: 18px; }
+.search-box input {
+  flex: 1; min-width: 0; border: 0; outline: none; background: transparent;
+  font: 500 15px var(--sans); color: var(--ink);
+}
+.search-box input::placeholder { color: #6B7A99; }
+.shortcuts { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px;
+  border-radius: 10px; font: 700 14px var(--sans); text-decoration: none; cursor: pointer;
+  border: 1px solid var(--line-2); background: var(--surface); color: var(--ink);
+}
+.btn:hover { border-color: var(--navy); }
+.btn.primary { background: var(--navy); border-color: var(--navy); color: #FFFFFF; }
+.btn.primary:hover { background: var(--navy-deep); }
+.btn svg { width: 17px; height: 17px; }
+
+/* ---------- Seções e cards ---------- */
+.section { display: flex; flex-direction: column; gap: 16px; }
+.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.section-head h2 { margin: 0; font-size: 21px; font-weight: 800; }
+.section-head span { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+
+.tool {
+  display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 20px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+  color: var(--ink); text-decoration: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.tool:hover { border-color: var(--navy); box-shadow: 0 8px 24px rgba(2, 72, 143, .10); }
+.tool-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.ico {
+  width: 44px; height: 44px; border-radius: 11px; background: var(--tint); color: var(--navy);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.ico svg { width: 22px; height: 22px; }
+.chip { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); text-align: right; }
+.tool-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.tool-name { font-size: 17px; font-weight: 800; }
+.tool-desc { font-size: 14px; color: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.tool-cta { margin-top: auto; display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: var(--navy); }
+.tool-cta .where { font-weight: 600; color: var(--muted); }
+.tool-cta svg { width: 16px; height: 16px; }
+
+.client {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 20px; padding: 24px 26px;
+  border-radius: 16px; background: var(--navy); color: #FFFFFF;
+}
+.client .ico { width: 52px; height: 52px; border-radius: 13px; background: #1B5D9F; color: #FFFFFF; }
+.client .ico svg { width: 26px; height: 26px; }
+.client-text { flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.client-text strong { font-size: 19px; font-weight: 800; }
+.client-text span { font-size: 14px; color: var(--on-navy); }
+.client-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.client .btn { border-color: #7FA3CC; background: transparent; color: #FFFFFF; }
+.client .btn:hover { border-color: #FFFFFF; }
+.client .btn.light { background: #FFFFFF; border-color: #FFFFFF; color: var(--navy); }
+.copy-msg { flex-basis: 100%; margin: 0; font-size: 13px; color: var(--on-navy); }
+.copy-msg input {
+  width: 100%; margin-top: 6px; padding: 8px 10px; border-radius: 8px; border: 0;
+  font: 500 13px var(--mono); color: var(--ink);
+}
+
+.empty {
+  padding: 28px; border: 1px dashed var(--line-2); border-radius: 14px; text-align: center; color: var(--muted);
+}
+
+.install {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;
+}
+.install-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+.install-card h3 { margin: 0; font-size: 16px; font-weight: 800; }
+.install-card ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; color: var(--ink-2); font-size: 14px; }
+
+footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+footer p { margin: 0; max-width: 70ch; }
+
+/* ---------- Celular ---------- */
+@media (max-width: 899px) {
+  html { scroll-padding-top: 76px; }
+  .side { display: none; }
+  .topbar {
+    display: flex; align-items: center; gap: 10px; position: sticky; top: 0; z-index: 20;
+    padding: calc(12px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 12px max(16px, env(safe-area-inset-left, 0px));
+    background: rgba(243, 246, 251, .96); border-bottom: 1px solid var(--line);
+    backdrop-filter: blur(8px);
+  }
+  .topbar img { width: 26px; height: auto; }
+  .topbar strong { font-size: 17px; font-weight: 800; color: var(--navy); }
+  .main {
+    padding: 16px max(16px, env(safe-area-inset-right, 0px)) calc(100px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  }
+  .wrap { gap: 28px; }
+  .hero { padding: 20px 18px; gap: 16px; border-radius: 16px; }
+  .hello h1 { font-size: 28px; }
+  .hello p { font-size: 15px; }
+  .search { flex-basis: 100%; }
+  .shortcuts .btn { padding: 0 14px; font-size: 13px; }
+  .section { gap: 10px; }
+  .section-head h2 { font-size: 17px; }
+  .grid { grid-template-columns: 1fr; gap: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .tool { flex-direction: row; align-items: center; gap: 12px; padding: 12px 14px; border: 0; border-radius: 0; box-shadow: none; }
+  .tool + .tool { border-top: 1px solid #E6EBF4; }
+  .tool:hover { box-shadow: none; background: #F6F9FD; }
+  .tool-top { display: contents; }
+  .ico { width: 38px; height: 38px; border-radius: 10px; }
+  .ico svg { width: 19px; height: 19px; }
+  .chip, .legend, .tool-cta .label, .tool-cta .where { display: none; }
+  .tool-text { flex: 1; gap: 0; }
+  .tool-name { font-size: 15px; font-weight: 700; }
+  .tool-desc { font-size: 12px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .tool-cta { margin: 0; color: #8A97B3; }
+  .client { padding: 18px; gap: 14px; }
+  .client .ico { width: 42px; height: 42px; }
+  .client-text strong { font-size: 16px; }
+  .bottomnav {
+    display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+    background: var(--surface); border-top: 1px solid var(--line);
+    padding: 6px max(8px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px));
+  }
+  .bottomnav a {
+    flex: 1; min-height: 56px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+    color: var(--muted); font-size: 11px; font-weight: 700; text-decoration: none;
+  }
+  .bottomnav a.on { color: var(--navy); font-weight: 800; }
+  .bottomnav svg { width: 22px; height: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .tool { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Ícones -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m9 11 3 3 9-9"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-ship" viewBox="0 0 24 24"><path d="M2 20c1.5 1 3 1 4.5 0s3-1 4.5 0 3 1 4.5 0 3-1 4.5 0"/><path d="M3.5 16 2 11h20l-2.5 5"/><path d="M6 11V7h5v4"/><path d="M11 11V5h5v6"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M8 12h8"/><path d="M8 16h5"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h8"/></symbol>
+  <symbol id="i-calc" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8"/><path d="M8 11h.01"/><path d="M12 11h.01"/><path d="M16 11h.01"/><path d="M8 15h.01"/><path d="M12 15h.01"/><path d="M16 15v3"/><path d="M8 18h4"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M5 2h14v20l-2.5-1.5L14 22l-2-1.5L10 22l-2.5-1.5L5 22z"/><path d="M9 7h6"/><path d="M9 11h6"/><path d="M9 15h4"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.7z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/></symbol>
+  <symbol id="i-photo" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.6 18.2a6 6 0 0 1 10.8 0"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></symbol>
+</svg>
+
+<div class="app">
+
+  <!-- Menu lateral (computador) -->
+  <aside class="side" aria-label="Menu do portal">
+    <a class="brand" href="#inicio">
+      <img src="assets/syndex-logo.png" alt="Syndex — Diga sim para o sucesso." width="464" height="142">
+      <span>Portal interno</span>
+    </a>
+    <nav class="nav" aria-label="Seções">
+      <a href="#inicio" class="on" data-spy="inicio"><svg class="i"><use href="#i-home"/></svg><span class="label">Início</span></a>
+      <a href="#clientes" data-spy="clientes"><svg class="i"><use href="#i-users"/></svg><span class="label">Clientes</span><span class="n">2</span></a>
+      <a href="#cotacoes" data-spy="cotacoes"><svg class="i"><use href="#i-file"/></svg><span class="label">Cotações e propostas</span><span class="n">4</span></a>
+      <a href="#rotina" data-spy="rotina"><svg class="i"><use href="#i-bag"/></svg><span class="label">Rotina</span><span class="n">3</span></a>
+      <a href="#cliente" data-spy="cliente"><svg class="i"><use href="#i-chat"/></svg><span class="label">Para o cliente</span><span class="n">1</span></a>
+    </nav>
+    <div class="side-foot">
+      <div class="mini">
+        <strong>Use no celular</strong>
+        <span>Adicione o portal à tela inicial e abra como um app.</span>
+        <a href="#instalar">Como instalar</a>
+      </div>
+    </div>
+  </aside>
+
+  <div style="flex: 1; min-width: 0; display: flex; flex-direction: column;">
+    <!-- Topo (celular) -->
+    <header class="topbar">
+      <img src="assets/syndex-simbolo.png" alt="" width="105" height="141">
+      <strong>Portal Syndex</strong>
+    </header>
+
+    <main class="main" id="inicio">
+      <div class="wrap">
+
+        <!-- Boas-vindas -->
+        <div class="hero">
+          <div class="hero-top">
+            <div class="hello">
+              <span class="date" id="hoje">&nbsp;</span>
+              <h1 id="saudacao">Olá!</h1>
+              <p>As ferramentas da Syndex em um só lugar.</p>
+            </div>
+            <div class="search" role="search">
+              <label for="busca">Buscar ferramenta</label>
+              <div class="search-box">
+                <svg class="i"><use href="#i-search"/></svg>
+                <input id="busca" type="search" placeholder="Cotação, despesa, pricing…" autocomplete="off">
+              </div>
+            </div>
+          </div>
+          <div class="shortcuts">
+            <a class="btn primary" href="https://claude.ai/artifact/4nGR8FmvmBeS9GLd244i1k" target="_blank" rel="noopener"><svg class="i"><use href="#i-plus"/></svg>Nova cotação de frete</a>
+            <a class="btn" href="https://tomsoares10-dev.github.io/despesas-syndex/" target="_blank" rel="noopener">Lançar despesa de viagem</a>
+            <a class="btn" href="https://tomsoares10-dev.github.io/syndex-foto-grupo-whatsapp/" target="_blank" rel="noopener">Foto de grupo WhatsApp</a>
+          </div>
+        </div>
+
+        <p class="empty" id="vazio" hidden>Nenhuma ferramenta encontrada. Tente outra palavra, como “cotação” ou “despesa”.</p>
+
+        <!-- Clientes -->
+        <section class="section" id="clientes" aria-labelledby="t-clientes">
+          <div class="section-head"><h2 id="t-clientes">Clientes</h2><span>2 ferramentas</span></div>
+          <div class="grid">
+            <a class="tool" data-tool data-keys="crm acoes tarefas feito pendente" href="https://claude.ai/artifact/UTYDZ7Yiz9uVpCFu3c4wyU" target="_blank" rel="noopener">
+              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-check"/></svg></span><span class="chip">Feito · Não feito</span></div>
+              <div class="tool-text"><span class="tool-name">Syndex Ações</span><span class="tool-desc">O que já foi feito e o que falta fazer em cada cliente.</span></div>
+              <span class="tool-cta"><span class="label">Abrir</span> <span class="where">no Claude</span><svg class="i"><use href="#i-arrow"/></svg></span>
+            </a>
+            <a class="tool" data-tool data-keys="carteira estado cidade mapa status" href="https://claude.ai/artifact/Rw2DmPBMvqrumYUm1ZvKFY" target="_blank" rel="noopener">
+              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-pin"/></svg></span><span class="chip">Estado · Cidade</span></div>
+              <div class="tool-text"><span class="tool-name">Carteira por estado</span><span class="tool-desc">Clientes separados por estado e cidade, com o status de cada um.</span></div>
+              <div class="legend" aria-label="Legenda de status">
+                <span><i style="background:#2E9E44"></i>Em contato</span>
+                <span><i style="background:#E2B007"></i>Retomar</span>
+                <span><i style="background:#D14343"></i>Sem contato</span>
+              </div>
+              <span class="tool-cta"><span class="label">Abrir</span> <span class="where">no Claude</span><svg class="i"><use href="#i-arrow"/></svg></span>
+            </a>
+          </div>
+        </section>
+
+        <!-- Cotações e propostas -->
+        <section class="section" id="cotacoes" aria-labelledby="t-cotacoes">
+          <div class="section-head"><h2 id="t-cotacoes">Cotações e propostas</h2><span>4 ferramentas</span></div>
+          <div class="grid">
+            <a class="tool" data-tool data-keys="cotacao frete maritimo container conteiner armador pdf" href="https://claude.ai/artifact/4nGR8FmvmBeS9GLd244i1k" target="_blank" rel="noopener">
+              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-ship"/></svg></span><span class="chip">Marítimo · PDF</span></div>
+              <div class="tool-text"><span class="tool-name">Syndex Cotações</span><span class="tool-desc">Cotação de frete marítimo em PDF: portos, armador, frete por contêiner, freetime e validade.</span></div>
+              <span class="tool-cta"><span class="label">Abrir</span> <span class="where">no Claude</span><svg class="i"><use href="#i-arrow"/></svg></span>
+            </a>
+            <a class="tool" data-tool data-keys="pricing ficha cadastro cnpj cep operacao" href="https://claude.ai/artifact/272Pog5ZkZkJKBaYiPTuox" target="_blank" rel="noopener">
+              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-clip"/></svg></span><span class="chip">Ficha · PDF</span></div>
+              <div class="tool-text"><span class="tool-name">Solicitação para Pricing</span><span class="tool-desc">Dados do cliente e da operação para o time de pricing, com CEP preenchido sozinho.</span></div>
+              <span class="tool-cta"><span class="label">Abrir</span> <span class="where">no Claude</span><svg class="i"><use href="#i-arrow"/></svg></span>
+            </a>
+            <a class="tool" data-tool data-keys="proposta comercial gerador pdf" href="https://claude.ai/artifact/UWqHH9jshHycNt7Wi9booH" target="_blank" rel="noopener">
+              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-doc"/></svg></span><span class="chip">Proposta · PDF</span></div>
+              <div class="tool-text"><span class="tool-name">Gerador de propostas</span><span class="tool-desc">Proposta comercial no padrão visual da Syndex, pronta para enviar.</span></div>
+              <span class="tool-cta"><span class="label">Abrir</span> <span class="where">no Claude</span><svg class="i"><use href="#i-arrow"/></svg></span>
+            </a>
+            <a class="tool" data-tool data-keys="estimativa custo importacao despacho frete internacional checklist" href="https://claude.ai/artifact/2DDXc2Wbpg5JWeFc4QecVL" target="_blank" rel="noopener">
+              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-calc"/></svg></span><span class="chip">1 página</span></div>
+              <div class="tool-text"><span class="tool-name">Estimativa de custo</span><span class="tool-desc">Checklist de custo de importação: frete internacional e despacho.</span></div>
+              <span class="tool-cta"><span class="label">Abrir</span> <span class="where">no Claude</span><svg class="i"><use href="#i-arrow"/></svg></span>
+            </a>
+          </div>
+        </section>
+
+        <!-- Rotina -->
+        <section class="section" id="rotina" aria-labelledby="t-rotina">
+          <div class="section-head"><h2 id="t-rotina">Rotina</h2><span>3 ferramentas</span></div>
+          <div class="grid">
+            <a class="tool" data-tool data-keys="despesa viagem reembolso km nota rq 04 079 relatorio" href="https://tomsoares10-dev.github.io/despesas-syndex/" target="_blank" rel="noopener">
+              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-receipt"/></svg></span><span class="chip">RQ 04 079</span></div>
+              <div class="tool-text"><span class="tool-name">Despesas de viagem</span><span class="tool-desc">Lance cada despesa com foto da nota. O relatório sai assinado, com km a R$ 1,65.</span></div>
+              <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
+            </a>
+            <a class="tool" data-tool data-keys="reposicao materiais falta limpeza copa escritorio rh" href="https://claude.ai/artifact/CFqqwFx4yi2RZcCpc6vhEA" target="_blank" rel="noopener">
+              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-box"/></svg></span><span class="chip">PDF para o RH</span></div>
+              <div class="tool-text"><span class="tool-name">Syndex Reposição</span><span class="tool-desc">Checklist de materiais em falta: escritório, limpeza, copa e informática.</span></div>
+              <span class="tool-cta"><span class="label">Abrir</span> <span class="where">no Claude</span><svg class="i"><use href="#i-arrow"/></svg></span>
+            </a>
+            <a class="tool" data-tool data-keys="foto grupo whatsapp logo matriz perfil" href="https://tomsoares10-dev.github.io/syndex-foto-grupo-whatsapp/" target="_blank" rel="noopener">
+              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-photo"/></svg></span><span class="chip">PNG 640×640</span></div>
+              <div class="tool-text"><span class="tool-name">Foto de grupo WhatsApp</span><span class="tool-desc">Envie o logo do cliente e baixe a foto do grupo na matriz Syndex.</span></div>
+              <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
+            </a>
+          </div>
+        </section>
+
+        <!-- Para o cliente -->
+        <section class="section" id="cliente" aria-labelledby="t-cliente" data-tool data-keys="peca sua cotacao cliente whatsapp maritimo aereo rodoviario link">
+          <div class="section-head"><h2 id="t-cliente">Para o cliente</h2><span>Página pública</span></div>
+          <div class="client">
+            <span class="ico"><svg class="i"><use href="#i-chat"/></svg></span>
+            <div class="client-text">
+              <strong>Peça sua cotação</strong>
+              <span>O cliente escolhe marítimo, aéreo ou rodoviário, preenche os dados e o pedido chega no WhatsApp.</span>
+            </div>
+            <div class="client-actions">
+              <button type="button" class="btn light" id="copiar-link"><svg class="i"><use href="#i-copy"/></svg>Copiar link para o cliente</button>
+              <a class="btn" href="https://claude.ai/artifact/CdCnv1rwYfKsGuB4TFS8x8" target="_blank" rel="noopener">Ver a página</a>
+            </div>
+            <p class="copy-msg" id="copy-msg" role="status" aria-live="polite" hidden></p>
+          </div>
+        </section>
+
+        <!-- Instalar -->
+        <section class="section" id="instalar" aria-labelledby="t-instalar">
+          <div class="section-head"><h2 id="t-instalar">Use no celular</h2><span>Como um app</span></div>
+          <div class="install">
+            <div class="install-card">
+              <h3>Android (Chrome)</h3>
+              <ol>
+                <li>Abra este portal no Chrome.</li>
+                <li>Toque no menu <b>⋮</b> e em <b>Instalar app</b> ou <b>Adicionar à tela inicial</b>.</li>
+                <li>Abra sempre pelo ícone da Syndex.</li>
+              </ol>
+              <button type="button" class="btn primary" id="instalar-btn" hidden><svg class="i"><use href="#i-phone"/></svg>Instalar agora</button>
+            </div>
+            <div class="install-card">
+              <h3>iPhone (Safari)</h3>
+              <ol>
+                <li>Abra este portal no Safari.</li>
+                <li>Toque em <b>Compartilhar</b> e em <b>Adicionar à Tela de Início</b>.</li>
+                <li>Abra sempre pelo ícone da Syndex.</li>
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <footer>
+          <span>Syndex Logística e Gestão Aduaneira · Portal interno</span>
+          <p>As ferramentas marcadas “no Claude” abrem em links do Claude e só funcionam para quem recebeu acesso. Peça ao Tomás.</p>
+        </footer>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Barra inferior (celular) -->
+<nav class="bottomnav" aria-label="Navegação principal">
+  <a href="#inicio" class="on" data-spy="inicio"><svg class="i"><use href="#i-home"/></svg>Início</a>
+  <a href="#clientes" data-spy="clientes"><svg class="i"><use href="#i-users"/></svg>Clientes</a>
+  <a href="#cotacoes" data-spy="cotacoes"><svg class="i"><use href="#i-file"/></svg>Cotações</a>
+  <a href="#rotina" data-spy="rotina"><svg class="i"><use href="#i-bag"/></svg>Rotina</a>
+</nav>
+
+<script>
+(function () {
+  var LINK_CLIENTE = 'https://claude.ai/artifact/CdCnv1rwYfKsGuB4TFS8x8';
+
+  // Saudação e data
+  try {
+    var agora = new Date(), h = agora.getHours();
+    document.getElementById('saudacao').textContent = h < 5 ? 'Boa noite!' : h < 12 ? 'Bom dia!' : h < 18 ? 'Boa tarde!' : 'Boa noite!';
+    var d = new Intl.DateTimeFormat('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }).format(agora);
+    document.getElementById('hoje').textContent = d.charAt(0).toUpperCase() + d.slice(1);
+  } catch (e) {}
+
+  // Busca
+  var norm = function (s) { return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); };
+  var busca = document.getElementById('busca');
+  var itens = Array.prototype.slice.call(document.querySelectorAll('[data-tool]'));
+  var secoes = Array.prototype.slice.call(document.querySelectorAll('#clientes, #cotacoes, #rotina, #cliente'));
+  var vazio = document.getElementById('vazio');
+  itens.forEach(function (el) { el._texto = norm(el.textContent + ' ' + (el.getAttribute('data-keys') || '')); });
+  busca.addEventListener('input', function () {
+    var termos = norm(busca.value).trim().split(/\s+/).filter(Boolean);
+    var total = 0;
+    itens.forEach(function (el) {
+      var ok = termos.every(function (t) { return el._texto.indexOf(t) !== -1; });
+      el.hidden = !ok;
+      if (ok) total++;
+    });
+    secoes.forEach(function (s) {
+      if (s.hasAttribute('data-tool')) return;
+      var algum = s.querySelector('[data-tool]:not([hidden])');
+      s.hidden = !algum;
+    });
+    vazio.hidden = total > 0;
+  });
+
+  // Copiar link da página do cliente
+  var msg = document.getElementById('copy-msg');
+  document.getElementById('copiar-link').addEventListener('click', function () {
+    var mostrarCampo = function () {
+      msg.hidden = false;
+      msg.textContent = 'Copie o link abaixo:';
+      var inp = document.createElement('input');
+      inp.type = 'text'; inp.readOnly = true; inp.value = LINK_CLIENTE;
+      inp.setAttribute('aria-label', 'Link da página Peça sua cotação');
+      msg.appendChild(inp); inp.focus(); inp.select();
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(LINK_CLIENTE).then(function () {
+        msg.hidden = false; msg.textContent = 'Link copiado. Cole na conversa com o cliente.';
+      }, mostrarCampo);
+    } else { mostrarCampo(); }
+  });
+
+  // Destaque da seção atual no menu
+  var links = Array.prototype.slice.call(document.querySelectorAll('[data-spy]'));
+  var marcar = function (id) {
+    links.forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-spy') === id); });
+  };
+  if ('IntersectionObserver' in window) {
+    var alvos = ['clientes', 'cotacoes', 'rotina', 'cliente'].map(function (id) { return document.getElementById(id); });
+    var io = new IntersectionObserver(function (entries) {
+      if (window.scrollY < 120) { marcar('inicio'); return; }
+      entries.forEach(function (e) { if (e.isIntersecting) marcar(e.target.id); });
+    }, { rootMargin: '-35% 0px -60% 0px' });
+    alvos.forEach(function (el) { if (el) io.observe(el); });
+    window.addEventListener('scroll', function () { if (window.scrollY < 120) marcar('inicio'); }, { passive: true });
+  }
+
+  // Instalar como app
+  var pedido = null, btnInstalar = document.getElementById('instalar-btn');
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault(); pedido = e; btnInstalar.hidden = false;
+  });
+  btnInstalar.addEventListener('click', function () {
+    if (!pedido) return;
+    pedido.prompt();
+    pedido.userChoice.finally(function () { pedido = null; btnInstalar.hidden = true; });
+  });
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+  }
+})();
+</script>
+</body>
+</html>
