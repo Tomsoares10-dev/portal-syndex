@@ -4,6 +4,8 @@ Portal interno com as ferramentas da **Syndex Logística e Gestão Aduaneira** e
 
 **Abrir o portal:** https://tomsoares10-dev.github.io/portal-syndex/
 
+**Site da Syndex:** https://syndex.com.br/
+
 Funciona no computador e no celular. No celular dá para instalar como app:
 
 - **Android (Chrome):** menu ⋮ → *Instalar app* ou *Adicionar à tela inicial*.
@@ -17,7 +19,7 @@ Funciona no computador e no celular. No celular dá para instalar como app:
 | Clientes | Carteira por estado | Claude |
 | Cotações e propostas | Syndex Cotações | Portal (`/cotacao-frete`, em branco) |
 | Cotações e propostas | Solicitação para Pricing | Portal (`/pricing`) |
-| Cotações e propostas | Gerador de propostas | Em breve |
+| Cotações e propostas | Gerador de propostas | Portal (`/propostas`) |
 | Cotações e propostas | Estimativa de custo | Portal (`/estimativa`) |
 | Rotina | Despesas de viagem | Site (GitHub) |
 | Rotina | Syndex Reposição | Claude |
@@ -33,6 +35,7 @@ As ferramentas que abrem no Claude são links privados: só funcionam para quem 
 - `pricing/` — Solicitação para Pricing (gera o PDF)
 - `estimativa/` — Estimativa de custo de importação (gera o PDF)
 - `cotacao-frete/` — Syndex Cotações, cotação de frete marítimo em PDF (modelo em branco)
+- `propostas/` — Gerador de propostas comerciais em PDF (vendedor: Tomás Soares)
 - `assets/` — logo, símbolo e fundo da marca Syndex
 - `manifest.webmanifest`, `sw.js`, `icon-*.png`, `apple-touch-icon.png` — para instalar como app
 

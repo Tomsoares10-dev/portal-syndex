@@ -66,6 +66,8 @@ svg.i { width: 20px; height: 20px; flex-shrink: 0; fill: none; stroke: currentCo
 .nav a.on { background: var(--tint); color: var(--navy); font-weight: 700; }
 .nav a .label { flex: 1; }
 .nav a .n { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.nav a.nav-ext { margin-top: 8px; padding-top: 14px; border-top: 1px solid var(--line); border-radius: 0 0 10px 10px; color: var(--muted); }
+.nav a.nav-ext:hover { color: var(--navy); }
 .side-foot { margin-top: auto; }
 .mini {
   display: flex; flex-direction: column; gap: 8px; padding: 16px; border-radius: 12px;
@@ -264,6 +266,7 @@ footer p { margin: 0; max-width: 70ch; }
   <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
   <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
   <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></symbol>
 </svg>
 
@@ -281,6 +284,7 @@ footer p { margin: 0; max-width: 70ch; }
       <a href="#cotacoes" data-spy="cotacoes"><svg class="i"><use href="#i-file"/></svg><span class="label">Cotações e propostas</span><span class="n">4</span></a>
       <a href="#rotina" data-spy="rotina"><svg class="i"><use href="#i-bag"/></svg><span class="label">Rotina</span><span class="n">3</span></a>
       <a href="#cliente" data-spy="cliente"><svg class="i"><use href="#i-chat"/></svg><span class="label">Para o cliente</span><span class="n">1</span></a>
+      <a href="https://syndex.com.br/" target="_blank" rel="noopener" class="nav-ext"><svg class="i"><use href="#i-ext"/></svg><span class="label">Site da Syndex</span></a>
     </nav>
     <div class="side-foot">
       <div class="mini">
@@ -362,10 +366,10 @@ footer p { margin: 0; max-width: 70ch; }
               <div class="tool-text"><span class="tool-name">Solicitação para Pricing</span><span class="tool-desc">Dados do cliente e da operação para o time de pricing, com CEP preenchido sozinho.</span></div>
               <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
             </a>
-            <a class="tool soon" data-tool data-keys="proposta comercial gerador pdf" aria-disabled="true">
+            <a class="tool" data-tool data-keys="proposta comercial gerador pdf" href="propostas/" target="_blank" rel="noopener">
               <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-doc"/></svg></span><span class="chip">Proposta · PDF</span></div>
               <div class="tool-text"><span class="tool-name">Gerador de propostas</span><span class="tool-desc">Proposta comercial no padrão visual da Syndex, pronta para enviar.</span></div>
-              <span class="tool-cta soon-cta">Em breve</span>
+              <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
             </a>
             <a class="tool" data-tool data-keys="estimativa custo importacao despacho frete internacional checklist" href="estimativa/" target="_blank" rel="noopener">
               <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-calc"/></svg></span><span class="chip">1 página</span></div>
@@ -439,7 +443,7 @@ footer p { margin: 0; max-width: 70ch; }
         </section>
 
         <footer>
-          <span>Syndex Logística e Gestão Aduaneira · Portal interno</span>
+          <span>Syndex Logística e Gestão Aduaneira · Portal interno · <a href="https://syndex.com.br/" target="_blank" rel="noopener">syndex.com.br</a></span>
           <p>As ferramentas marcadas “no Claude” abrem em links do Claude e só funcionam para quem recebeu acesso. Peça ao Tomás.</p>
         </footer>
 
