@@ -22,13 +22,14 @@ Funciona no computador e no celular. No celular dá para instalar como app:
 | Rotina | Despesas de viagem | Site (GitHub) |
 | Rotina | Syndex Reposição | Claude |
 | Rotina | Foto de grupo WhatsApp | Site (GitHub) |
-| Para o cliente | Peça sua cotação | Claude |
+| Para o cliente | Peça sua cotação | Portal (`/cotacao`) |
 
 As ferramentas que abrem no Claude são links privados: só funcionam para quem recebeu acesso.
 
 ## Estrutura
 
 - `index.html` — o portal (menu, busca, cards e links)
+- `cotacao/` — página pública Peça sua cotação (o pedido vai pelo WhatsApp)
 - `assets/` — logo, símbolo e fundo da marca Syndex
 - `manifest.webmanifest`, `sw.js`, `icon-*.png`, `apple-touch-icon.png` — para instalar como app
 
