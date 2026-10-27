@@ -31,7 +31,7 @@ As ferramentas que abrem no Claude são links privados: só funcionam para quem 
 ## Estrutura
 
 - `index.html` — o portal (menu, busca, cards e links)
-- `cotacao/` — página pública Peça sua cotação (o pedido vai pelo WhatsApp)
+- `cotacao/` — página pública Peça sua cotação: gera a ficha do pedido em foto (ícone e cor por modal, cartão de contato) e envia pelo WhatsApp em 2 passos; `preview.png` é a imagem de prévia do link
 - `pricing/` — Solicitação para Pricing (gera o PDF)
 - `estimativa/` — Estimativa de custo de importação (gera o PDF)
 - `cotacao-frete/` — Syndex Cotações, cotação de frete marítimo em PDF (modelo em branco)

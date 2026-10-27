@@ -1,9 +1,28 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Peça sua cotação | Syndex</title>
+<meta name="description" content="Frete marítimo, aéreo e rodoviário e desembaraço aduaneiro. Preencha os dados da sua carga e envie pelo WhatsApp da Syndex.">
 <meta name="robots" content="noindex">
-<title>Peça sua cotação</title>
+<meta name="theme-color" content="#173B50">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Syndex Logística e Gestão Aduaneira">
+<meta property="og:title" content="Peça sua cotação | Syndex">
+<meta property="og:description" content="Frete marítimo, aéreo e rodoviário e desembaraço aduaneiro. Preencha os dados da sua carga e envie pelo WhatsApp da Syndex.">
+<meta property="og:url" content="https://tomsoares10-dev.github.io/portal-syndex/cotacao/">
+<meta property="og:image" content="https://tomsoares10-dev.github.io/portal-syndex/cotacao/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+</head>
+<body>
 <style>
 :root{
   --bg:#EDF2EE;--surface:#FFFFFF;--field:#F5F8F6;--border:#D8E1DA;--border-2:#BFCCC3;
@@ -12,9 +31,10 @@
   --danger:#B3382C;--danger-soft:#FBECE9;
   --amber:#8F5A0C;--amber-soft:#FBF0DC;--amber-line:#EED6A8;
   --btn-bg:#25536F;--btn-bg-hover:#173B50;--btn-ink:#FFFFFF;
-  --wpp:#1F8F4E;--wpp-hover:#17733E;
+  --wpp:#1B7F45;--wpp-hover:#156A39;--wpp-ink:#FFFFFF;
   --hero:#173B50;--hero-line:rgba(255,255,255,.16);--hero-soft:#AFC7D6;
   --logo-pad:0;
+  --mar:#1D5C8C;--mar-soft:#E4EEF6;--aereo:#0E7A83;--aereo-soft:#DFF1F2;--rodo:#A65A16;--rodo-soft:#F8ECDF;
   --shadow:0 1px 2px rgba(23,59,80,.05),0 16px 36px -24px rgba(23,59,80,.4);
   --r-lg:16px;--r-md:10px;
   color-scheme:light;
@@ -29,7 +49,7 @@
     --btn-bg:#8DB6CF;--btn-bg-hover:#A9C9DC;--btn-ink:#0D1411;
     --wpp:#3FBF73;--wpp-hover:#5CD18B;
     --hero:#10293A;--hero-line:rgba(255,255,255,.12);--hero-soft:#93AFC1;
-    --logo-pad:3px 7px;
+    --logo-pad:3px 7px;--wpp-ink:#0D1411;--mar:#7DB5E0;--mar-soft:#13283A;--aereo:#5CC7CF;--aereo-soft:#0F2C2F;--rodo:#E3A066;--rodo-soft:#33220F;
     --shadow:0 1px 2px rgba(0,0,0,.3),0 16px 36px -24px rgba(0,0,0,.7);
     color-scheme:dark;
   }
@@ -43,7 +63,7 @@
   --btn-bg:#8DB6CF;--btn-bg-hover:#A9C9DC;--btn-ink:#0D1411;
   --wpp:#3FBF73;--wpp-hover:#5CD18B;
   --hero:#10293A;--hero-line:rgba(255,255,255,.12);--hero-soft:#93AFC1;
-  --logo-pad:3px 7px;
+  --logo-pad:3px 7px;--wpp-ink:#0D1411;--mar:#7DB5E0;--mar-soft:#13283A;--aereo:#5CC7CF;--aereo-soft:#0F2C2F;--rodo:#E3A066;--rodo-soft:#33220F;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 16px 36px -24px rgba(0,0,0,.7);
   color-scheme:dark;
 }
@@ -107,8 +127,10 @@ legend.lbl{float:none}
 .opc span::before{content:"";flex:none;width:16px;height:16px;border:1.5px solid var(--border-2);background:var(--surface)}
 .opc input[type=radio]+span::before{border-radius:50%}
 .opc input[type=checkbox]+span::before{border-radius:5px}
-.opc input:checked+span{border-color:var(--green);background:var(--green-soft)}
-.opc input[type=radio]:checked+span::before{border-color:var(--green);background:radial-gradient(circle,var(--green) 0 4px,var(--surface) 5px)}
+.opc input:checked+span{border-color:var(--sel,var(--green));background:var(--sel-soft,var(--green-soft))}
+.opc input[type=radio]:checked+span::before{border-color:var(--sel,var(--green));background:radial-gradient(circle,var(--sel,var(--green)) 0 4px,var(--surface) 5px)}
+.opc-modal svg{width:20px;height:20px;flex:none;color:var(--sel)}
+.opc-modal input:checked+span{font-weight:600}
 .opc input[type=checkbox]:checked+span::before{border-color:var(--green);background:var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='8' viewBox='0 0 10 8'%3E%3Cpath d='M1 4l2.6 2.6L9 1.2' fill='none' stroke='white' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/10px 8px no-repeat}
 .opc input:focus-visible+span{outline:2px solid var(--green);outline-offset:2px}
 fieldset.is-missing .opc span{border-color:var(--danger)}
@@ -130,8 +152,8 @@ fieldset.is-missing>.erro{display:block}
 .btn:hover{background:var(--field);border-color:var(--border-2)}
 .btn-primary{background:var(--btn-bg);border-color:transparent;color:var(--btn-ink)}
 .btn-primary:hover{background:var(--btn-bg-hover);border-color:transparent}
-.btn-wpp{background:var(--wpp);border-color:transparent;color:#fff}
-.btn-wpp:hover{background:var(--wpp-hover);border-color:transparent;color:#fff}
+.btn-wpp{background:var(--wpp);border-color:transparent;color:var(--wpp-ink)}
+.btn-wpp:hover{background:var(--wpp-hover);border-color:transparent;color:var(--wpp-ink)}
 .btn-grande{min-height:52px;padding:12px 24px;font-size:16px}
 .btn svg{width:20px;height:20px;flex:none}
 :focus-visible{outline:2px solid var(--green);outline-offset:2px}
@@ -139,8 +161,9 @@ fieldset.is-missing>.erro{display:block}
 .resumo-erro.on{display:block}
 .nota{margin:0;font-size:13.5px;color:var(--ink-soft);max-width:40rem}
 
-.rodape{margin-top:34px;padding-top:18px;border-top:1px solid var(--border);font-size:13.5px;color:var(--ink-soft)}
-.rodape a{color:var(--green-ink);font-weight:600}
+.rodape{margin-top:34px;font-size:13.5px;color:var(--ink-soft)}
+.rodape .contato-card .btn-wpp,.rodape .contato-card .btn-wpp:hover{color:var(--wpp-ink)}
+.revisao>.resumo-modal{color:var(--ink)}
 
 .revisao{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:22px 22px 18px}
 .revisao h3{margin:0 0 4px;font-size:19px;font-weight:600}
@@ -148,6 +171,30 @@ fieldset.is-missing>.erro{display:block}
 .previa{max-height:340px;overflow:auto;white-space:pre-wrap;word-break:break-word;margin:0;padding:14px;border-radius:var(--r-md);background:var(--field);border:1px solid var(--border);font:14px/1.55 "IBM Plex Sans",system-ui,sans-serif}
 .modal-acoes{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
 .modal-acoes .btn-wpp{flex:1 1 220px}
+
+.ficha-box{max-height:380px;overflow:auto;margin:0 0 14px;padding:10px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--field)}
+.ficha-box img{display:block;width:100%;height:auto;border-radius:6px;box-shadow:0 1px 3px rgba(23,59,80,.14)}
+.ficha-msg{margin:0;padding:28px 8px;text-align:center;color:var(--ink-soft);font-size:14px}
+.passos{list-style:none;margin:0 0 14px;padding:0;display:flex;flex-direction:column;gap:10px}
+.passo{display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;align-items:start;padding:14px;border:1px solid var(--border);border-radius:var(--r-md);background:var(--field);transition:border-color .15s,background .15s}
+.passo .num{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:var(--btn-bg);color:var(--btn-ink);font-weight:700;font-size:15px}
+.passo-corpo{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0}
+.passo-hint{margin:0;font-size:13.5px;color:var(--ink-soft)}
+.passo.agora{border-color:var(--wpp);box-shadow:inset 0 0 0 1px var(--wpp)}
+.passo.feito{border-color:var(--green);background:var(--green-soft)}
+.passo.feito .num{background:var(--green-ink);color:var(--surface)}
+.resumo-modal{display:inline-flex;align-items:center;gap:8px;max-width:100%;margin:0 0 14px;padding:7px 13px;border-radius:999px;border:1px solid var(--sel,var(--green));background:var(--sel-soft,var(--green-soft));color:var(--ink);font-size:14px;font-weight:600;line-height:1.35}
+.resumo-modal svg{width:18px;height:18px;flex:none;color:var(--sel,var(--green))}
+.contato-card{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px;background:var(--hero);color:#fff;border-radius:var(--r-lg);padding:22px 24px;position:relative;overflow:hidden}
+.contato-rot{display:block;font-size:12.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#7FD99A}
+.contato-nome{display:block;margin-top:3px;font-size:21px;font-weight:600;color:#fff}
+.contato-cargo{display:block;font-size:14px;color:var(--hero-soft)}
+.contato-acoes{display:flex;flex-wrap:wrap;gap:8px}
+.contato-card .btn-claro{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.24);color:#fff}
+.contato-card .btn-claro:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.34);color:#fff}
+.rodape .nota-rodape{margin:12px 2px 0}
+.btn:disabled{opacity:.6;cursor:progress}
+.btn-primary:disabled:hover{background:var(--btn-bg)}
 
 .toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translate(-50%,8px);max-width:calc(100% - 32px);background:#173B50;color:#fff;font-size:14px;font-weight:500;padding:11px 18px;border-radius:12px;box-shadow:0 14px 30px -12px rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:60}
 .toast.show{opacity:1;transform:translate(-50%,0)}
@@ -164,6 +211,10 @@ fieldset.is-missing>.erro{display:block}
   .field.half{grid-column:span 1}
   .cont-linha{grid-template-columns:minmax(0,1fr) 84px 44px}
   .enviar .btn-grande{width:100%}
+  .passo .btn{width:100%}
+  .contato-card{padding:18px 16px}
+  .contato-acoes{width:100%}
+  .contato-acoes .btn{flex:1 1 100%}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none !important}}
 </style>
@@ -176,7 +227,7 @@ fieldset.is-missing>.erro{display:block}
 <main class="shell">
   <section class="band">
     <h1>Peça sua cotação</h1>
-    <p>Preencha o que souber sobre a carga. Ao final, o pedido vai pronto pelo WhatsApp para o comercial da Syndex, que retorna com a cotação.</p>
+    <p>Preencha o que souber sobre a carga. Ao final, seu pedido vira uma ficha (foto) para você enviar pelo WhatsApp ao comercial da Syndex, que retorna com a cotação.</p>
   </section>
 
   <form id="form" novalidate>
@@ -229,9 +280,9 @@ fieldset.is-missing>.erro{display:block}
         <fieldset class="field full" id="f-modal" data-req>
           <legend class="lbl">Modal *</legend>
           <div class="opcoes">
-            <label class="opc"><input type="radio" name="modal" value="Marítimo"><span>Marítimo</span></label>
-            <label class="opc"><input type="radio" name="modal" value="Aéreo"><span>Aéreo</span></label>
-            <label class="opc"><input type="radio" name="modal" value="Rodoviário"><span>Rodoviário</span></label>
+            <label class="opc opc-modal" style="--sel:var(--mar);--sel-soft:var(--mar-soft)"><input type="radio" name="modal" value="Marítimo"><span><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 10.189V14"/><path d="M12 2v3"/><path d="M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6"/><path d="M19.38 20A11.6 11.6 0 0 0 21 14l-8.188-3.639a2 2 0 0 0-1.624 0L3 14a11.6 11.6 0 0 0 2.81 7.76"/><path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1s1.2 1 2.5 1c2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg>Marítimo</span></label>
+            <label class="opc opc-modal" style="--sel:var(--aereo);--sel-soft:var(--aereo-soft)"><input type="radio" name="modal" value="Aéreo"><span><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>Aéreo</span></label>
+            <label class="opc opc-modal" style="--sel:var(--rodo);--sel-soft:var(--rodo-soft)"><input type="radio" name="modal" value="Rodoviário"><span><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>Rodoviário</span></label>
           </div>
           <span class="erro">Escolha o modal.</span>
         </fieldset>
@@ -401,24 +452,63 @@ fieldset.is-missing>.erro{display:block}
       <p class="resumo-erro" id="resumo-erro" role="alert"></p>
       <button type="submit" class="btn btn-primary btn-grande" id="revisar">Revisar pedido</button>
       <section class="revisao" id="revisao" hidden aria-labelledby="m-titulo">
-        <h3 id="m-titulo" tabindex="-1">Confira seu pedido</h3>
-        <p>Este é o texto que vai no WhatsApp. Se estiver tudo certo, toque em enviar.</p>
+        <h3 id="m-titulo" tabindex="-1">Confira sua ficha</h3>
+        <p>Esta é a ficha (foto) que vai para o comercial da Syndex. Se estiver tudo certo, envie em 2 passos.</p>
+        <p class="resumo-modal" id="resumo-modal" hidden></p>
+        <div class="ficha-box" id="ficha-box" aria-busy="true">
+          <img id="ficha-img" alt="Ficha do seu pedido de cotação" hidden>
+          <p class="ficha-msg" id="ficha-msg" role="status">Preparando a ficha…</p>
+        </div>
+        <ol class="passos">
+          <li class="passo" id="passo-1">
+            <span class="num" aria-hidden="true">1</span>
+            <div class="passo-corpo">
+              <a class="btn btn-wpp" id="abrir-wpp" href="#" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.6-.3z"/></svg>
+                Abrir conversa com a Syndex
+              </a>
+              <p class="passo-hint" id="hint-conversa">Abre o WhatsApp da Syndex já com um resumo do pedido. Envie a mensagem e volte para esta página.</p>
+            </div>
+          </li>
+          <li class="passo" id="passo-2">
+            <span class="num" aria-hidden="true">2</span>
+            <div class="passo-corpo">
+              <button type="button" class="btn btn-primary" id="enviar-ficha" disabled>
+                <svg id="ic-baixar" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 15V3m0 12-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+                <svg id="ic-compartilhar" viewBox="0 0 24 24" aria-hidden="true" hidden><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+                <span id="enviar-rot">Baixar a ficha (foto)</span>
+              </button>
+              <p class="passo-hint" id="hint-ficha"></p>
+            </div>
+          </li>
+        </ol>
         <div class="modal-acoes">
-        <a class="btn btn-wpp" id="abrir-wpp" href="#" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.6-.3z"/></svg>
-          Enviar pelo WhatsApp
-        </a>
-        <button type="button" class="btn" id="copiar">Copiar texto</button>
-        <button type="button" class="btn" id="voltar">Editar pedido</button>
-      </div>
-        <pre class="previa" id="previa"></pre>
+          <button type="button" class="btn" id="voltar">Editar pedido</button>
+          <button type="button" class="btn" id="copiar">Copiar texto completo</button>
+        </div>
       </section>
-      <p class="nota" id="nota">Na próxima tela você confere o pedido e envia pelo WhatsApp. Seus dados só saem desta página na mensagem que você enviar.</p>
+      <p class="nota" id="nota">Na próxima tela você confere a ficha do pedido e envia pelo WhatsApp. Seus dados só saem desta página quando você envia.</p>
     </div>
   </form>
 
   <footer class="rodape">
-    Syndex Logística e Gestão Aduaneira. Prefere falar direto? <a href="https://wa.me/5547992668440" target="_blank" rel="noopener">WhatsApp (47) 99266-8440</a>
+    <div class="contato-card">
+      <div>
+        <span class="contato-rot">Seu contato na Syndex</span>
+        <strong class="contato-nome">Tomás Soares</strong>
+        <span class="contato-cargo">Comercial · Syndex Logística e Gestão Aduaneira</span>
+      </div>
+      <div class="contato-acoes">
+        <a class="btn btn-wpp" href="https://wa.me/5547992668440" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.6-.3z"/></svg>
+          (47) 99266-8440
+        </a>
+        <a class="btn btn-claro" href="mailto:sales8@syndex.com.br">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          sales8@syndex.com.br
+        </a>
+      </div>
+    </div>
   </footer>
 </main>
 
@@ -470,7 +560,7 @@ fieldset.is-missing>.erro{display:block}
   if (!IN_CLAUDE) {
     $("cnpj-op").textContent = "(puxa a razão social)";
     $("empresa").placeholder = "Preenchida pelo CNPJ ou digite aqui";
-    $("nota").textContent = "Na próxima tela você confere o pedido e envia pelo WhatsApp. O CNPJ é consultado na Receita Federal só para preencher a razão social. Nenhum outro dado sai desta página antes do envio.";
+    $("nota").textContent = "Na próxima tela você confere a ficha do pedido e envia pelo WhatsApp. O CNPJ é consultado na Receita Federal só para preencher a razão social. Nenhum outro dado sai desta página antes do envio.";
   }
   function hintCnpj(msg, tipo) { var h = $("hint-cnpj"); h.textContent = msg; h.className = "hint" + (tipo ? " " + tipo : ""); }
   function buscarJson(url, ms) {
@@ -695,23 +785,401 @@ fieldset.is-missing>.erro{display:block}
     return L.join("\n").toUpperCase();
   }
 
-  /* ---------- envio ---------- */
-  var revisao = $("revisao"), texto = "";
+  /* ---------- dados da ficha ---------- */
+  function up(s) { return String(s || "").toUpperCase(); }
+  function coletarDados() {
+    var modal = radio("modal"), tipo = radio("tipo"), secoes = [];
+    function secao(titulo) { var s = { titulo: titulo, linhas: [] }; secoes.push(s); return s; }
+    function add(s, rot, v) { if (v) s.linhas.push([rot, up(v)]); }
+    var s1 = secao("Seus dados");
+    add(s1, "CNPJ", val("cnpj"));
+    add(s1, "Razão social", val("empresa"));
+    add(s1, "Nome", val("nome"));
+    add(s1, "WhatsApp", val("whats"));
+    add(s1, "E-mail", val("email"));
+    var s3 = secao("A carga");
+    add(s3, "Produto", val("produto"));
+    add(s3, "NCM", val("ncm"));
+    var mar = radio("mar_tipo"), rodo = radio("rodo_tipo");
+    if (modal === "Marítimo" && mar === "fcl") {
+      add(s3, "Tipo de carga", "Contêiner cheio (FCL)");
+      add(s3, "Contêineres", Array.prototype.map.call($("conts").querySelectorAll(".cont-linha"), function (l) {
+        return l.querySelector(".c-qtd").value + "x " + l.querySelector(".c-tipo").value;
+      }).join("\n"));
+    } else if (modal === "Rodoviário" && rodo === "lotacao") {
+      add(s3, "Tipo de carga", "Lotação (veículo dedicado)");
+      add(s3, "Veículo", val("qtd_veic") + "x " + val("veiculo"));
+    } else {
+      add(s3, "Tipo de carga", modal === "Marítimo" ? "Carga solta (LCL)" : (modal === "Rodoviário" ? "Carga fracionada" : "Carga aérea"));
+      if (val("peso")) add(s3, "Peso bruto", num(val("peso")) + " kg");
+      if (val("m3")) add(s3, "Volume", num(val("m3")) + " m³");
+      if (val("vols")) add(s3, "Nº de volumes", val("vols"));
+      if (modal === "Aéreo") add(s3, "Medidas", val("medidas"));
+    }
+    var s4 = secao("O que você precisa");
+    var servs = $("dtd").checked ? ["Door to Door completo (todas as etapas)"] :
+      Array.prototype.map.call(form.querySelectorAll('input[name="servico"]:checked'), function (c) { return c.value; });
+    add(s4, "Serviços", servs.join("\n"));
+    var s5 = { titulo: "Detalhes", linhas: [] };
+    add(s5, "Incoterm", val("incoterm"));
+    if (val("valor")) add(s5, "Valor aproximado", val("moeda") + " " + num(val("valor")));
+    add(s5, "Previsão de embarque", mesAno(val("previsao")));
+    add(s5, "Frequência", val("frequencia"));
+    add(s5, "Observações", val("obs"));
+    if (s5.linhas.length) secoes.push(s5);
+    return { tipo: tipo, modal: modal, origem: val("origem"), destino: val("destino"), empresa: val("empresa"), nome: val("nome"), secoes: secoes };
+  }
+  function textoCurto(d) {
+    return [
+      "*Pedido de cotação | Syndex*",
+      "Empresa: " + d.empresa,
+      "Nome: " + d.nome,
+      d.tipo + " · " + d.modal + ": " + d.origem + " → " + d.destino,
+      "Em seguida envio a ficha completa (foto)."
+    ].join("\n").toUpperCase();
+  }
+
+  /* ---------- ficha em foto (PNG) ---------- */
+  var FONTE = '"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+  var COR = { navy: "#173B50", navySoft: "#AFC7D6", verde: "#2C7A43", tinta: "#182722", cinza: "#56675D", linha: "#D8E1DA", sep: "#E6ECE8", faixa: "#F3F6F4" };
+  var FW = 1080, PAD = 64, ROT_W = 270, GAP = 28;
+  function fonte(peso, tam) { return peso + " " + tam + "px " + FONTE; }
+  function espaco(ctx, px) { if ("letterSpacing" in ctx) ctx.letterSpacing = (px || 0) + "px"; }
+  function quebrar(ctx, texto, largura) {
+    var linhas = [];
+    String(texto).split("\n").forEach(function (par) {
+      var palavras = par.split(/\s+/).filter(Boolean), atual = "";
+      if (!palavras.length) { linhas.push(""); return; }
+      palavras.forEach(function (p) {
+        while (ctx.measureText(p).width > largura && p.length > 1) {
+          var i = p.length - 1;
+          while (i > 1 && ctx.measureText(p.slice(0, i)).width > largura) i--;
+          if (atual) { linhas.push(atual); atual = ""; }
+          linhas.push(p.slice(0, i)); p = p.slice(i);
+        }
+        var teste = atual ? atual + " " + p : p;
+        if (!atual || ctx.measureText(teste).width <= largura) atual = teste;
+        else { linhas.push(atual); atual = p; }
+      });
+      if (atual) linhas.push(atual);
+    });
+    return linhas;
+  }
+  function caixa(ctx, x, y, w, h, r) {
+    ctx.beginPath(); ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+  }
+  function agora() {
+    var d = new Date(), p = function (n) { return (n < 10 ? "0" : "") + n; };
+    return p(d.getDate()) + "/" + p(d.getMonth() + 1) + "/" + d.getFullYear() + " às " + p(d.getHours()) + ":" + p(d.getMinutes());
+  }
+  /* cor e ícone de cada modal (ícones no traçado 24×24) */
+  var MODAIS = {
+    "Marítimo": { cor: "#1D5C8C", icone: ["M12 10.189V14", "M12 2v3", "M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6", "M19.38 20A11.6 11.6 0 0 0 21 14l-8.188-3.639a2 2 0 0 0-1.624 0L3 14a11.6 11.6 0 0 0 2.81 7.76", "M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1s1.2 1 2.5 1c2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"] },
+    "Aéreo": { cor: "#0E7A83", icone: ["M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"] },
+    "Rodoviário": { cor: "#A65A16", icone: ["M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2", "M15 18H9", "M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14", "M19 18a2 2 0 1 1-4 0a2 2 0 1 1 4 0", "M9 18a2 2 0 1 1-4 0a2 2 0 1 1 4 0"] }
+  };
+  var IC_SETA = ["M5 12h14", "m12 5 7 7-7 7"];
+  var IC_WPP = ["M7.9 20A9 9 0 1 0 4 16.1L2 22Z"];
+  var IC_MAIL = ["M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z", "m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"];
+  var CONTATO = { nome: "Tomás Soares", cargo: "Comercial · Syndex Logística e Gestão Aduaneira", whats: "(47) 99266-8440", email: "sales8@syndex.com.br" };
+  function icone(ctx, paths, x, y, tam, cor, traco) {
+    if (typeof Path2D !== "function") return;
+    ctx.save(); ctx.translate(x, y); ctx.scale(tam / 24, tam / 24);
+    ctx.strokeStyle = cor; ctx.lineWidth = traco || 2; ctx.lineCap = "round"; ctx.lineJoin = "round";
+    try { paths.forEach(function (p) { ctx.stroke(new Path2D(p)); }); } catch (e) {}
+    ctx.restore();
+  }
+  function tingir(hex, a) {
+    var n = parseInt(hex.slice(1), 16), m = function (c) { return Math.round(255 - (255 - c) * a); };
+    return "rgb(" + m(n >> 16) + "," + m((n >> 8) & 255) + "," + m(n & 255) + ")";
+  }
+  /* desenha a ficha; com pintar=false só mede e devolve a altura */
+  function desenharFicha(ctx, d, quando, logo, pintar) {
+    var W = FW, y = 0, HH = 196;
+    var M = MODAIS[d.modal] || { cor: COR.verde, icone: [] }, AC = M.cor;
+    function txt(s, x, yy) { if (pintar) ctx.fillText(s, x, yy); }
+    function ret(cor, x, yy, w, h) { if (pintar) { ctx.fillStyle = cor; ctx.fillRect(x, yy, w, h); } }
+    function circ(cor, cx, cy, r) { if (pintar) { ctx.fillStyle = cor; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill(); } }
+    function ic(paths, x, yy, tam, cor, traco) { if (pintar) icone(ctx, paths, x, yy, tam, cor, traco); }
+    ctx.textBaseline = "alphabetic"; ctx.textAlign = "left";
+    /* cabeçalho */
+    ret(COR.navy, 0, 0, W, HH);
+    if (pintar && logo) {
+      var lh = 70, lw = Math.round(lh * logo.naturalWidth / logo.naturalHeight);
+      ctx.fillStyle = "#FFFFFF"; caixa(ctx, PAD, (HH - lh - 36) / 2, lw + 48, lh + 36, 18); ctx.fill();
+      ctx.drawImage(logo, PAD + 24, (HH - lh) / 2, lw, lh);
+    }
+    ctx.textAlign = "right";
+    ctx.font = fonte(700, 40); espaco(ctx, 1); ctx.fillStyle = "#FFFFFF"; txt("PEDIDO DE COTAÇÃO", W - PAD, 94);
+    ctx.font = fonte(400, 26); espaco(ctx, 0); ctx.fillStyle = COR.navySoft; txt(quando, W - PAD, 136);
+    ctx.textAlign = "left";
+    y = HH; ret(AC, 0, y, W, 8); y += 8;
+
+    /* destaque: modal, cliente e rota */
+    var tx = PAD + 120 + 32, tw = W - PAD - tx;
+    ctx.font = fonte(700, 38);
+    var linEmp = quebrar(ctx, up(d.empresa), tw);
+    var colW = (W - 2 * PAD - 64 - 88) / 2;
+    ctx.font = fonte(700, 32);
+    var linOri = quebrar(ctx, up(d.origem), colW), linDes = quebrar(ctx, up(d.destino), colW);
+    var ultBase = 76 + (linEmp.length - 1) * 48 + (d.nome ? 42 : 0);
+    var hTexto = ultBase + 12, hBloco = Math.max(120, hTexto), desloc = Math.max(0, (120 - hTexto) / 2);
+    var nRota = Math.max(linOri.length, linDes.length), hRota = 94 + (nRota - 1) * 42 + 32;
+    var hHero = 48 + hBloco + 36 + hRota + 48;
+    ret(tingir(AC, 0.09), 0, y, W, hHero);
+    var y0 = y + 48;
+    circ(AC, PAD + 60, y0 + 60, 60);
+    ic(M.icone, PAD + 28, y0 + 28, 64, "#FFFFFF", 1.8);
+    ctx.font = fonte(600, 24); espaco(ctx, 2); ctx.fillStyle = AC;
+    txt(up(d.tipo + " · " + d.modal), tx, y0 + desloc + 26); espaco(ctx, 0);
+    ctx.font = fonte(700, 38); ctx.fillStyle = COR.navy;
+    linEmp.forEach(function (l, k) { txt(l, tx, y0 + desloc + 76 + k * 48); });
+    if (d.nome) {
+      ctx.font = fonte(500, 26); ctx.fillStyle = COR.cinza;
+      txt("A/C " + up(d.nome), tx, y0 + desloc + 76 + (linEmp.length - 1) * 48 + 42);
+    }
+    var ry = y0 + hBloco + 36;
+    if (pintar) {
+      ctx.fillStyle = "#FFFFFF"; caixa(ctx, PAD, ry, W - 2 * PAD, hRota, 20); ctx.fill();
+      ctx.strokeStyle = tingir(AC, 0.35); ctx.lineWidth = 2; ctx.stroke();
+    }
+    var cxE = PAD + 32, cxD = W / 2 + 44;
+    ctx.font = fonte(500, 22); espaco(ctx, 1.5); ctx.fillStyle = COR.cinza;
+    txt("ORIGEM", cxE, ry + 48); txt("DESTINO", cxD, ry + 48); espaco(ctx, 0);
+    ctx.font = fonte(700, 32); ctx.fillStyle = COR.navy;
+    linOri.forEach(function (l, k) { txt(l, cxE, ry + 94 + k * 42); });
+    linDes.forEach(function (l, k) { txt(l, cxD, ry + 94 + k * 42); });
+    circ(AC, W / 2, ry + hRota / 2, 30);
+    ic(IC_SETA, W / 2 - 16, ry + hRota / 2 - 16, 32, "#FFFFFF", 2.4);
+    y += hHero;
+
+    /* seções */
+    var vx = PAD + ROT_W + GAP, vw = W - PAD - vx;
+    d.secoes.forEach(function (s, i) {
+      y += 42;
+      if (pintar) { ctx.fillStyle = AC; caixa(ctx, PAD, y, 44, 44, 11); ctx.fill(); }
+      ctx.font = fonte(700, 24); ctx.fillStyle = "#FFFFFF"; ctx.textAlign = "center"; txt(String(i + 1), PAD + 22, y + 31); ctx.textAlign = "left";
+      ctx.font = fonte(700, 27); espaco(ctx, 1.5); ctx.fillStyle = COR.tinta; txt(up(s.titulo), PAD + 62, y + 32); espaco(ctx, 0);
+      y += 60;
+      ret(COR.linha, PAD, y, W - 2 * PAD, 2); y += 2;
+      s.linhas.forEach(function (ln, j) {
+        y += 18;
+        ctx.font = fonte(500, 22); espaco(ctx, 1); ctx.fillStyle = COR.cinza;
+        var rl = quebrar(ctx, up(ln[0]), ROT_W);
+        rl.forEach(function (t, k) { txt(t, PAD, y + 30 + k * 30); });
+        espaco(ctx, 0);
+        ctx.font = fonte(600, 30); ctx.fillStyle = COR.tinta;
+        var vl = quebrar(ctx, ln[1], vw);
+        vl.forEach(function (t, k) { txt(t, vx, y + 31 + k * 42); });
+        y += Math.max(rl.length * 30, vl.length * 42) + 18;
+        if (j < s.linhas.length - 1) ret(COR.sep, PAD, y, W - 2 * PAD, 2);
+      });
+    });
+    /* rodapé: cartão de contato */
+    y += 40;
+    ctx.font = fonte(400, 22); ctx.fillStyle = COR.cinza;
+    txt("Ficha gerada em " + quando + " pela página Peça sua cotação.", PAD, y + 28);
+    y += 60;
+    var HC = 270;
+    ret(COR.navy, 0, y, W, HC);
+    ic(M.icone, W - PAD - 190, y + 40, 190, "rgba(255,255,255,0.09)", 1.4);
+    ctx.font = fonte(600, 22); espaco(ctx, 2); ctx.fillStyle = "#7FD99A";
+    txt("SEU CONTATO NA SYNDEX", PAD, y + 62); espaco(ctx, 0);
+    ctx.font = fonte(700, 42); ctx.fillStyle = "#FFFFFF"; txt(CONTATO.nome, PAD, y + 116);
+    ctx.font = fonte(400, 24); ctx.fillStyle = COR.navySoft; txt(CONTATO.cargo, PAD, y + 156);
+    ctx.font = fonte(600, 28); ctx.fillStyle = "#FFFFFF";
+    ic(IC_WPP, PAD, y + 196, 30, "#7FD99A", 2);
+    txt(CONTATO.whats, PAD + 44, y + 222);
+    var xm = PAD + 44 + ctx.measureText(CONTATO.whats).width + 48;
+    ic(IC_MAIL, xm, y + 196, 30, "#7FD99A", 2);
+    txt(CONTATO.email, xm + 44, y + 222);
+    y += HC;
+    ret(AC, 0, y, W, 10);
+    return Math.ceil(y + 10);
+  }
+  function carregarFontes() {
+    if (!document.fonts || !document.fonts.load) return Promise.resolve();
+    var todas = Promise.all(["400 26px", "500 22px", "600 30px", "700 44px"].map(function (s) {
+      return document.fonts.load(s + ' "IBM Plex Sans"');
+    })).catch(function () {});
+    return Promise.race([todas, new Promise(function (r) { setTimeout(r, 1500); })]);
+  }
+  function logoPronto() {
+    var img = document.querySelector(".topbar img");
+    if (!img) return Promise.resolve(null);
+    if (img.complete && img.naturalWidth) return Promise.resolve(img);
+    return new Promise(function (r) {
+      img.addEventListener("load", function () { r(img); }, { once: true });
+      img.addEventListener("error", function () { r(null); }, { once: true });
+      setTimeout(function () { r(img.naturalWidth ? img : null); }, 2000);
+    });
+  }
+  function nomeArquivo(d) {
+    var base = String(d.empresa || "pedido");
+    if (base.normalize) base = base.normalize("NFD").replace(/[̀-ͯ]/g, "");
+    base = base.replace(/[^A-Za-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40).toLowerCase() || "pedido";
+    var t = new Date(), p = function (n) { return (n < 10 ? "0" : "") + n; };
+    return "cotacao-syndex-" + base + "-" + t.getFullYear() + p(t.getMonth() + 1) + p(t.getDate()) + ".png";
+  }
+  function paraBlob(cv, dataUrl) {
+    return new Promise(function (res, rej) {
+      function viaDataUrl() {
+        try {
+          var bin = atob(dataUrl.split(",")[1]), a = new Uint8Array(bin.length);
+          for (var i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i);
+          res(new Blob([a], { type: "image/png" }));
+        } catch (e) { rej(e); }
+      }
+      if (cv.toBlob) cv.toBlob(function (b) { if (b) res(b); else viaDataUrl(); }, "image/png");
+      else viaDataUrl();
+    });
+  }
+  function gerarFicha(d) {
+    return Promise.all([carregarFontes(), logoPronto()]).then(function (r) {
+      var logo = r[1], quando = agora();
+      var cv = document.createElement("canvas");
+      cv.width = FW; cv.height = 10;
+      var altura = desenharFicha(cv.getContext("2d"), d, quando, logo, false);
+      cv.width = FW; cv.height = altura;
+      var ctx = cv.getContext("2d");
+      ctx.fillStyle = "#FFFFFF"; ctx.fillRect(0, 0, FW, altura);
+      desenharFicha(ctx, d, quando, logo, true);
+      var dataUrl = cv.toDataURL("image/png");
+      return paraBlob(cv, dataUrl).then(function (blob) {
+        var nome = nomeArquivo(d), file = null;
+        try { file = new File([blob], nome, { type: "image/png" }); } catch (e) {}
+        return { blob: blob, file: file, nome: nome, dataUrl: dataUrl };
+      });
+    });
+  }
+
+  /* ---------- envio em 2 passos ---------- */
+  var WHATS_BASE = "https://wa.me/" + WHATS + "?text=";
+  var MOBILE = !!((navigator.userAgentData && navigator.userAgentData.mobile) ||
+    /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || "") ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1));
+  var COMPARTILHA = MOBILE && typeof navigator.share === "function" && typeof navigator.canShare === "function";
+  /* download pela plataforma do Claude, quando a página abre dentro dele */
+  var dlPromise = (window.claude && typeof window.claude.use === "function")
+    ? Promise.resolve().then(function () { return window.claude.use("downloads"); }).catch(function () { return null; })
+    : Promise.resolve(null);
+  function comPrazo(p, ms) { return Promise.race([p, new Promise(function (r) { setTimeout(function () { r(null); }, ms); })]); }
+
+  /* passo 1 = abrir a conversa (resumo); passo 2 = enviar a ficha (foto) */
+  var revisao = $("revisao"), texto = "", ficha = null, geracao = 0, conversaAberta = false;
+  function estadoPassos(conversa, fichaEstado) {
+    $("passo-1").className = "passo" + (conversa ? " " + conversa : "");
+    $("passo-2").className = "passo" + (fichaEstado ? " " + fichaEstado : "");
+  }
+  function configurarPassoFicha() {
+    $("ic-compartilhar").hidden = !COMPARTILHA;
+    $("ic-baixar").hidden = COMPARTILHA;
+    $("enviar-rot").textContent = COMPARTILHA ? "Enviar a ficha (foto)" : "Baixar a ficha (foto)";
+    $("hint-ficha").textContent = COMPARTILHA
+      ? "Toque, escolha o WhatsApp e a conversa da Syndex, que aparece no topo porque você acabou de usar. Se não aparecer, escolha “Salvar imagem” e anexe a foto na conversa."
+      : "Salva a ficha no seu aparelho. Depois volte à conversa com a Syndex e anexe a foto.";
+  }
   function mostrarRevisao() {
     texto = montarMensagem();
-    $("previa").textContent = texto;
-    $("abrir-wpp").href = "https://wa.me/" + WHATS + "?text=" + encodeURIComponent(texto);
+    var d = coletarDados();
+    $("abrir-wpp").href = WHATS_BASE + encodeURIComponent(textoCurto(d));
+    var pill = $("resumo-modal"), escolhido = form.querySelector('input[name="modal"]:checked');
+    pill.textContent = "";
+    if (escolhido) {
+      var chip = escolhido.closest("label"), svg = chip.querySelector("svg");
+      pill.setAttribute("style", chip.getAttribute("style") || "");
+      if (svg) pill.appendChild(svg.cloneNode(true));
+      pill.appendChild(document.createTextNode(up(d.tipo + " · " + d.modal) + ": " + up(d.origem) + " → " + up(d.destino)));
+      pill.hidden = false;
+    } else {
+      pill.hidden = true;
+    }
+    ficha = null;
+    conversaAberta = false;
+    var meu = ++geracao;
+    configurarPassoFicha();
+    estadoPassos("agora", "");
+    $("enviar-ficha").disabled = true;
+    $("ficha-img").hidden = true;
+    $("ficha-img").removeAttribute("src");
+    $("ficha-msg").hidden = false;
+    $("ficha-msg").textContent = "Preparando a ficha…";
+    $("ficha-box").setAttribute("aria-busy", "true");
     revisao.hidden = false;
     $("revisar").hidden = true;
     try { revisao.scrollIntoView({ behavior: "smooth", block: "start" }); } catch (e) {}
     $("m-titulo").focus({ preventScroll: true });
+    gerarFicha(d).then(function (r) {
+      if (meu !== geracao) return;
+      ficha = r;
+      $("ficha-img").src = r.dataUrl;
+      $("ficha-img").hidden = false;
+      $("ficha-msg").hidden = true;
+      $("ficha-box").setAttribute("aria-busy", "false");
+      $("enviar-ficha").disabled = false;
+    }).catch(function () {
+      if (meu !== geracao) return;
+      $("ficha-msg").textContent = "Não deu para gerar a foto neste aparelho. O passo 1 envia o pedido completo em texto.";
+      $("ficha-box").setAttribute("aria-busy", "false");
+      $("hint-ficha").textContent = "Indisponível neste aparelho.";
+      $("abrir-wpp").href = WHATS_BASE + encodeURIComponent(texto);
+      estadoPassos(conversaAberta ? "feito" : "agora", "");
+    });
   }
   function esconderRevisao(focar) {
     if (revisao.hidden) return;
+    geracao++;
+    ficha = null;
     revisao.hidden = true;
     $("revisar").hidden = false;
     if (focar) $("revisar").focus();
   }
+  function fichaFeita(dica, aviso) {
+    estadoPassos(conversaAberta ? "feito" : "agora", "feito");
+    $("hint-ficha").textContent = dica;
+    if (aviso) toast(aviso);
+  }
+  function baixarDireto() {
+    var a = document.createElement("a");
+    a.href = ficha.dataUrl;
+    a.download = ficha.nome;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    fichaFeita("Se o download não começou, toque e segure na ficha acima (ou clique com o botão direito) e salve a imagem. Depois anexe a foto na conversa com a Syndex.", "Baixando a ficha…");
+  }
+  function salvarFicha() {
+    comPrazo(dlPromise, 2500).then(function (dl) {
+      if (!dl || typeof dl.save !== "function") { baixarDireto(); return; }
+      dl.save({ filename: ficha.nome, data: ficha.blob }).then(function () {
+        fichaFeita("Ficha salva. Agora volte à conversa com a Syndex e anexe a foto.", "Ficha salva.");
+      }, function (e) {
+        var c = e && e.code;
+        if (c === "declined") { toast("Você cancelou o download da ficha."); return; }
+        if (c === "rate_limited") { toast("Já tem uma confirmação aberta. Responda a ela primeiro."); return; }
+        baixarDireto();
+      });
+    });
+  }
+  $("enviar-ficha").addEventListener("click", function () {
+    if (!ficha) return;
+    if (COMPARTILHA && ficha.file) {
+      var dados = { files: [ficha.file] }, pode = false;
+      try { pode = navigator.canShare(dados); } catch (e) {}
+      if (pode) {
+        navigator.share(dados).then(function () {
+          fichaFeita("Ficha compartilhada. Confira na conversa se a foto chegou para a Syndex.", "Ficha compartilhada.");
+        }, function (err) {
+          if (err && err.name === "AbortError") return;
+          salvarFicha();
+        });
+        return;
+      }
+    }
+    salvarFicha();
+  });
   /* se o cliente mexer no formulário depois de revisar, pede nova revisão */
   form.addEventListener("input", function (e) { if (!revisao.contains(e.target)) esconderRevisao(false); });
   form.addEventListener("change", function (e) { if (!revisao.contains(e.target)) esconderRevisao(false); });
@@ -737,7 +1205,12 @@ fieldset.is-missing>.erro{display:block}
     mostrarRevisao();
   });
   $("voltar").addEventListener("click", function () { esconderRevisao(true); });
-  $("abrir-wpp").addEventListener("click", function () { toast("Pedido aberto no WhatsApp. É só enviar a mensagem."); });
+  $("abrir-wpp").addEventListener("click", function () {
+    conversaAberta = true;
+    var fichaJaFoi = $("passo-2").classList.contains("feito");
+    estadoPassos("feito", fichaJaFoi ? "feito" : (ficha ? "agora" : ""));
+    toast(ficha ? "Conversa aberta. Envie o resumo e volte aqui para o passo 2." : "Pedido aberto no WhatsApp. É só enviar a mensagem.");
+  });
 
   function toast(msg) {
     var t = $("toast"); t.textContent = msg; t.classList.add("show");
@@ -756,5 +1229,5 @@ fieldset.is-missing>.erro{display:block}
   });
 })();
 </script>
-
-</body></html>
+</body>
+</html>
