@@ -20,6 +20,7 @@ Funciona no computador e no celular. No celular dá para instalar como app:
 | Cotações e propostas | Syndex Cotações | Portal (`/cotacao-frete`, em branco) |
 | Cotações e propostas | Solicitação para Pricing | Portal (`/pricing`) |
 | Cotações e propostas | Gerador de propostas | Portal (`/propostas`) |
+| Cotações e propostas | Proposta TTD | Site (GitHub, `syndex-proposta-ttd`) |
 | Cotações e propostas | Estimativa de custo | Portal (`/estimativa`) |
 | Rotina | Despesas de viagem | Site (GitHub) |
 | Rotina | Syndex Reposição | Claude |

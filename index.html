@@ -127,6 +127,8 @@ svg.i { width: 20px; height: 20px; flex-shrink: 0; fill: none; stroke: currentCo
 .section-head h2 { margin: 0; font-size: 21px; font-weight: 800; }
 .section-head span { font-family: var(--mono); font-size: 12px; color: var(--muted); }
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+/* 5 ferramentas: 3 + 2 em vez de deixar uma sozinha na segunda linha */
+#cotacoes .grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
 
 .tool {
   display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 20px;
@@ -259,6 +261,7 @@ footer p { margin: 0; max-width: 70ch; }
   <symbol id="i-clip" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M8 12h8"/><path d="M8 16h5"/></symbol>
   <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h8"/></symbol>
   <symbol id="i-calc" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8"/><path d="M8 11h.01"/><path d="M12 11h.01"/><path d="M16 11h.01"/><path d="M8 15h.01"/><path d="M12 15h.01"/><path d="M16 15v3"/><path d="M8 18h4"/></symbol>
+  <symbol id="i-percent" viewBox="0 0 24 24"><path d="M19 5 5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></symbol>
   <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M5 2h14v20l-2.5-1.5L14 22l-2-1.5L10 22l-2.5-1.5L5 22z"/><path d="M9 7h6"/><path d="M9 11h6"/><path d="M9 15h4"/></symbol>
   <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.7z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/></symbol>
   <symbol id="i-photo" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.6 18.2a6 6 0 0 1 10.8 0"/></symbol>
@@ -281,7 +284,7 @@ footer p { margin: 0; max-width: 70ch; }
     <nav class="nav" aria-label="Seções">
       <a href="#inicio" class="on" data-spy="inicio"><svg class="i"><use href="#i-home"/></svg><span class="label">Início</span></a>
       <a href="#clientes" data-spy="clientes"><svg class="i"><use href="#i-users"/></svg><span class="label">Clientes</span><span class="n">2</span></a>
-      <a href="#cotacoes" data-spy="cotacoes"><svg class="i"><use href="#i-file"/></svg><span class="label">Cotações e propostas</span><span class="n">4</span></a>
+      <a href="#cotacoes" data-spy="cotacoes"><svg class="i"><use href="#i-file"/></svg><span class="label">Cotações e propostas</span><span class="n">5</span></a>
       <a href="#rotina" data-spy="rotina"><svg class="i"><use href="#i-bag"/></svg><span class="label">Rotina</span><span class="n">3</span></a>
       <a href="#cliente" data-spy="cliente"><svg class="i"><use href="#i-chat"/></svg><span class="label">Para o cliente</span><span class="n">1</span></a>
       <a href="https://syndex.com.br/" target="_blank" rel="noopener" class="nav-ext"><svg class="i"><use href="#i-ext"/></svg><span class="label">Site da Syndex</span></a>
@@ -354,7 +357,7 @@ footer p { margin: 0; max-width: 70ch; }
 
         <!-- Cotações e propostas -->
         <section class="section" id="cotacoes" aria-labelledby="t-cotacoes">
-          <div class="section-head"><h2 id="t-cotacoes">Cotações e propostas</h2><span>4 ferramentas</span></div>
+          <div class="section-head"><h2 id="t-cotacoes">Cotações e propostas</h2><span>5 ferramentas</span></div>
           <div class="grid">
             <a class="tool" data-tool data-keys="cotacao frete maritimo container conteiner armador pdf" href="cotacao-frete/" target="_blank" rel="noopener">
               <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-ship"/></svg></span><span class="chip">Marítimo · PDF</span></div>
@@ -369,6 +372,11 @@ footer p { margin: 0; max-width: 70ch; }
             <a class="tool" data-tool data-keys="proposta comercial gerador pdf" href="propostas/" target="_blank" rel="noopener">
               <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-doc"/></svg></span><span class="chip">Proposta · PDF</span></div>
               <div class="tool-text"><span class="tool-name">Gerador de propostas</span><span class="tool-desc">Proposta comercial no padrão visual da Syndex, pronta para enviar.</span></div>
+              <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
+            </a>
+            <a class="tool" data-tool data-keys="ttd icms beneficio tratamento tributario diferenciado proposta abertura pdf" href="https://tomsoares10-dev.github.io/syndex-proposta-ttd/" target="_blank" rel="noopener">
+              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-percent"/></svg></span><span class="chip">ICMS · PDF</span></div>
+              <div class="tool-text"><span class="tool-name">Proposta TTD</span><span class="tool-desc">Abertura de TTD (Benefício ICMS): dados do cliente, valor e forma de pagamento, em PDF.</span></div>
               <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
             </a>
             <a class="tool" data-tool data-keys="estimativa custo importacao despacho frete internacional checklist" href="estimativa/" target="_blank" rel="noopener">
