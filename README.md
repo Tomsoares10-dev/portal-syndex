@@ -17,11 +17,16 @@ Funciona no computador e no celular. No celular dá para instalar como app:
 |---|---|---|
 | Clientes | Syndex Ações | Claude |
 | Clientes | Carteira por estado | Claude |
+| Clientes | Clientes Ativos | Claude (documento) |
+| Clientes | Diário de Visitas | Portal (`/visitas`, dados salvos no aparelho) |
+| Clientes | Syndex Chat | Portal (`/chat`, protótipo) |
 | Cotações e propostas | Syndex Cotações | Portal (`/cotacao-frete`, em branco) |
 | Cotações e propostas | Solicitação para Pricing | Portal (`/pricing`) |
 | Cotações e propostas | Gerador de propostas | Portal (`/propostas`) |
 | Cotações e propostas | Proposta TTD | Site (GitHub, `syndex-proposta-ttd`) |
 | Cotações e propostas | Estimativa de custo | Portal (`/estimativa`) |
+| Cotações e propostas | Mini proposta rodoviária | Portal (`/mini-proposta`) |
+| Cotações e propostas | Programa de Indicação | Claude (documento) |
 | Rotina | Despesas de viagem | Site (GitHub) |
 | Rotina | Syndex Reposição | Claude |
 | Rotina | Foto de grupo WhatsApp | Site (GitHub) |
@@ -37,6 +42,9 @@ As ferramentas que abrem no Claude são links privados: só funcionam para quem 
 - `estimativa/` — Estimativa de custo de importação (gera o PDF)
 - `cotacao-frete/` — Syndex Cotações, cotação de frete marítimo em PDF (modelo em branco)
 - `propostas/` — Gerador de propostas comerciais em PDF (vendedor: Tomás Soares)
+- `visitas/` — Diário de Visitas: agenda, anotações, próximos passos e relatório do mês (dados no aparelho)
+- `chat/` — Syndex Chat, protótipo do WhatsApp comercial (dados de exemplo)
+- `mini-proposta/` — Mini proposta de frete rodoviário em PDF, com rota e mini mapa
 - `assets/` — logo, símbolo e fundo da marca Syndex
 - `manifest.webmanifest`, `sw.js`, `icon-*.png`, `apple-touch-icon.png` — para instalar como app
 

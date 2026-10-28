@@ -127,8 +127,8 @@ svg.i { width: 20px; height: 20px; flex-shrink: 0; fill: none; stroke: currentCo
 .section-head h2 { margin: 0; font-size: 21px; font-weight: 800; }
 .section-head span { font-family: var(--mono); font-size: 12px; color: var(--muted); }
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
-/* 5 ferramentas: 3 + 2 em vez de deixar uma sozinha na segunda linha */
-#cotacoes .grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+/* Clientes (5 ferramentas): 3 + 2 em vez de deixar uma sozinha na segunda linha */
+#clientes .grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
 
 .tool {
   display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 20px;
@@ -254,6 +254,10 @@ footer p { margin: 0; max-width: 70ch; }
   <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
   <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
   <symbol id="i-bag" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+  <symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24"><path d="M1 4h14v12H1z"/><path d="M15 8h4l3 3v5h-7"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="18.5" cy="18.5" r="2"/></symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></symbol>
   <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="m9 11 3 3 9-9"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></symbol>
   <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
@@ -283,8 +287,8 @@ footer p { margin: 0; max-width: 70ch; }
     </a>
     <nav class="nav" aria-label="Seções">
       <a href="#inicio" class="on" data-spy="inicio"><svg class="i"><use href="#i-home"/></svg><span class="label">Início</span></a>
-      <a href="#clientes" data-spy="clientes"><svg class="i"><use href="#i-users"/></svg><span class="label">Clientes</span><span class="n">2</span></a>
-      <a href="#cotacoes" data-spy="cotacoes"><svg class="i"><use href="#i-file"/></svg><span class="label">Cotações e propostas</span><span class="n">5</span></a>
+      <a href="#clientes" data-spy="clientes"><svg class="i"><use href="#i-users"/></svg><span class="label">Clientes</span><span class="n">5</span></a>
+      <a href="#cotacoes" data-spy="cotacoes"><svg class="i"><use href="#i-file"/></svg><span class="label">Cotações e propostas</span><span class="n">7</span></a>
       <a href="#rotina" data-spy="rotina"><svg class="i"><use href="#i-bag"/></svg><span class="label">Rotina</span><span class="n">3</span></a>
       <a href="#cliente" data-spy="cliente"><svg class="i"><use href="#i-chat"/></svg><span class="label">Para o cliente</span><span class="n">1</span></a>
       <a href="https://syndex.com.br/" target="_blank" rel="noopener" class="nav-ext"><svg class="i"><use href="#i-ext"/></svg><span class="label">Site da Syndex</span></a>
@@ -335,7 +339,7 @@ footer p { margin: 0; max-width: 70ch; }
 
         <!-- Clientes -->
         <section class="section" id="clientes" aria-labelledby="t-clientes">
-          <div class="section-head"><h2 id="t-clientes">Clientes</h2><span>2 ferramentas</span></div>
+          <div class="section-head"><h2 id="t-clientes">Clientes</h2><span>5 ferramentas</span></div>
           <div class="grid">
             <a class="tool" data-tool data-keys="crm acoes tarefas feito pendente" href="https://claude.ai/artifact/UTYDZ7Yiz9uVpCFu3c4wyU" target="_blank" rel="noopener">
               <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-check"/></svg></span><span class="chip">Feito · Não feito</span></div>
@@ -352,12 +356,27 @@ footer p { margin: 0; max-width: 70ch; }
               </div>
               <span class="tool-cta"><span class="label">Abrir</span> <span class="where">no Claude</span><svg class="i"><use href="#i-arrow"/></svg></span>
             </a>
+            <a class="tool" data-tool data-keys="clientes ativos carteira frete importacao desembaraco exportacao documento" href="https://claude.ai/code/artifact/bb19b717-4db6-4d15-b482-61c9fd01d98a" target="_blank" rel="noopener">
+              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-briefcase"/></svg></span><span class="chip">Documento</span></div>
+              <div class="tool-text"><span class="tool-name">Clientes Ativos</span><span class="tool-desc">Carteira ativa por frete de importação e desembaraço de importação e exportação.</span></div>
+              <span class="tool-cta"><span class="label">Abrir</span> <span class="where">no Claude</span><svg class="i"><use href="#i-arrow"/></svg></span>
+            </a>
+            <a class="tool" data-tool data-keys="diario visitas agenda reuniao cliente temperatura objecoes proximo passo relatorio mes pdf" href="visitas/" target="_blank" rel="noopener">
+              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-calendar"/></svg></span><span class="chip">Relatório do mês</span></div>
+              <div class="tool-text"><span class="tool-name">Diário de Visitas</span><span class="tool-desc">Agenda de visitas, anotações, próximos passos e relatório do mês em PDF.</span></div>
+              <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
+            </a>
+            <a class="tool" data-tool data-keys="chat whatsapp comercial conversas follow-up etiquetas prototipo" href="chat/" target="_blank" rel="noopener">
+              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-chat"/></svg></span><span class="chip">Protótipo</span></div>
+              <div class="tool-text"><span class="tool-name">Syndex Chat</span><span class="tool-desc">WhatsApp comercial: conversas por etapa, follow-up e pedido de cotação. Layout de teste.</span></div>
+              <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
+            </a>
           </div>
         </section>
 
         <!-- Cotações e propostas -->
         <section class="section" id="cotacoes" aria-labelledby="t-cotacoes">
-          <div class="section-head"><h2 id="t-cotacoes">Cotações e propostas</h2><span>5 ferramentas</span></div>
+          <div class="section-head"><h2 id="t-cotacoes">Cotações e propostas</h2><span>7 ferramentas</span></div>
           <div class="grid">
             <a class="tool" data-tool data-keys="cotacao frete maritimo container conteiner armador pdf" href="cotacao-frete/" target="_blank" rel="noopener">
               <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-ship"/></svg></span><span class="chip">Marítimo · PDF</span></div>
@@ -383,6 +402,16 @@ footer p { margin: 0; max-width: 70ch; }
               <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-calc"/></svg></span><span class="chip">1 página</span></div>
               <div class="tool-text"><span class="tool-name">Estimativa de custo</span><span class="tool-desc">Checklist de custo de importação: frete internacional e despacho.</span></div>
               <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
+            </a>
+            <a class="tool" data-tool data-keys="mini proposta frete rodoviario carreta ls rodotrem rota mapa estimativa pdf" href="mini-proposta/" target="_blank" rel="noopener">
+              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-truck"/></svg></span><span class="chip">Rodoviário · PDF</span></div>
+              <div class="tool-text"><span class="tool-name">Mini proposta rodoviária</span><span class="tool-desc">Estimativa de frete rodoviário com rota, mini mapa, Carreta LS e Rodotrem.</span></div>
+              <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
+            </a>
+            <a class="tool" data-tool data-keys="programa indicacao comissao parceiro honorario proposta documento" href="https://claude.ai/code/artifact/c7d22d8a-c0e9-44c4-8905-a955f8d3c8eb" target="_blank" rel="noopener">
+              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-gift"/></svg></span><span class="chip">Documento</span></div>
+              <div class="tool-text"><span class="tool-name">Programa de Indicação</span><span class="tool-desc">Proposta do programa de comissão por indicação de novos clientes.</span></div>
+              <span class="tool-cta"><span class="label">Abrir</span> <span class="where">no Claude</span><svg class="i"><use href="#i-arrow"/></svg></span>
             </a>
           </div>
         </section>

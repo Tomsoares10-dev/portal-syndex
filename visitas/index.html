@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HUB | SYNDEX - Diário de Visitas</title>
+<link rel="icon" type="image/png" href="../icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{
+  --paper:#F2F5F7;--sheet:#FFF;--ink:#13233A;--muted:#617084;--rule:#D5DDE5;
+  --river:#2C7C8E;--riverSoft:#CFE5EA;--signal:#E3A21A;--ok:#2E7D4F;--warm:#C4572B;--cold:#4A6FA5;--alert:#B3261E;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1824;--sheet:#152232;--ink:#E6ECF2;--muted:#93A2B4;--rule:#29394D;--river:#57AFC2;--riverSoft:#1C3B47;--signal:#F2B63A;--ok:#5DB585;--warm:#E07B52;--cold:#7F9FD6;--alert:#F07167}}
+:root[data-theme="dark"]{--paper:#0E1824;--sheet:#152232;--ink:#E6ECF2;--muted:#93A2B4;--rule:#29394D;--river:#57AFC2;--riverSoft:#1C3B47;--signal:#F2B63A;--ok:#5DB585;--warm:#E07B52;--cold:#7F9FD6;--alert:#F07167}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 "Archivo",system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--signal);outline-offset:2px}
+.wrap{max-width:720px;margin:0 auto;padding:16px 16px 96px}
+h1{font-size:clamp(34px,9vw,54px);line-height:.95;margin:4px 0 4px;font-weight:800;font-variation-settings:"wdth" 70}
+.sub{color:var(--muted);margin:0 0 16px;font-size:15px}
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:6px;background:var(--paper);padding:8px 0 10px;border-bottom:1px solid var(--rule);margin-bottom:16px}
+.tabs button{flex:1;border:1.5px solid var(--rule);background:var(--sheet);border-radius:8px;padding:10px;font-weight:700;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid var(--ink);background:transparent;border-radius:8px;padding:9px 13px;font-weight:600;font-size:14px;text-decoration:none;cursor:pointer;white-space:nowrap}
+.btn.solid{background:var(--ink);color:var(--sheet)}
+.btn.ghost{border-color:var(--rule)}
+.btn.danger{border-color:var(--alert);color:var(--alert)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.daybar{display:flex;gap:8px;align-items:center;margin-bottom:14px}
+.daybar input{flex:1;min-width:0}
+input,textarea,select{width:100%;border:1px solid var(--rule);border-radius:8px;background:var(--sheet);padding:10px}
+textarea{min-height:84px;resize:vertical}
+label.f{display:block;font-size:13px;color:var(--muted);margin:10px 0 4px;font-weight:600}
+.banner{background:color-mix(in srgb,var(--signal) 18%,var(--sheet));border-radius:8px;padding:12px 14px;margin-bottom:14px;font-size:15px}
+.empty{color:var(--muted);text-align:center;padding:30px 10px;border:1.5px dashed var(--rule);border-radius:10px}
+.card{background:var(--sheet);border:1px solid var(--rule);border-radius:10px;margin-bottom:12px;overflow:hidden}
+.card.entrega{background:transparent;border-style:dashed}
+.head{width:100%;text-align:left;background:none;border:0;padding:14px 16px;cursor:pointer;display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:start}
+.hh{font-weight:800;font-size:18px;font-variation-settings:"wdth" 75}
+.nm{font-weight:800;font-size:21px;line-height:1.1;font-variation-settings:"wdth" 80}
+.meta{color:var(--muted);font-size:13px;margin-top:3px}
+.pill{display:inline-block;font-size:12px;font-weight:700;border-radius:99px;padding:2px 9px;margin-right:4px}
+.p-quente{background:var(--warm);color:#fff}.p-morno{background:var(--signal);color:#1a1a1a}.p-frio{background:var(--cold);color:#fff}
+.p-feita{background:var(--ok);color:#fff}.p-agendada{background:var(--riverSoft);color:var(--ink)}.p-cancelada{background:var(--rule);color:var(--muted)}
+.more{display:none;padding:0 16px 16px}
+.card.open .more{display:block}
+.chev{transition:transform .2s;margin-top:4px}
+.card.open .chev{transform:rotate(180deg)}
+.goal{border-left:4px solid var(--signal);padding:4px 0 4px 12px;margin:0 0 12px;font-weight:600}
+.brief{white-space:pre-wrap;font-size:14px;background:var(--paper);border-radius:8px;padding:10px 12px;margin:8px 0}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:76px;border:1.5px solid var(--rule);background:transparent;border-radius:8px;padding:8px;font-weight:700;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.seg button[data-v="quente"][aria-pressed="true"]{background:var(--warm);border-color:var(--warm);color:#fff}
+.seg button[data-v="morno"][aria-pressed="true"]{background:var(--signal);border-color:var(--signal);color:#1a1a1a}
+.seg button[data-v="frio"][aria-pressed="true"]{background:var(--cold);border-color:var(--cold);color:#fff}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{border:1.5px solid var(--rule);background:transparent;border-radius:99px;padding:6px 11px;font-size:13px;font-weight:600;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--river);border-color:var(--river);color:#fff}
+.two{display:grid;grid-template-columns:1fr 150px;gap:8px}
+.chk{display:flex;gap:8px;align-items:center;margin-top:8px;font-size:14px}
+.chk input{width:20px;height:20px;accent-color:var(--ok)}
+.saved{font-size:12px;color:var(--muted);min-height:18px;margin-top:6px}
+.fab{position:fixed;right:16px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:6;border-radius:99px;padding:14px 20px;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+dialog{border:0;border-radius:12px;padding:0;width:min(560px,94vw);background:var(--sheet);color:var(--ink)}
+dialog::backdrop{background:rgba(10,20,30,.5)}
+dialog form{padding:18px}
+/* report */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
+.kpi{background:var(--sheet);border:1px solid var(--rule);border-radius:10px;padding:12px 10px}
+.kpi b{display:block;font-size:30px;font-weight:800;line-height:1;font-variation-settings:"wdth" 75}
+.kpi span{font-size:12px;color:var(--muted)}
+@media (max-width:460px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.bar{display:flex;height:12px;border-radius:99px;overflow:hidden;background:var(--rule);margin:6px 0 4px}
+.bar i{display:block;height:100%}
+h2{font-size:24px;margin:24px 0 8px;font-variation-settings:"wdth" 78;font-weight:800}
+.att{list-style:none;padding:0;margin:0}
+.att li{background:var(--sheet);border:1px solid var(--rule);border-left:5px solid var(--alert);border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:15px}
+.att li.mid{border-left-color:var(--signal)}
+.att li small{display:block;color:var(--muted)}
+.tbl{overflow-x:auto;border:1px solid var(--rule);border-radius:10px;background:var(--sheet)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:520px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.objrow{display:grid;grid-template-columns:150px 1fr 28px;gap:8px;align-items:center;font-size:14px;margin:5px 0}
+.objrow .bar{margin:0}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:8px;font-weight:600;opacity:0;transition:opacity .25s;pointer-events:none;z-index:9}
+.toast.show{opacity:1}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="sub" style="margin:0">Syndex · comercial</p>
+  <h1>Diário de Visitas</h1>
+  <p class="sub" id="conn">Conectando…</p>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="dia">Dia</button>
+    <button role="tab" aria-selected="false" data-tab="rel">Relatório do mês</button>
+  </nav>
+
+  <section id="tab-dia">
+    <div class="daybar">
+      <button class="btn ghost" id="prev" aria-label="Dia anterior">‹</button>
+      <input type="date" id="day" aria-label="Data">
+      <button class="btn ghost" id="next" aria-label="Próximo dia">›</button>
+      <button class="btn ghost" id="today">Hoje</button>
+    </div>
+    <div id="list"></div>
+  </section>
+
+  <section id="tab-rel" hidden>
+    <div class="daybar">
+      <input type="month" id="month" aria-label="Mês do relatório">
+    </div>
+    <div id="report"></div>
+  </section>
+</div>
+
+<button class="btn solid fab" id="add">+ Nova visita</button>
+
+<dialog id="dlg">
+  <form method="dialog" id="frm">
+    <h2 style="margin-top:0">Nova visita</h2>
+    <div class="two"><div><label class="f" for="fEmp">Empresa</label><input id="fEmp" required></div>
+      <div><label class="f" for="fTipo">Tipo</label><select id="fTipo"><option value="visita">Visita</option><option value="entrega">Entrega/outro</option></select></div></div>
+    <div class="two"><div><label class="f" for="fData">Data</label><input type="date" id="fData" required></div>
+      <div><label class="f" for="fHora">Hora</label><input type="time" id="fHora" required></div></div>
+    <label class="f" for="fCnpj">CNPJ</label><input id="fCnpj" inputmode="numeric">
+    <label class="f" for="fEnd">Endereço</label><input id="fEnd">
+    <label class="f" for="fTel">Telefone</label><input id="fTel" inputmode="tel">
+    <label class="f" for="fObj">Objetivo da visita</label><input id="fObj">
+    <label class="f" for="fBrief">Briefing (ficha, perguntas, contexto)</label><textarea id="fBrief"></textarea>
+    <div class="row" style="margin-top:14px;justify-content:flex-end">
+      <button class="btn ghost" value="cancel" formnovalidate>Cancelar</button>
+      <button class="btn solid" id="fSave" value="ok">Salvar visita</button>
+    </div>
+  </form>
+</dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const OBJ=["Preço alto","Não passa target","Já tem agente","Sem carga agora","Pouco feedback","Prazo/transit time","Outra"];
+const TZ="America/Sao_Paulo";
+const todayISO=()=>new Date().toLocaleDateString("sv-SE",{timeZone:TZ});
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const $=id=>document.getElementById(id);
+const fmtDate=iso=>{if(!iso)return"";const[y,m,d]=iso.split("-");return`${d}/${m}`};
+const MONTHS=["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+const RANK={quente:3,morno:2,frio:1};
+function toast(t){const e=$("toast");e.textContent=t;e.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("show"),1900)}
+
+let db=null,col=null,V=[],open=new Set(),canWrite=true,dl=null;
+$("day").value=todayISO();$("month").value=todayISO().slice(0,7);
+
+/* ---------- tabs ---------- */
+document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("[data-tab]").forEach(x=>x.setAttribute("aria-selected",x===b));
+  $("tab-dia").hidden=b.dataset.tab!=="dia";$("tab-rel").hidden=b.dataset.tab!=="rel";
+  $("add").hidden=b.dataset.tab!=="dia";
+  if(b.dataset.tab==="rel")renderReport();
+});
+const shiftDay=n=>{const d=new Date($("day").value+"T12:00:00");d.setDate(d.getDate()+n);$("day").value=d.toISOString().slice(0,10);renderDay()};
+$("prev").onclick=()=>shiftDay(-1);$("next").onclick=()=>shiftDay(1);
+$("today").onclick=()=>{$("day").value=todayISO();renderDay()};
+$("day").onchange=renderDay;$("month").onchange=renderReport;
+
+/* ---------- day view ---------- */
+function renderDay(){
+  const day=$("day").value,list=$("list");
+  const items=V.filter(v=>v.data===day).sort((a,b)=>(a.hora||"").localeCompare(b.hora||""));
+  if(!db){list.innerHTML=`<div class="banner">Os dados ficam salvos online. Abra este link logado no claude.ai ou no app do Claude para ver e registrar as visitas.</div>`;return}
+  if(!items.length){list.innerHTML=`<div class="empty">Nenhuma visita em ${fmtDate(day)}.<br>Toque em <b>+ Nova visita</b> para cadastrar.</div>`;return}
+  // keep focus/typing safe: only re-render cards not being edited
+  const active=document.activeElement&&document.activeElement.closest(".card");
+  const activeId=active&&active.dataset.id;
+  const html=items.map(v=>v.id===activeId?null:cardHTML(v));
+  if(activeId&&items.some(v=>v.id===activeId)){
+    // patch around the active card
+    [...list.querySelectorAll(".card")].forEach(c=>{if(c.dataset.id!==activeId)c.remove()});
+    const act=list.querySelector(`.card[data-id="${activeId}"]`);
+    items.forEach((v,i)=>{if(v.id===activeId)return;const t=document.createElement("div");t.innerHTML=html[i];const el=t.firstElementChild;
+      const idx=items.findIndex(x=>x.id===activeId);if(i<idx)list.insertBefore(el,act);else list.appendChild(el)});
+    updateHead(act,items.find(v=>v.id===activeId));
+  } else list.innerHTML=html.join("");
+}
+function headInner(v){
+  const pills=[`<span class="pill p-${v.status||"agendada"}">${v.status||"agendada"}</span>`];
+  if(v.temperatura)pills.push(`<span class="pill p-${v.temperatura}">${v.temperatura}</span>`);
+  return `<span class="hh">${esc(v.hora||"--:--")}</span>
+   <span><span class="nm">${esc(v.empresa)}</span><div class="meta">${pills.join("")}${v.objetivo&&v.tipo!=="entrega"?"":""}</div></span>
+   <svg class="chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>`;
+}
+function updateHead(card,v){if(card&&v)card.querySelector(".head").innerHTML=headInner(v)}
+function cardHTML(v){
+  const isV=v.tipo!=="entrega",o=open.has(v.id);
+  const enc=encodeURIComponent(v.endereco||v.empresa+" Blumenau");
+  return `<article class="card ${isV?"":"entrega"} ${o?"open":""}" data-id="${v.id}">
+  <button class="head" aria-expanded="${o}">${headInner(v)}</button>
+  <div class="more">
+    ${v.objetivo?`<p class="goal">${esc(v.objetivo)}</p>`:""}
+    <div class="row" style="margin-bottom:10px">
+      <a class="btn solid" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${enc}">Google Maps</a>
+      <a class="btn" target="_blank" rel="noopener" href="https://waze.com/ul?q=${enc}&navigate=yes">Waze</a>
+      ${v.telefone?`<a class="btn" href="tel:+55${esc(String(v.telefone).replace(/\D/g,""))}">Ligar</a>`:""}
+    </div>
+    <div class="meta">${esc(v.endereco||"")}${v.cnpj?" · CNPJ "+esc(v.cnpj):""}</div>
+    ${v.briefing?`<details><summary style="cursor:pointer;font-weight:700;margin-top:10px;color:var(--river)">Briefing</summary><div class="brief">${esc(v.briefing)}</div></details>`:""}
+
+    <label class="f">Status</label>
+    <div class="seg" data-field="status">${["agendada","feita","cancelada"].map(s=>`<button data-v="${s}" aria-pressed="${(v.status||"agendada")===s}">${s[0].toUpperCase()+s.slice(1)}</button>`).join("")}</div>
+    ${isV?`
+    <label class="f">Temperatura do cliente</label>
+    <div class="seg" data-field="temperatura">${["quente","morno","frio"].map(s=>`<button data-v="${s}" aria-pressed="${v.temperatura===s}">${s[0].toUpperCase()+s.slice(1)}</button>`).join("")}</div>
+    <label class="f" for="n-${v.id}">Anotações da conversa</label>
+    <textarea id="n-${v.id}" data-in="anotacoes" placeholder="Com quem falou, volumes, datas, o que ouviu…">${esc(v.anotacoes||"")}</textarea>
+    <label class="f">Objeções que apareceram</label>
+    <div class="chips">${OBJ.map(t=>`<button data-obj="${esc(t)}" aria-pressed="${(v.objecoes||[]).includes(t)}">${esc(t)}</button>`).join("")}</div>
+    <label class="f" for="a-${v.id}">Ponto de atenção</label>
+    <input id="a-${v.id}" data-in="atencao" placeholder="Algo que exige cuidado ou acompanhamento" value="${esc(v.atencao||"")}">
+    <label class="f" for="p-${v.id}">Próximo passo</label>
+    <div class="two"><input id="p-${v.id}" data-in="proximoPasso" placeholder="Ex.: enviar cotação Taiwan" value="${esc(v.proximoPasso||"")}">
+    <input type="date" aria-label="Data do próximo passo" data-in="proximoData" value="${esc(v.proximoData||"")}"></div>
+    <label class="chk"><input type="checkbox" data-in="passoFeito" ${v.passoFeito?"checked":""}> Próximo passo concluído</label>`:`
+    <label class="f" for="n-${v.id}">Observação</label>
+    <textarea id="n-${v.id}" data-in="anotacoes">${esc(v.anotacoes||"")}</textarea>`}
+    <div class="saved" aria-live="polite"></div>
+    <div class="row" style="justify-content:flex-end;margin-top:6px"><button class="btn danger" data-del>Excluir</button></div>
+  </div></article>`;
+}
+
+/* ---------- writes ---------- */
+const pending={},timers={};
+function queue(id,patch,card){
+  if(!db||!canWrite)return;
+  pending[id]=Object.assign(pending[id]||{},patch);
+  const v=V.find(x=>x.id===id);if(v)Object.assign(v,patch);
+  updateHead(card,v);
+  const s=card&&card.querySelector(".saved");if(s)s.textContent="Salvando…";
+  clearTimeout(timers[id]);timers[id]=setTimeout(()=>flush(id,card),700);
+}
+async function flush(id,card){
+  const p=pending[id];if(!p)return;delete pending[id];
+  const s=card&&card.querySelector(".saved");
+  try{p.atualizadoEm=new Date().toISOString();await col.doc(id).update(p);if(s)s.textContent="Salvo"}
+  catch(e){
+    if(e&&e.code==="unavailable"){await new Promise(r=>setTimeout(r,800+Math.random()*700));try{await col.doc(id).update(p);if(s)s.textContent="Salvo";return}catch(_){}}
+    if(e&&e.code==="invalid_argument"){canWrite=false;$("conn").textContent="Somente leitura: você não tem permissão para editar este diário."}
+    if(s)s.textContent="Não foi possível salvar. Tente de novo.";
+  }
+}
+$("list").addEventListener("click",async e=>{
+  const card=e.target.closest(".card");if(!card)return;const id=card.dataset.id;
+  if(e.target.closest(".head")){const o=card.classList.toggle("open");card.querySelector(".head").setAttribute("aria-expanded",o);o?open.add(id):open.delete(id);return}
+  const sb=e.target.closest(".seg button");
+  if(sb){const f=sb.parentElement.dataset.field,v=V.find(x=>x.id===id);let val=sb.dataset.v;if(f==="temperatura"&&v.temperatura===val)val="";
+    sb.parentElement.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===val));queue(id,{[f]:val},card);return}
+  const ob=e.target.closest("[data-obj]");
+  if(ob){const v=V.find(x=>x.id===id);const set=new Set(v.objecoes||[]);const t=ob.dataset.obj;set.has(t)?set.delete(t):set.add(t);
+    ob.setAttribute("aria-pressed",set.has(t));queue(id,{objecoes:[...set]},card);return}
+  if(e.target.closest("[data-del]")){const v=V.find(x=>x.id===id);
+    if(confirm(`Excluir a visita "${v.empresa}" de ${fmtDate(v.data)}? Isso não pode ser desfeito.`)){
+      try{await col.doc(id).delete();toast("Visita excluída")}catch(_){toast("Não foi possível excluir")}}}
+});
+$("list").addEventListener("input",e=>{const k=e.target.dataset.in;if(!k)return;const card=e.target.closest(".card");
+  queue(card.dataset.id,{[k]:e.target.type==="checkbox"?e.target.checked:e.target.value},card)});
+$("list").addEventListener("change",e=>{if(e.target.type==="checkbox"||e.target.type==="date"){const k=e.target.dataset.in;if(!k)return;const card=e.target.closest(".card");queue(card.dataset.id,{[k]:e.target.type==="checkbox"?e.target.checked:e.target.value},card)}});
+
+/* ---------- new visit ---------- */
+$("add").onclick=()=>{if(!db){toast("Abra logado no Claude para cadastrar");return}$("frm").reset();$("fData").value=$("day").value;$("dlg").showModal();$("fEmp").focus()};
+$("frm").addEventListener("submit",async e=>{
+  if(e.submitter&&e.submitter.value!=="ok")return;
+  e.preventDefault();if(!$("fEmp").value.trim()||!$("fData").value||!$("fHora").value){toast("Preencha empresa, data e hora");return}
+  const doc={empresa:$("fEmp").value.trim(),tipo:$("fTipo").value,data:$("fData").value,hora:$("fHora").value,cnpj:$("fCnpj").value.trim(),
+    endereco:$("fEnd").value.trim(),telefone:$("fTel").value.trim(),objetivo:$("fObj").value.trim(),briefing:$("fBrief").value.trim(),
+    status:"agendada",temperatura:"",anotacoes:"",objecoes:[],atencao:"",proximoPasso:"",proximoData:"",passoFeito:false,criadoEm:new Date().toISOString()};
+  try{await col.doc().set(doc);$("dlg").close();$("day").value=doc.data;renderDay();toast("Visita cadastrada")}
+  catch(err){toast(err&&err.code==="invalid_argument"?"Sem permissão para salvar":"Não foi possível salvar")}
+});
+
+/* ---------- report ---------- */
+function buildReport(month){
+  const today=todayISO();
+  const mv=V.filter(v=>(v.data||"").startsWith(month));
+  const vis=mv.filter(v=>v.tipo!=="entrega");
+  const feitas=vis.filter(v=>v.status==="feita");
+  const temp={quente:0,morno:0,frio:0,"sem":0};feitas.forEach(v=>temp[v.temperatura||"sem"]++);
+  const clients={};
+  V.filter(v=>v.tipo!=="entrega").sort((a,b)=>(a.data+a.hora).localeCompare(b.data+b.hora)).forEach(v=>{
+    const k=(v.cnpj||v.empresa).trim().toLowerCase();(clients[k]=clients[k]||{nome:v.empresa,hist:[]}).hist.push(v)});
+  const att=[];
+  // overdue next steps (any month, still open)
+  V.filter(v=>v.proximoPasso&&v.proximoData&&!v.passoFeito&&v.proximoData<today).forEach(v=>att.push({lvl:"alto",t:`${v.empresa}: próximo passo atrasado`,d:`"${v.proximoPasso}" vencia em ${fmtDate(v.proximoData)}`}));
+  feitas.filter(v=>!v.proximoPasso).forEach(v=>att.push({lvl:"alto",t:`${v.empresa}: visita sem próximo passo`,d:`Visita de ${fmtDate(v.data)} terminou sem ação combinada`}));
+  vis.filter(v=>(v.status||"agendada")==="agendada"&&v.data<today).forEach(v=>att.push({lvl:"medio",t:`${v.empresa}: visita sem registro`,d:`Agendada para ${fmtDate(v.data)} e não marcada como feita ou cancelada`}));
+  Object.values(clients).forEach(c=>{const t=c.hist.filter(v=>v.temperatura);if(t.length>1){const a=t[t.length-2],b=t[t.length-1];
+    if(b.data.startsWith(month)&&RANK[b.temperatura]<RANK[a.temperatura])att.push({lvl:"alto",t:`${c.nome}: esfriou`,d:`De ${a.temperatura} (${fmtDate(a.data)}) para ${b.temperatura} (${fmtDate(b.data)})`})}});
+  feitas.filter(v=>v.temperatura==="frio").forEach(v=>att.push({lvl:"medio",t:`${v.empresa}: cliente frio`,d:v.anotacoes?v.anotacoes.slice(0,110):"Revisar abordagem"}));
+  mv.filter(v=>v.atencao).forEach(v=>att.push({lvl:"medio",t:`${v.empresa}: ${v.atencao}`,d:`Anotado na visita de ${fmtDate(v.data)}`}));
+  const obj={};feitas.forEach(v=>(v.objecoes||[]).forEach(o=>obj[o]=(obj[o]||0)+1));
+  const rows=Object.values(clients).filter(c=>c.hist.some(v=>v.data.startsWith(month))).map(c=>{
+    const m=c.hist.filter(v=>v.data.startsWith(month)),last=c.hist[c.hist.length-1];
+    return{nome:c.nome,n:m.filter(v=>v.status==="feita").length,temp:last.temperatura||"-",passo:last.proximoPasso?(last.proximoPasso+(last.proximoData?" ("+fmtDate(last.proximoData)+")":"")+(last.passoFeito?" ✓":"")):"-"}});
+  const entregas=mv.filter(v=>v.tipo==="entrega");
+  const pend=V.filter(v=>v.proximoPasso&&!v.passoFeito).length;
+  return{mv,vis,feitas,temp,att,obj,rows,entregas,pend,month};
+}
+function renderReport(){
+  const R=buildReport($("month").value),el=$("report");
+  if(!db){el.innerHTML=`<div class="banner">Abra logado no Claude para ver o relatório.</div>`;return}
+  const[y,m]=R.month.split("-");const label=`${MONTHS[+m-1]} de ${y}`;
+  if(!R.mv.length){el.innerHTML=`<div class="empty">Nenhuma visita registrada em ${label}.</div>`;return}
+  const tot=R.feitas.length||1;
+  const seg=(n,c)=>n?`<i style="width:${n/tot*100}%;background:var(${c})"></i>`:"";
+  const maxO=Math.max(1,...Object.values(R.obj));
+  el.innerHTML=`
+  <div class="kpis">
+    <div class="kpi"><b>${R.feitas.length}</b><span>visitas feitas</span></div>
+    <div class="kpi"><b>${R.vis.length}</b><span>visitas no mês</span></div>
+    <div class="kpi"><b>${R.temp.quente}</b><span>clientes quentes</span></div>
+    <div class="kpi"><b>${R.pend}</b><span>passos em aberto</span></div>
+  </div>
+  <div class="bar" aria-hidden="true">${seg(R.temp.quente,"--warm")}${seg(R.temp.morno,"--signal")}${seg(R.temp.frio,"--cold")}${seg(R.temp.sem,"--rule")}</div>
+  <div class="meta">Quente ${R.temp.quente} · Morno ${R.temp.morno} · Frio ${R.temp.frio}${R.temp.sem?" · Sem avaliação "+R.temp.sem:""}${R.entregas.length?" · "+R.entregas.length+" entrega(s)":""}</div>
+
+  <h2>Pontos de atenção</h2>
+  ${R.att.length?`<ul class="att">${R.att.map(a=>`<li class="${a.lvl==="alto"?"":"mid"}"><b>${esc(a.t)}</b><small>${esc(a.d)}</small></li>`).join("")}</ul>`:`<div class="empty">Nada pendente. Tudo em dia.</div>`}
+
+  <h2>Clientes visitados</h2>
+  <div class="tbl"><table><thead><tr><th>Cliente</th><th>Visitas</th><th>Temperatura</th><th>Próximo passo</th></tr></thead>
+  <tbody>${R.rows.map(r=>`<tr><td><b>${esc(r.nome)}</b></td><td>${r.n}</td><td>${r.temp!=="-"?`<span class="pill p-${r.temp}">${r.temp}</span>`:"-"}</td><td>${esc(r.passo)}</td></tr>`).join("")}</tbody></table></div>
+
+  ${Object.keys(R.obj).length?`<h2>Objeções mais ouvidas</h2>${Object.entries(R.obj).sort((a,b)=>b[1]-a[1]).map(([k,n])=>`<div class="objrow"><span>${esc(k)}</span><div class="bar"><i style="width:${n/maxO*100}%;background:var(--river)"></i></div><b>${n}</b></div>`).join("")}`:""}
+
+  <h2>Exportar</h2>
+  <div class="row">
+    <button class="btn solid" id="xPdf">Baixar PDF</button>
+    <button class="btn" id="xCopy">Copiar texto</button>
+  </div>
+  <p class="meta" style="margin-top:10px">As visitas ficam salvas só neste aparelho e neste navegador.</p>`;
+  $("xCopy").onclick=async()=>{const t=reportText(R,label);try{await navigator.clipboard.writeText(t);toast("Relatório copiado")}catch(_){prompt("Copie o relatório:",t)}};
+  $("xPdf").onclick=()=>exportPdf(R,label);
+  $("xPdf").hidden=!dl||!window.jspdf;
+}
+function reportText(R,label){
+  const L=[`RELATÓRIO DE VISITAS · ${label.toUpperCase()}`,"",
+    `Visitas feitas: ${R.feitas.length} de ${R.vis.length} no mês`,
+    `Temperatura: quente ${R.temp.quente} · morno ${R.temp.morno} · frio ${R.temp.frio}`,
+    `Próximos passos em aberto: ${R.pend}`,"","PONTOS DE ATENÇÃO"];
+  R.att.length?R.att.forEach(a=>L.push(`- ${a.t}. ${a.d}`)):L.push("- Nenhum");
+  L.push("","CLIENTES");R.rows.forEach(r=>L.push(`- ${r.nome}: ${r.n} visita(s), ${r.temp}. Próximo passo: ${r.passo}`));
+  if(Object.keys(R.obj).length){L.push("","OBJEÇÕES");Object.entries(R.obj).sort((a,b)=>b[1]-a[1]).forEach(([k,n])=>L.push(`- ${k}: ${n}`))}
+  L.push("","DETALHE DAS VISITAS");
+  R.feitas.sort((a,b)=>(a.data+a.hora).localeCompare(b.data+b.hora)).forEach(v=>{
+    L.push(`${fmtDate(v.data)} ${v.hora} · ${v.empresa}${v.temperatura?" ("+v.temperatura+")":""}`);
+    if(v.anotacoes)L.push("  Anotações: "+v.anotacoes.replace(/\n+/g," "));
+    if(v.proximoPasso)L.push("  Próximo passo: "+v.proximoPasso+(v.proximoData?" até "+fmtDate(v.proximoData):""));
+  });
+  return L.join("\n");
+}
+async function exportPdf(R,label){
+  try{
+    const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:"mm",format:"a4"});
+    const W=210,M=16;let y=20;
+    const line=(t,o={})=>{doc.setFont("helvetica",o.b?"bold":"normal");doc.setFontSize(o.s||10);doc.setTextColor(...(o.c||[19,35,58]));
+      doc.splitTextToSize(t,W-2*M).forEach(l=>{if(y>282){doc.addPage();y=20}doc.text(l,M,y);y+=(o.s||10)*.45+1.2})};
+    doc.setFillColor(19,35,58);doc.rect(0,0,W,30,"F");doc.setTextColor(255,255,255);doc.setFont("helvetica","bold");doc.setFontSize(18);
+    doc.text("Relatório de Visitas",M,15);doc.setFontSize(11);doc.setFont("helvetica","normal");doc.text(label,M,23);y=42;
+    line(`Visitas feitas: ${R.feitas.length} de ${R.vis.length}   ·   Quente ${R.temp.quente} · Morno ${R.temp.morno} · Frio ${R.temp.frio}   ·   Passos em aberto: ${R.pend}`,{s:10.5});y+=4;
+    line("Pontos de atenção",{b:1,s:13,c:[179,38,30]});R.att.length?R.att.forEach(a=>line(`• ${a.t}. ${a.d}`)):line("Nenhum.");y+=4;
+    line("Clientes",{b:1,s:13,c:[44,124,142]});R.rows.forEach(r=>line(`• ${r.nome}: ${r.n} visita(s), ${r.temp}. Próximo passo: ${r.passo}`));y+=4;
+    if(Object.keys(R.obj).length){line("Objeções mais ouvidas",{b:1,s:13,c:[44,124,142]});Object.entries(R.obj).sort((a,b)=>b[1]-a[1]).forEach(([k,n])=>line(`• ${k}: ${n}`));y+=4}
+    line("Detalhe das visitas",{b:1,s:13,c:[44,124,142]});
+    R.feitas.sort((a,b)=>(a.data+a.hora).localeCompare(b.data+b.hora)).forEach(v=>{
+      line(`${fmtDate(v.data)} ${v.hora} · ${v.empresa}${v.temperatura?" ("+v.temperatura+")":""}`,{b:1});
+      if(v.anotacoes)line("Anotações: "+v.anotacoes.replace(/\n+/g," "));
+      if((v.objecoes||[]).length)line("Objeções: "+v.objecoes.join(", "));
+      if(v.proximoPasso)line("Próximo passo: "+v.proximoPasso+(v.proximoData?" até "+fmtDate(v.proximoData):""));y+=2});
+    const blob=doc.output("blob");
+    await dl.save({filename:`relatorio-visitas-${R.month}.pdf`,data:blob});toast("PDF salvo");
+  }catch(e){if(e&&e.code==="declined")return;toast("Não foi possível gerar o PDF")}
+}
+
+/* ---------- boot (versão do HUB: as visitas ficam salvas neste aparelho) ---------- */
+function localDb(){
+  const KEY="hubsyndex.visitas.v1";
+  const subs=[];
+  const load=()=>{try{const o=JSON.parse(localStorage.getItem(KEY)||"{}");return o&&typeof o==="object"?o:{}}catch(_){return {}}};
+  let docs=load();
+  const persist=()=>{try{localStorage.setItem(KEY,JSON.stringify(docs))}catch(_){toast("Não foi possível salvar neste aparelho")}};
+  const emit=()=>{const snap={docs:Object.keys(docs).map(id=>({id,data:()=>docs[id]}))};subs.forEach(f=>f(snap))};
+  const newId=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+  window.addEventListener("storage",e=>{if(e.key===KEY){docs=load();emit()}});
+  return{collection(){return{
+    doc(id){const k=id||newId();return{
+      async set(d){docs[k]=JSON.parse(JSON.stringify(d));persist();emit()},
+      async update(p){docs[k]=Object.assign({},docs[k]||{},JSON.parse(JSON.stringify(p)));persist();emit()},
+      async delete(){delete docs[k];persist();emit()}}},
+    onSnapshot(f){subs.push(f);f({docs:Object.keys(docs).map(id=>({id,data:()=>docs[id]}))});return()=>{}}
+  }}};
+}
+function localDownloads(){return{save:async({filename,data})=>{
+  const url=URL.createObjectURL(data);const a=document.createElement("a");
+  a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),4000)}}}
+(async()=>{
+  dl=localDownloads();
+  db=localDb();
+  $("conn").textContent="Salvo neste aparelho · cada pessoa tem o seu diário";
+  col=db.collection("visitas");
+  col.onSnapshot(snap=>{
+    V=snap.docs.map(d=>Object.assign({id:d.id},JSON.parse(JSON.stringify(d.data()))));
+    Object.keys(pending).forEach(id=>{const v=V.find(x=>x.id===id);if(v)Object.assign(v,pending[id])});
+    renderDay();if(!$("tab-rel").hidden)renderReport();
+  },err=>{$("conn").textContent=err&&err.code==="revoked"?"Acesso indisponível":"Sem conexão com os dados no momento"});
+})();
+</script>
+</body>
+</html>
