@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Solicitação para Pricing | Syndex</title>
+<title>HUB | SYNDEX - Solicitação para Pricing</title>
+ <link rel="icon" type="image/png" href="../icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
@@ -599,11 +600,11 @@ function renderForm(){
   });
   $("i-solicitante").value=state.solicitante;
   $("i-titulo").value=state.titulo;
-  document.title=docTitle()+" | Syndex";
+  document.title="HUB | SYNDEX - "+docTitle();
   cnpjHint();
 }
 $("i-solicitante").addEventListener("input",function(){ state.solicitante=this.value; scheduleSave(); });
-$("i-titulo").addEventListener("input",function(){ state.titulo=this.value; document.title=docTitle()+" | Syndex"; scheduleSave(); });
+$("i-titulo").addEventListener("input",function(){ state.titulo=this.value; document.title="HUB | SYNDEX - "+docTitle(); scheduleSave(); });
 $("i-titulo").addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); this.blur(); } });
 $("form").addEventListener("submit",function(e){ e.preventDefault(); });
 
