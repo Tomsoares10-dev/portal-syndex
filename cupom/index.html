@@ -122,6 +122,24 @@ details.vendedor > summary:focus-visible { outline: 2px solid var(--green); outl
 .checker canvas, .checker img { width: 100%; max-width: 560px; height: auto; display: block; }
 .faces { display: grid; gap: 12px; width: 100%; justify-items: center; }
 .tag { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.guia { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px 18px; display: grid; gap: 18px; }
+.guia-head { display: grid; gap: 4px; }
+.guia h2 { margin: 0; font-family: var(--font-display); font-size: 20px; line-height: 1.25; text-wrap: balance; }
+.guia-head p { margin: 0; color: var(--muted); max-width: 64ch; }
+.passos { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: passo; }
+.passos li { counter-increment: passo; display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; align-items: start; }
+.passos li::before { content: counter(passo); width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center;
+  background: var(--navy); color: var(--on-navy); font-weight: 700; font-size: 14px; }
+.passos li div { min-width: 0; padding-top: 4px; }
+.passos b { color: var(--ink); }
+.passos span { display: block; color: var(--muted); font-size: 14px; margin-top: 2px; }
+kbd { font: 600 12px ui-monospace, "SFMono-Regular", Menlo, monospace; background: var(--field); border: 1px solid var(--line);
+  border-bottom-width: 2px; border-radius: 5px; padding: 1px 5px; color: var(--ink); white-space: nowrap; }
+.outros { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 820px) { .outros { grid-template-columns: minmax(0, 1fr); } }
+.outro { border: 1px solid var(--line); border-radius: 12px; background: var(--field); padding: 14px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.outro h3 { margin: 0; font-size: 15px; }
+.outro p { margin: 0; color: var(--muted); font-size: 14px; }
 @media (prefers-reduced-motion: reduce) { .progress > i { transition: none; } }
 </style>
 
@@ -199,6 +217,36 @@ details.vendedor > summary:focus-visible { outline: 2px solid var(--green); outl
       </div>
     </section>
   </main>
+
+  <section class="guia" aria-labelledby="guia-titulo">
+    <div class="guia-head">
+      <h2 id="guia-titulo">Como enviar com o link do WhatsApp escondido no cupom</h2>
+      <p>O link não fica dentro do arquivo: ele é preso ao cupom no próprio e-mail. Faça pelo computador, no Outlook.</p>
+    </div>
+    <ol class="passos">
+      <li><div><b>Baixe o GIF do cupom</b><span>Preencha os dados acima, toque em "Gerar GIF animado" e depois em "Baixar GIF".</span></div></li>
+      <li><div><b>Copie o link do WhatsApp</b><span>Use o botão "Copiar link" desta página.</span></div></li>
+      <li><div><b>Coloque o cupom no corpo do e-mail</b><span>Num e-mail novo, vá em Inserir → Imagens → Este dispositivo e escolha o GIF. Não mande como anexo: ele precisa aparecer dentro do e-mail.</span></div></li>
+      <li><div><b>Selecione o cupom e abra o link</b><span>Clique uma vez no cupom, até aparecerem as alças em volta, e aperte <kbd>Ctrl</kbd> + <kbd>K</kbd> (no Mac, <kbd>Cmd</kbd> + <kbd>K</kbd>).</span></div></li>
+      <li><div><b>Cole o link e confirme</b><span>Cole no campo "Endereço" e clique em OK. Em "Dica de Tela", se quiser, escreva "Fale comigo no WhatsApp": é o que o cliente vê ao passar o mouse.</span></div></li>
+      <li><div><b>Confira e teste antes de enviar</b><span>Clique com o botão direito no cupom: se aparecer "Editar link", deu certo. Mande um teste para você e toque no cupom pelo celular: o WhatsApp deve abrir com a mensagem pronta.</span></div></li>
+    </ol>
+    <div class="outros">
+      <div class="outro">
+        <h3>No Gmail</h3>
+        <p>Inserir foto → Upload → marque "Inline". Selecione o cupom arrastando por cima dele, aperte <kbd>Ctrl</kbd> + <kbd>K</kbd> e cole o link.</p>
+      </div>
+      <div class="outro">
+        <h3>Uma linha de reserva</h3>
+        <p>Embaixo do cupom, escreva "Fale comigo no WhatsApp", selecione o texto e coloque o mesmo link. Ajuda quem não carrega as imagens do e-mail.</p>
+      </div>
+      <div class="outro">
+        <h3>Pelo WhatsApp</h3>
+        <p>No WhatsApp não dá para esconder o link na imagem. Mande o PNG ou o GIF e, na mesma mensagem, o link copiado.</p>
+      </div>
+    </div>
+    <p class="hint">No Outlook instalado no computador, o cupom gira 3 vezes e aparece um botão de play: é do Outlook. Clicando fora do botão, o link abre normalmente.</p>
+  </section>
 </div>
 
 <script>
