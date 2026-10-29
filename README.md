@@ -26,6 +26,7 @@ Funciona no computador e no celular. No celular dá para instalar como app:
 | Cotações e propostas | Proposta TTD | Site (GitHub, `syndex-proposta-ttd`) |
 | Cotações e propostas | Estimativa de custo | Portal (`/estimativa`) |
 | Cotações e propostas | Mini proposta rodoviária | Portal (`/mini-proposta`) |
+| Cotações e propostas | Cupom Especial | Portal (`/cupom`) |
 | Cotações e propostas | Programa de Indicação | Claude (documento) |
 | Rotina | Despesas de viagem | Site (GitHub) |
 | Rotina | Syndex Reposição | Claude |
@@ -45,6 +46,7 @@ As ferramentas que abrem no Claude são links privados: só funcionam para quem 
 - `visitas/` — Diário de Visitas: agenda, anotações, próximos passos e relatório do mês (dados no aparelho)
 - `chat/` — Syndex Chat, protótipo do WhatsApp comercial (dados de exemplo)
 - `mini-proposta/` — Mini proposta de frete rodoviário em PDF, com rota e mini mapa
+- `cupom/` — Cupom Especial (honorário zero, código CUSTOMS-FREE): nome da empresa na frente, GIF animado sem fundo para o e-mail, PNG com frente e verso e link curto do WhatsApp
 - `assets/` — logo, símbolo e fundo da marca Syndex
 - `manifest.webmanifest`, `sw.js`, `icon-*.png`, `apple-touch-icon.png` — para instalar como app
 
