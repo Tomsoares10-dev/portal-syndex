@@ -46,7 +46,7 @@ As ferramentas que abrem no Claude são links privados: só funcionam para quem 
 - `visitas/` — Diário de Visitas: agenda, anotações, próximos passos e relatório do mês (dados no aparelho)
 - `chat/` — Syndex Chat, protótipo do WhatsApp comercial (dados de exemplo)
 - `mini-proposta/` — Mini proposta de frete rodoviário em PDF, com rota e mini mapa
-- `cupom/` — Cupom Especial (honorário zero, código CUSTOMS-FREE): nome da empresa na frente, GIF animado sem fundo para o e-mail, PNG com frente e verso e link curto do WhatsApp
+- `cupom/` — Cupom Especial (honorário zero, código CUSTOMS-FREE): nome da empresa na frente; nome, cargo, WhatsApp e e-mail de quem envia no verso (salvos no aparelho); GIF animado sem fundo para o e-mail, PNG com frente e verso e link do WhatsApp de quem envia
 - `assets/` — logo, símbolo e fundo da marca Syndex
 - `manifest.webmanifest`, `sw.js`, `icon-*.png`, `apple-touch-icon.png` — para instalar como app
 
