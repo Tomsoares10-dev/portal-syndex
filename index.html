@@ -190,6 +190,81 @@ svg.i { width: 20px; height: 20px; flex-shrink: 0; fill: none; stroke: currentCo
 footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
 footer p { margin: 0; max-width: 70ch; }
 
+/* ---------- Capa (Terra + Yvon) ----------
+   A capa ocupa a tela e fica "presa" enquanto a página rola um pouco: nesse trecho a cena
+   (imagem da Terra com o astronauta e a bandeira, num bloco só) se aproxima devagar.
+   Logo e textos não entram no zoom. */
+.capa { position: relative; height: 150vh; height: 150svh; background: #040A17; color: #F4F7FC; }
+.capa-palco { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; isolation: isolate; }
+.capa-cena {
+  position: absolute; inset: 0; z-index: 0;
+  transform: scale(var(--z, 1)); transform-origin: 66% 74%;
+  will-change: transform; backface-visibility: hidden;
+}
+.capa-cena img { width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%; display: block; max-width: none; }
+.capa-veu {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(4, 10, 23, .78) 0%, rgba(4, 10, 23, .42) 34%, rgba(4, 10, 23, 0) 58%),
+    linear-gradient(0deg, rgba(4, 10, 23, .55) 0%, rgba(4, 10, 23, 0) 22%);
+}
+.capa-topo {
+  position: absolute; z-index: 2; top: 0; left: 0; right: 0;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: calc(22px + env(safe-area-inset-top, 0px)) max(28px, 4vw) 0;
+}
+.capa-logo { display: inline-flex; padding: 10px 16px; border-radius: 12px; background: #FFFFFF; box-shadow: 0 6px 24px rgba(0, 0, 0, .28); }
+.capa-logo img { width: 150px; height: auto; display: block; }
+.capa-topo a.capa-pular { color: #C9D6EA; font-size: 14px; font-weight: 600; text-decoration: none; }
+.capa-topo a.capa-pular:hover { color: #FFFFFF; }
+.capa-texto {
+  position: absolute; z-index: 2; left: max(28px, 6vw); top: 50%; transform: translateY(-50%);
+  max-width: min(560px, 48vw); display: flex; flex-direction: column; gap: 18px;
+}
+.capa-texto h1 {
+  margin: 0; font-size: clamp(38px, 5vw, 72px); line-height: 1; font-weight: 800; letter-spacing: .02em; white-space: nowrap;
+  color: #FFFFFF; text-shadow: 0 2px 30px rgba(0, 0, 0, .45);
+}
+.capa-texto h1 .sep { display: inline-block; width: .09em; height: .8em; margin: 0 .22em; background: #5DB65D; vertical-align: -.02em; border-radius: 2px; }
+.capa-texto p { margin: 0; font-size: clamp(16px, 1.4vw, 19px); line-height: 1.5; color: #D5DFEE; max-width: 36ch; }
+.capa-acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 6px; }
+.capa-acoes .btn { background: #FFFFFF; border-color: #FFFFFF; color: var(--navy); }
+.capa-acoes .btn:hover { background: #EAF1FB; border-color: #EAF1FB; }
+.capa-dica {
+  position: absolute; z-index: 2; left: 50%; bottom: calc(26px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: #B8C6DD; font-size: 13px; font-weight: 600; opacity: var(--dica, 1); pointer-events: none;
+}
+.capa-dica i { display: block; width: 1px; height: 34px; background: linear-gradient(#B8C6DD, rgba(184, 198, 221, 0)); }
+@media (max-width: 899px) {
+  /* No celular a cena fica inteira na parte de baixo (bandeira, astronauta e Terra) e o espaço escuro de cima recebe o texto */
+  .capa { height: 125vh; height: 125svh; background: radial-gradient(120% 55% at 72% 38%, rgba(38, 78, 150, .28), rgba(4, 10, 23, 0) 62%), #040A17; }
+  .capa-cena { transform-origin: 72% 88%; }
+  .capa-cena img {
+    position: absolute; left: 0; bottom: 0; width: 215vw; height: auto; object-fit: fill; transform: translateX(-41.5%);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 26%); mask-image: linear-gradient(180deg, transparent 0%, #000 26%);
+  }
+  .capa-veu {
+    background:
+      linear-gradient(0deg, rgba(4, 10, 23, .45) 0%, rgba(4, 10, 23, 0) 18%);
+  }
+  .capa-logo { padding: 8px 12px; border-radius: 10px; }
+  .capa-logo img { width: 116px; }
+  .capa-topo a.capa-pular { display: none; }
+  .capa-texto { top: calc(96px + env(safe-area-inset-top, 0px)); transform: none; left: 20px; right: 20px; max-width: none; gap: 10px; }
+  .capa-texto h1 { font-size: clamp(32px, 9.5vw, 44px); }
+  .capa-texto p { font-size: 15px; max-width: 30ch; }
+  .capa-acoes { margin-top: 6px; }
+  .capa-acoes .btn { min-height: 48px; padding: 0 22px; box-shadow: 0 8px 28px rgba(0, 0, 0, .35); }
+  .capa-dica { display: none; }
+  body.na-capa .bottomnav { transform: translateY(110%); }
+  .bottomnav { transition: transform .35s ease; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .capa-cena { transform: none; will-change: auto; }
+  .bottomnav { transition: none; }
+}
+
 /* ---------- Celular ---------- */
 @media (max-width: 899px) {
   html { scroll-padding-top: 76px; }
@@ -277,6 +352,29 @@ footer p { margin: 0; max-width: 70ch; }
   <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
   <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></symbol>
 </svg>
+
+
+<!-- Capa: Terra + Yvon com a bandeira. Ao rolar, a cena se aproxima; logo e textos ficam parados. -->
+<section class="capa" id="capa" aria-label="Capa do HUB Syndex">
+  <div class="capa-palco">
+    <div class="capa-cena" id="capa-cena">
+      <img src="assets/capa-yvon.jpg" alt="" width="1376" height="768" fetchpriority="high">
+    </div>
+    <div class="capa-veu"></div>
+    <div class="capa-topo">
+      <span class="capa-logo"><img src="assets/syndex-logo.png" alt="Syndex — Diga sim para o sucesso." width="464" height="142"></span>
+      <a class="capa-pular" href="#inicio">Ir para as ferramentas</a>
+    </div>
+    <div class="capa-texto">
+      <h1>HUB<span class="sep" aria-hidden="true"></span>SYNDEX</h1>
+      <p>As ferramentas da Syndex Logística e Gestão Aduaneira em um só lugar.</p>
+      <div class="capa-acoes">
+        <a class="btn" href="#inicio">Ver ferramentas<svg class="i"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+    <div class="capa-dica" aria-hidden="true"><span>Role para baixo</span><i></i></div>
+  </div>
+</section>
 
 <div class="app">
 
@@ -584,6 +682,44 @@ footer p { margin: 0; max-width: 70ch; }
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
   }
+})();
+</script>
+<script>
+/* Capa: zoom da cena conforme a rolagem. Começa quase parado, cresce suave até ~1,12 (celular ~1,05)
+   e volta ao tamanho original ao subir. Uma atualização por quadro, só enquanto a capa está na tela. */
+(function () {
+  var capa = document.getElementById('capa');
+  var cena = document.getElementById('capa-cena');
+  if (!capa || !cena) return;
+  var semMov = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var celular = window.matchMedia ? matchMedia('(max-width: 899px)') : { matches: false };
+  var curso = 1, alvo = 0, atual = 0, pedido = false, ZMAX = 0.12;
+
+  function medir() {
+    curso = Math.max(1, capa.offsetHeight - window.innerHeight);
+    ZMAX = semMov ? 0 : (celular.matches ? 0.05 : 0.12);
+  }
+  function suave(t) { return t * t * (3 - 2 * t); }            // começa e termina devagar
+  function lerProgresso() {
+    var y = window.scrollY || window.pageYOffset || 0;
+    alvo = Math.min(1, Math.max(0, y / curso));
+    document.body.classList.toggle('na-capa', y < capa.offsetHeight - window.innerHeight * 0.35);
+  }
+  function quadro() {
+    pedido = false;
+    atual += (alvo - atual) * (semMov ? 1 : 0.18);              // amortece os "degraus" da roda do mouse
+    if (Math.abs(alvo - atual) < 0.0005) atual = alvo;
+    cena.style.setProperty('--z', (1 + ZMAX * suave(atual)).toFixed(4));
+    capa.style.setProperty('--dica', Math.max(0, 1 - atual * 3).toFixed(3));
+    if (atual !== alvo) pedir();
+  }
+  function pedir() { if (!pedido) { pedido = true; requestAnimationFrame(quadro); } }
+  function aoRolar() { lerProgresso(); pedir(); }
+
+  medir(); lerProgresso(); atual = alvo; quadro();
+  window.addEventListener('scroll', aoRolar, { passive: true });
+  window.addEventListener('resize', function () { medir(); aoRolar(); });
+  if (celular.addEventListener) celular.addEventListener('change', function () { medir(); aoRolar(); });
 })();
 </script>
 </body>
