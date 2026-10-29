@@ -198,10 +198,11 @@ footer p { margin: 0; max-width: 70ch; }
 .capa-palco { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; isolation: isolate; }
 .capa-cena {
   position: absolute; inset: 0; z-index: 0;
-  transform: scale(var(--z, 1)); transform-origin: 66% 74%;
+  transform: scale(var(--z, 1)); transform-origin: 70% 40%;   /* aproxima no Yvon e na bandeira */
   will-change: transform; backface-visibility: hidden;
 }
-.capa-cena img { width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%; display: block; max-width: none; }
+.capa-cena picture { display: block; width: 100%; height: 100%; }
+.capa-cena img { width: 100%; height: 100%; object-fit: cover; object-position: 66% 50%; display: block; max-width: none; }
 .capa-veu {
   position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background:
@@ -239,10 +240,13 @@ footer p { margin: 0; max-width: 70ch; }
 @media (max-width: 899px) {
   /* No celular a cena fica inteira na parte de baixo (bandeira, astronauta e Terra) e o espaço escuro de cima recebe o texto */
   .capa { height: 125vh; height: 125svh; background: radial-gradient(120% 55% at 72% 38%, rgba(38, 78, 150, .28), rgba(4, 10, 23, 0) 62%), #040A17; }
-  .capa-cena { transform-origin: 72% 88%; }
+  .capa-cena { transform-origin: 50% 60%; }
   .capa-cena img {
-    position: absolute; left: 0; bottom: 0; width: 215vw; height: auto; object-fit: fill; transform: translateX(-41.5%);
-    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 26%); mask-image: linear-gradient(180deg, transparent 0%, #000 26%);
+    /* a cena cresce com a altura livre da tela (sem encostar no texto) e o ponto do Yvon + bandeira fica no centro */
+    position: absolute; left: 50%; bottom: 0;
+    width: 215vw; width: clamp(170vw, calc((100svh - 300px) * 1.79), 250vw);
+    height: auto; object-fit: fill; transform: translateX(-71%);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%); mask-image: linear-gradient(180deg, transparent 0%, #000 14%);
   }
   .capa-veu {
     background:
@@ -259,6 +263,14 @@ footer p { margin: 0; max-width: 70ch; }
   .capa-dica { display: none; }
   body.na-capa .bottomnav { transform: translateY(110%); }
   .bottomnav { transition: transform .35s ease; }
+}
+@media (max-width: 899px) and (orientation: landscape) {
+  /* celular deitado: a cena volta a preencher a tela, senão só apareceria a Terra */
+  .capa-cena { transform-origin: 70% 40%; }
+  .capa-cena img {
+    position: static; width: 100%; height: 100%; object-fit: cover; object-position: 66% 42%; transform: none;
+    -webkit-mask-image: none; mask-image: none;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .capa-cena { transform: none; will-change: auto; }
@@ -358,7 +370,16 @@ footer p { margin: 0; max-width: 70ch; }
 <section class="capa" id="capa" aria-label="Capa do HUB Syndex">
   <div class="capa-palco">
     <div class="capa-cena" id="capa-cena">
-      <img src="assets/capa-yvon.jpg" alt="" width="1376" height="768" fetchpriority="high">
+      <!-- A mesma cena em 3 tamanhos e 3 formatos: o navegador pega a mais nítida que a tela pede (AVIF > WebP > JPEG) -->
+      <picture>
+        <source type="image/avif" sizes="(max-width: 899px) and (orientation: portrait) 250vw, max(100vw, 179vh)"
+          srcset="assets/capa-terra-1280.avif 1280w, assets/capa-terra-1920.avif 1920w, assets/capa-terra-2576.avif 2576w">
+        <source type="image/webp" sizes="(max-width: 899px) and (orientation: portrait) 250vw, max(100vw, 179vh)"
+          srcset="assets/capa-terra-1280.webp 1280w, assets/capa-terra-1920.webp 1920w, assets/capa-terra-2576.webp 2576w">
+        <img src="assets/capa-terra-1920.jpg" sizes="(max-width: 899px) and (orientation: portrait) 250vw, max(100vw, 179vh)"
+          srcset="assets/capa-terra-1280.jpg 1280w, assets/capa-terra-1920.jpg 1920w, assets/capa-terra-2576.jpg 2576w"
+          alt="" width="2576" height="1438" fetchpriority="high">
+      </picture>
     </div>
     <div class="capa-veu"></div>
     <div class="capa-topo">
