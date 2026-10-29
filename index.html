@@ -195,6 +195,8 @@ footer p { margin: 0; max-width: 70ch; }
    (imagem da Terra com o astronauta e a bandeira, num bloco só) se aproxima devagar.
    Logo e textos não entram no zoom. */
 .capa { position: relative; height: 150vh; height: 150svh; background: #040A17; color: #F4F7FC; }
+/* acima da capa: ao puxar a página para baixo no celular aparece o espaço escuro, nunca uma faixa clara */
+.capa::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 100vh; background: #040A17; pointer-events: none; }
 .capa-palco { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; isolation: isolate; }
 .capa-cena {
   position: absolute; inset: 0; z-index: 0;
@@ -212,7 +214,7 @@ footer p { margin: 0; max-width: 70ch; }
 .capa-topo {
   position: absolute; z-index: 2; top: 0; left: 0; right: 0;
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  padding: calc(22px + env(safe-area-inset-top, 0px)) max(28px, 4vw) 0;
+  padding: calc(22px + env(safe-area-inset-top, 0px)) max(28px, 4vw, env(safe-area-inset-right, 0px)) 0 max(28px, 4vw, env(safe-area-inset-left, 0px));
 }
 .capa-logo { display: inline-flex; padding: 10px 16px; border-radius: 12px; background: #FFFFFF; box-shadow: 0 6px 24px rgba(0, 0, 0, .28); }
 .capa-logo img { width: 150px; height: auto; display: block; }
@@ -244,7 +246,7 @@ footer p { margin: 0; max-width: 70ch; }
   .capa-cena img {
     /* a cena cresce com a altura livre da tela (sem encostar no texto) e o ponto do Yvon + bandeira fica no centro */
     position: absolute; left: 50%; bottom: 0;
-    width: 215vw; width: clamp(170vw, calc((100svh - 300px) * 1.79), 250vw);
+    width: 215vw; width: clamp(176vw, calc((100svh - 300px) * 1.79), 250vw);
     height: auto; object-fit: fill; transform: translateX(-71%);
     -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%); mask-image: linear-gradient(180deg, transparent 0%, #000 14%);
   }
@@ -255,7 +257,7 @@ footer p { margin: 0; max-width: 70ch; }
   .capa-logo { padding: 8px 12px; border-radius: 10px; }
   .capa-logo img { width: 116px; }
   .capa-topo a.capa-pular { display: none; }
-  .capa-texto { top: calc(96px + env(safe-area-inset-top, 0px)); transform: none; left: 20px; right: 20px; max-width: none; gap: 10px; }
+  .capa-texto { top: calc(96px + env(safe-area-inset-top, 0px)); transform: none; left: max(20px, env(safe-area-inset-left, 0px)); right: max(20px, env(safe-area-inset-right, 0px)); max-width: none; gap: 10px; }
   .capa-texto h1 { font-size: clamp(32px, 9.5vw, 44px); }
   .capa-texto p { font-size: 15px; max-width: 30ch; }
   .capa-acoes { margin-top: 6px; }
@@ -263,6 +265,11 @@ footer p { margin: 0; max-width: 70ch; }
   .capa-dica { display: none; }
   body.na-capa .bottomnav { transform: translateY(110%); }
   .bottomnav { transition: transform .35s ease; }
+}
+@media (min-width: 900px) and (max-aspect-ratio: 1/1) {
+  /* janela de computador mais alta que larga: puxa a cena para a esquerda e aproxima pela bandeira, para ela não sair da tela */
+  .capa-cena { transform-origin: 80% 40%; }
+  .capa-cena img { object-position: 74% 50%; }
 }
 @media (max-width: 899px) and (orientation: landscape) {
   /* celular deitado: a cena volta a preencher a tela, senão só apareceria a Terra */
