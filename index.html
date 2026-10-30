@@ -214,10 +214,11 @@ footer p { margin: 0; max-width: 70ch; }
 .capa-topo {
   position: absolute; z-index: 2; top: 0; left: 0; right: 0;
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  padding: calc(22px + env(safe-area-inset-top, 0px)) max(28px, 4vw, env(safe-area-inset-right, 0px)) 0 max(28px, 4vw, env(safe-area-inset-left, 0px));
+  padding: calc(26px + env(safe-area-inset-top, 0px)) max(28px, 4vw, env(safe-area-inset-right, 0px)) 0 max(28px, 6vw, env(safe-area-inset-left, 0px));
 }
-.capa-logo { display: inline-flex; padding: 10px 16px; border-radius: 12px; background: #FFFFFF; box-shadow: 0 6px 24px rgba(0, 0, 0, .28); }
-.capa-logo img { width: 150px; height: auto; display: block; }
+/* logo branco direto sobre o espaço, sem placa; sombra leve só para destacar das estrelas */
+.capa-logo { display: inline-flex; }
+.capa-logo img { width: 156px; height: auto; display: block; filter: drop-shadow(0 2px 10px rgba(0, 0, 0, .45)); }
 .capa-topo a.capa-pular { color: #C9D6EA; font-size: 14px; font-weight: 600; text-decoration: none; }
 .capa-topo a.capa-pular:hover { color: #FFFFFF; }
 .capa-texto {
@@ -254,8 +255,8 @@ footer p { margin: 0; max-width: 70ch; }
     background:
       linear-gradient(0deg, rgba(4, 10, 23, .45) 0%, rgba(4, 10, 23, 0) 18%);
   }
-  .capa-logo { padding: 8px 12px; border-radius: 10px; }
-  .capa-logo img { width: 116px; }
+  .capa-topo { padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+  .capa-logo img { width: 124px; }
   .capa-topo a.capa-pular { display: none; }
   .capa-texto { top: calc(96px + env(safe-area-inset-top, 0px)); transform: none; left: max(20px, env(safe-area-inset-left, 0px)); right: max(20px, env(safe-area-inset-right, 0px)); max-width: none; gap: 10px; }
   .capa-texto h1 { font-size: clamp(32px, 9.5vw, 44px); }
@@ -390,7 +391,7 @@ footer p { margin: 0; max-width: 70ch; }
     </div>
     <div class="capa-veu"></div>
     <div class="capa-topo">
-      <span class="capa-logo"><img src="assets/syndex-logo.png" alt="Syndex — Diga sim para o sucesso." width="464" height="142"></span>
+      <span class="capa-logo"><img src="assets/syndex-logo-branco.png" alt="Syndex" width="458" height="141"></span>
       <a class="capa-pular" href="#inicio">Ir para as ferramentas</a>
     </div>
     <div class="capa-texto">
