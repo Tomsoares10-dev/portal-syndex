@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>HUB | SYNDEX</title>
 <meta name="description" content="Portal interno com as ferramentas da Syndex Logística e Gestão Aduaneira.">
-<meta name="theme-color" content="#02488F">
+<meta name="theme-color" content="#040A17">
 <meta name="robots" content="noindex">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
@@ -36,7 +36,7 @@
   color-scheme: light;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
 body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
 img { max-width: 100%; display: block; }
 a { color: var(--navy); }
@@ -46,149 +46,138 @@ svg.i { width: 20px; height: 20px; flex-shrink: 0; fill: none; stroke: currentCo
 .mono { font-family: var(--mono); font-weight: 500; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-/* ---------- Estrutura ---------- */
-.app { display: flex; min-height: 100vh; }
-.side {
-  width: 248px; flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto;
-  background: var(--surface); border-right: 1px solid var(--line);
-  padding: 28px 18px 24px; padding-left: max(18px, env(safe-area-inset-left, 0px));
-  display: flex; flex-direction: column; gap: 28px;
-}
-.brand { display: flex; flex-direction: column; gap: 6px; padding: 0 10px; text-decoration: none; }
-.brand img { width: 168px; height: auto; }
-.brand span { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
-.nav { display: flex; flex-direction: column; gap: 4px; }
-.nav a {
-  display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 10px;
-  color: var(--ink); font-size: 15px; font-weight: 600; text-decoration: none;
-}
-.nav a:hover { background: var(--tint-2); }
-.nav a.on { background: var(--tint); color: var(--navy); font-weight: 700; }
-.nav a .label { flex: 1; }
-.nav a .n { font-family: var(--mono); font-size: 12px; color: var(--muted); }
-.nav a.nav-ext { margin-top: 8px; padding-top: 14px; border-top: 1px solid var(--line); border-radius: 0 0 10px 10px; color: var(--muted); }
-.nav a.nav-ext:hover { color: var(--navy); }
-.side-foot { margin-top: auto; }
-.mini {
-  display: flex; flex-direction: column; gap: 8px; padding: 16px; border-radius: 12px;
-  background: var(--ground); border: 1px solid var(--line);
-}
-.mini strong { font-size: 14px; }
-.mini span { font-size: 13px; color: var(--muted); }
-.mini a { align-self: flex-start; font-size: 13px; font-weight: 700; text-decoration: none; }
-
-.main {
-  flex: 1; min-width: 0; padding: 32px 40px 56px;
-  padding-right: max(40px, env(safe-area-inset-right, 0px));
-}
-.wrap { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
-
-/* topo e barra do celular */
-.topbar, .bottomnav { display: none; }
-
-/* ---------- Boas-vindas ---------- */
-.hero {
-  background: url(assets/syndex-fundo.jpg) center / cover no-repeat, var(--surface);
-  border: 1px solid var(--line); border-radius: 18px;
-  padding: 36px 36px 30px; display: flex; flex-direction: column; gap: 24px;
-}
-.hero-top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px; }
-.hello { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.date { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--green-ink); }
-.hello h1 { margin: 0; font-size: 38px; line-height: 1.1; font-weight: 800; letter-spacing: -0.01em; color: var(--navy); }
-.hello p { margin: 0; font-size: 16px; color: var(--ink-2); }
-.search { flex: 0 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
-.search label { font-size: 13px; font-weight: 700; color: var(--ink-2); }
-.search-box {
-  display: flex; align-items: center; gap: 10px; height: 46px; padding: 0 14px;
-  background: var(--surface); border: 1px solid var(--line-2); border-radius: 11px;
-}
-.search-box:focus-within { border-color: var(--navy); }
-.search-box svg { color: var(--muted); width: 18px; height: 18px; }
-.search-box input {
-  flex: 1; min-width: 0; border: 0; outline: none; background: transparent;
-  font: 500 15px var(--sans); color: var(--ink);
-}
-.search-box input::placeholder { color: #6B7A99; }
-.shortcuts { display: flex; flex-wrap: wrap; gap: 10px; }
+/* ---------- Ferramentas: o espaço continua depois da capa ----------
+   Página escura com estrelas e o brilho da Terra embaixo. Cada ferramenta é um cartão grande,
+   na cor da sua área, com o botão dizendo o que ele faz. Barra escura fixa no topo com logo, áreas e busca. */
+body { background: #040A17; }
 .btn {
   display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px;
   border-radius: 10px; font: 700 14px var(--sans); text-decoration: none; cursor: pointer;
   border: 1px solid var(--line-2); background: var(--surface); color: var(--ink);
 }
-.btn:hover { border-color: var(--navy); }
-.btn.primary { background: var(--navy); border-color: var(--navy); color: #FFFFFF; }
-.btn.primary:hover { background: var(--navy-deep); }
 .btn svg { width: 17px; height: 17px; }
 
-/* ---------- Seções e cards ---------- */
-.section { display: flex; flex-direction: column; gap: 16px; }
-.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.section-head h2 { margin: 0; font-size: 21px; font-weight: 800; }
-.section-head span { font-family: var(--mono); font-size: 12px; color: var(--muted); }
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
-/* Clientes (5 ferramentas): 3 + 2 em vez de deixar uma sozinha na segunda linha */
-#clientes .grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.hub { position: relative; color: #F4F7FC; background: #040A17; isolation: isolate; scroll-margin-top: -84px; }
+.hub a { color: inherit; }
 
-.tool {
-  display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 20px;
-  background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
-  color: var(--ink); text-decoration: none;
-  transition: border-color .15s ease, box-shadow .15s ease;
+/* barra fixa */
+.barra {
+  position: sticky; top: 0; z-index: 30; display: flex; align-items: center; gap: 22px;
+  padding: calc(12px + env(safe-area-inset-top, 0px)) max(28px, 4vw, env(safe-area-inset-right, 0px)) 12px max(28px, 4vw, env(safe-area-inset-left, 0px));
+  background: rgba(4, 10, 23, .74); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
 }
-.tool:hover { border-color: var(--navy); box-shadow: 0 8px 24px rgba(2, 72, 143, .10); }
-.tool-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.ico {
-  width: 44px; height: 44px; border-radius: 11px; background: var(--tint); color: var(--navy);
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+.barra-marca { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; flex: none; }
+.barra-marca img { width: 108px; height: auto; }
+.barra-marca span { padding-left: 12px; border-left: 2px solid #5DB65D; font-weight: 800; font-size: 14px; letter-spacing: .06em; color: #DCE6F5; }
+.barra-nav { display: flex; gap: 4px; }
+.barra-nav a { padding: 8px 12px; border-radius: 10px; font-size: 14px; font-weight: 700; color: #A9BAD6; text-decoration: none; white-space: nowrap; }
+.barra-nav a:hover { color: #FFFFFF; background: rgba(255, 255, 255, .06); }
+.barra-nav a.on { color: #FFFFFF; background: rgba(113, 188, 111, .16); box-shadow: inset 0 0 0 1px rgba(113, 188, 111, .35); }
+.busca {
+  margin-left: auto; display: flex; align-items: center; gap: 10px; height: 44px; width: min(320px, 30vw); min-width: 0; padding: 0 14px;
+  border-radius: 12px; background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .14); color: #A9BAD6;
 }
-.ico svg { width: 22px; height: 22px; }
-.chip { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); text-align: right; }
-.tool-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.tool-name { font-size: 17px; font-weight: 800; }
-.tool-desc { font-size: 14px; color: var(--muted); }
-.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--ink-2); }
-.legend span { display: inline-flex; align-items: center; gap: 6px; }
-.legend i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
-.tool-cta { margin-top: auto; display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: var(--navy); }
-.tool-cta .where { font-weight: 600; color: var(--muted); }
-.tool-cta svg { width: 16px; height: 16px; }
-.tool.soon { cursor: default; opacity: .75; }
-.tool.soon:hover { border-color: var(--line); box-shadow: none; }
-.tool-cta.soon-cta { color: var(--muted); font-weight: 600; }
+.busca:focus-within { border-color: #71BC6F; box-shadow: 0 0 0 3px rgba(113, 188, 111, .25); }
+.busca svg { width: 18px; height: 18px; }
+.busca input { flex: 1; min-width: 0; width: 100%; border: 0; outline: none; background: transparent; font: 600 15px var(--sans); color: #FFFFFF; }
+.busca input::placeholder { color: #8FA3C4; font-weight: 500; }
 
-.client {
-  display: flex; flex-wrap: wrap; align-items: center; gap: 20px; padding: 24px 26px;
-  border-radius: 16px; background: var(--navy); color: #FFFFFF;
+/* céu: estrelas em camadas e o brilho da Terra no pé da página */
+.ceu { position: relative; overflow: hidden; }
+.ceu::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .9;
+  background-image:
+    radial-gradient(1px 1px at 23px 41px, rgba(255,255,255,.85), transparent),
+    radial-gradient(1px 1px at 141px 97px, rgba(255,255,255,.6), transparent),
+    radial-gradient(1.5px 1.5px at 209px 183px, rgba(255,255,255,.75), transparent),
+    radial-gradient(1px 1px at 77px 221px, rgba(255,255,255,.5), transparent),
+    radial-gradient(1px 1px at 263px 29px, rgba(255,255,255,.65), transparent),
+    radial-gradient(1px 1px at 331px 261px, rgba(255,255,255,.55), transparent),
+    radial-gradient(1.5px 1.5px at 389px 131px, rgba(255,255,255,.7), transparent),
+    radial-gradient(1px 1px at 461px 307px, rgba(255,255,255,.5), transparent);
+  background-size: 480px 340px;
 }
-.client .ico { width: 52px; height: 52px; border-radius: 13px; background: #1B5D9F; color: #FFFFFF; }
-.client .ico svg { width: 26px; height: 26px; }
-.client-text { flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
-.client-text strong { font-size: 19px; font-weight: 800; }
-.client-text span { font-size: 14px; color: var(--on-navy); }
-.client-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-.client .btn { border-color: #7FA3CC; background: transparent; color: #FFFFFF; }
-.client .btn:hover { border-color: #FFFFFF; }
-.client .btn.light { background: #FFFFFF; border-color: #FFFFFF; color: var(--navy); }
-.copy-msg { flex-basis: 100%; margin: 0; font-size: 13px; color: var(--on-navy); }
-.copy-msg input {
-  width: 100%; margin-top: 6px; padding: 8px 10px; border-radius: 8px; border: 0;
-  font: 500 13px var(--mono); color: var(--ink);
+.ceu::after {
+  content: ""; position: absolute; left: 50%; bottom: -46vw; z-index: -1; width: 150vw; height: 70vw; transform: translateX(-50%);
+  border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(48, 110, 210, .5), rgba(20, 60, 140, .2) 70%, rgba(4, 10, 23, 0));
 }
+.conteudo { max-width: 1180px; margin: 0 auto; padding: 52px max(40px, env(safe-area-inset-right, 0px)) 72px max(40px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 48px; }
 
-.empty {
-  padding: 28px; border: 1px dashed var(--line-2); border-radius: 14px; text-align: center; color: var(--muted);
-}
+.cab { display: flex; flex-direction: column; gap: 4px; }
+.cab .data { font-size: 14px; font-weight: 700; color: #8FB0D9; }
+.cab h2 { margin: 0; font-size: 42px; line-height: 1.1; font-weight: 800; letter-spacing: -.015em; color: #FFFFFF; }
+.cab p { margin: 6px 0 0; font-size: 17px; color: #A9BAD6; }
 
-.install {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;
-}
-.install-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
-.install-card h3 { margin: 0; font-size: 16px; font-weight: 800; }
-.install-card ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; color: var(--ink-2); font-size: 14px; }
+.empty { margin: 0; padding: 26px; border-radius: 18px; border: 1px dashed rgba(255, 255, 255, .22); color: #C9D6EA; text-align: center; }
 
-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
-footer p { margin: 0; max-width: 70ch; }
+/* áreas e cartões */
+.area { display: flex; flex-direction: column; gap: 16px; }
+.area h3 { margin: 0; display: flex; align-items: baseline; gap: 12px; font-size: 22px; font-weight: 800; color: #FFFFFF; }
+.area h3 small { font-size: 14px; font-weight: 600; color: #7F93B5; }
+.cartoes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.cartao {
+  --c1: #02488F; --c2: #0A2747; --tx: #02488F;
+  position: relative; display: flex; flex-direction: column; gap: 6px; min-height: 236px; padding: 24px; overflow: hidden;
+  border-radius: 24px; border: 1px solid rgba(255, 255, 255, .14); text-decoration: none; color: #FFFFFF;
+  background: radial-gradient(120% 90% at 100% 0%, rgba(255, 255, 255, .12), rgba(255, 255, 255, 0) 55%), linear-gradient(160deg, var(--c1), var(--c2));
+  transition: transform .18s ease, border-color .18s ease;
+}
+.cartao:hover { transform: translateY(-3px); border-color: rgba(255, 255, 255, .4); }
+.cartao:focus-visible { outline: 3px solid #71BC6F; outline-offset: 3px; }
+.cartao .ic { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; background: rgba(255, 255, 255, .15); margin-bottom: auto; }
+.cartao .ic svg { width: 26px; height: 26px; }
+.cartao b { margin-top: 18px; font-size: 22px; line-height: 1.15; font-weight: 800; }
+.cartao .desc { font-size: 14.5px; line-height: 1.45; color: rgba(244, 247, 252, .82); max-width: 40ch; }
+.cartao .bt { align-self: flex-start; margin-top: 14px; padding: 10px 16px; border-radius: 12px; background: #FFFFFF; color: var(--tx); font-weight: 800; font-size: 14.5px; }
+.cartao .onde { position: absolute; top: 22px; right: 22px; font-size: 12.5px; font-weight: 700; color: rgba(244, 247, 252, .75); }
+.cartao .legenda { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 4px; font-size: 12.5px; color: rgba(244, 247, 252, .85); }
+.cartao .legenda i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; }
+.cartao.largo { grid-column: span 2; }
+.cartao .marca { position: absolute; right: -24px; bottom: -40px; width: 240px; height: 240px; stroke-width: 1.2; color: rgba(255, 255, 255, .09); pointer-events: none; }
+/* cores por área */
+.a-cotacoes .cartao { --c1: #2E7A31; --c2: #154019; --tx: #2E7A31; }
+.a-clientes .cartao { --c1: #0A5BB0; --c2: #0A2747; --tx: #02488F; }
+.a-rotina .cartao { --c1: #4A6189; --c2: #1F2C44; --tx: #2C3E5E; }
+/* Syndex Cotações com a cena do Yvon fincando a bandeira */
+.cartao.foto {
+  min-height: 300px; justify-content: flex-end;
+  background: linear-gradient(90deg, rgba(4, 10, 23, .96) 0%, rgba(4, 10, 23, .78) 36%, rgba(4, 10, 23, 0) 66%), url(assets/capa-terra-1280.jpg) 88% 22% / 175% auto no-repeat, #040A17;
+}
+.cartao.foto .ic { display: none; }
+.cartao.foto b { font-size: 28px; max-width: 16ch; }
+.cartao.foto .desc { max-width: 30ch; }
+.cartao.foto .bt { color: #02488F; }
+/* página do cliente: cartão inteiro com dois botões */
+.cliente-cartao {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 20px; padding: 26px; border-radius: 24px;
+  background: radial-gradient(120% 120% at 100% 0%, rgba(255, 255, 255, .12), rgba(255, 255, 255, 0) 55%), linear-gradient(160deg, #1F8F84, #0E4A45);
+  border: 1px solid rgba(255, 255, 255, .14);
+}
+.cliente-cartao .ic { width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; background: rgba(255, 255, 255, .15); flex: none; }
+.cliente-cartao .ic svg { width: 28px; height: 28px; }
+.cliente-cartao .tx { flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.cliente-cartao .tx b { font-size: 22px; font-weight: 800; }
+.cliente-cartao .tx span { font-size: 14.5px; color: rgba(244, 247, 252, .85); }
+.cliente-acoes { display: flex; flex-wrap: wrap; gap: 10px; }
+.cliente-acoes .btn { border-color: rgba(255, 255, 255, .5); background: transparent; color: #FFFFFF; min-height: 46px; border-radius: 12px; }
+.cliente-acoes .btn.claro { background: #FFFFFF; border-color: #FFFFFF; color: #0E4A45; }
+.copy-msg { flex-basis: 100%; margin: 0; font-size: 13.5px; color: #DFF3F0; }
+.copy-msg input { width: 100%; margin-top: 6px; padding: 9px 11px; border-radius: 10px; border: 0; font: 600 13px var(--sans); color: var(--ink); }
+
+/* instalar e rodapé */
+.instalar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.vidro { display: flex; flex-direction: column; gap: 10px; padding: 22px; border-radius: 20px; background: linear-gradient(160deg, rgba(255, 255, 255, .085), rgba(255, 255, 255, .03)); border: 1px solid rgba(255, 255, 255, .12); }
+.vidro h4 { margin: 0; font-size: 17px; font-weight: 800; }
+.vidro ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; color: #C9D6EA; font-size: 14.5px; }
+.vidro .btn { align-self: flex-start; background: #71BC6F; border-color: #71BC6F; color: #0B2A10; }
+.rodape { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, .1); font-size: 13px; color: #8FA3C4; }
+.rodape p { margin: 0; max-width: 70ch; }
+.rodape a { color: #C9D6EA; }
+
+/* barra inferior (só no celular) */
+.bottomnav { display: none; }
 
 /* ---------- Capa (Terra + Yvon) ----------
    A capa ocupa a tela e fica "presa" enquanto a página rola um pouco: nesse trecho a cena
@@ -285,59 +274,62 @@ footer p { margin: 0; max-width: 70ch; }
   .bottomnav { transition: none; }
 }
 
-/* ---------- Celular ---------- */
+/* ---------- Telas médias e celular ---------- */
+@media (max-width: 1100px) {
+  .barra-nav a { padding: 8px 9px; font-size: 13.5px; }
+  .cartoes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 @media (max-width: 899px) {
   html { scroll-padding-top: 76px; }
-  .side { display: none; }
-  .topbar {
-    display: flex; align-items: center; gap: 10px; position: sticky; top: 0; z-index: 20;
-    padding: calc(12px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 12px max(16px, env(safe-area-inset-left, 0px));
-    background: rgba(243, 246, 251, .96); border-bottom: 1px solid var(--line);
-    backdrop-filter: blur(8px);
+  .hub { scroll-margin-top: -76px; }
+  .barra { gap: 12px; padding: calc(10px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px)); }
+  .barra-marca img { width: 92px; }
+  .barra-marca span { display: none; }
+  .barra-nav { display: none; }
+  .busca { width: auto; flex: 1; height: 42px; }
+  .conteudo { padding: 30px max(16px, env(safe-area-inset-right, 0px)) calc(110px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); gap: 36px; }
+  .cab h2 { font-size: 32px; }
+  .cab p { font-size: 15.5px; }
+  .area { gap: 12px; }
+  .area h3 { font-size: 19px; }
+  .cartoes { grid-template-columns: 1fr; gap: 12px; }
+  .cartao { min-height: 0; padding: 18px; border-radius: 20px; display: grid; grid-template-columns: 46px minmax(0, 1fr); column-gap: 14px; row-gap: 6px; align-items: center; }
+  .cartao .ic { width: 46px; height: 46px; border-radius: 14px; margin-bottom: 0; }
+  .cartao b { margin-top: 0; font-size: 19px; }
+  .cartao .desc, .cartao .legenda, .cartao .bt { grid-column: 1 / -1; }
+  .cartao .onde { position: static; grid-column: 1 / -1; order: 9; }
+  .cartao .marca { display: none; }
+  .cartao.foto { display: flex; align-items: stretch; }
+  .cartao .bt { justify-self: start; }
+  .cartao .bt { margin-top: 12px; }
+  .cartao.largo { grid-column: auto; }
+  .cartao.foto {
+    min-height: 360px;
+    background: linear-gradient(0deg, rgba(4, 10, 23, .96) 30%, rgba(4, 10, 23, .55) 52%, rgba(4, 10, 23, 0) 72%), url(assets/capa-terra-1280.jpg) 80% 10% / 220% auto no-repeat, #040A17;
   }
-  .topbar img { width: 26px; height: auto; }
-  .topbar strong { font-size: 17px; font-weight: 800; color: var(--navy); }
-  .main {
-    padding: 16px max(16px, env(safe-area-inset-right, 0px)) calc(100px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
-  }
-  .wrap { gap: 28px; }
-  .hero { padding: 20px 18px; gap: 16px; border-radius: 16px; }
-  .hello h1 { font-size: 28px; }
-  .hello p { font-size: 15px; }
-  .search { flex-basis: 100%; }
-  .shortcuts .btn { padding: 0 14px; font-size: 13px; }
-  .section { gap: 10px; }
-  .section-head h2 { font-size: 17px; }
-  .grid { grid-template-columns: 1fr; gap: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
-  .tool { flex-direction: row; align-items: center; gap: 12px; padding: 12px 14px; border: 0; border-radius: 0; box-shadow: none; }
-  .tool + .tool { border-top: 1px solid #E6EBF4; }
-  .tool:hover { box-shadow: none; background: #F6F9FD; }
-  .tool-top { display: contents; }
-  .ico { width: 38px; height: 38px; border-radius: 10px; }
-  .ico svg { width: 19px; height: 19px; }
-  .chip, .legend, .tool-cta .label, .tool-cta .where { display: none; }
-  .tool-text { flex: 1; gap: 0; }
-  .tool-name { font-size: 15px; font-weight: 700; }
-  .tool-desc { font-size: 12px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .tool-cta { margin: 0; color: #8A97B3; }
-  .client { padding: 18px; gap: 14px; }
-  .client .ico { width: 42px; height: 42px; }
-  .client-text strong { font-size: 16px; }
+  .cartao.foto b { font-size: 24px; }
+  .cliente-cartao { padding: 20px; gap: 14px; border-radius: 20px; }
+  .cliente-acoes { width: 100%; }
+  .cliente-acoes .btn { flex: 1 1 auto; justify-content: center; }
+  .instalar { grid-template-columns: 1fr; }
   .bottomnav {
-    display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
-    background: var(--surface); border-top: 1px solid var(--line);
+    display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+    background: rgba(4, 10, 23, .86); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+    border-top: 1px solid rgba(255, 255, 255, .1);
     padding: 6px max(8px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px));
   }
   .bottomnav a {
     flex: 1; min-height: 56px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
-    color: var(--muted); font-size: 11px; font-weight: 700; text-decoration: none;
+    color: #8FA3C4; font-size: 11px; font-weight: 700; text-decoration: none;
   }
-  .bottomnav a.on { color: var(--navy); font-weight: 800; }
+  .bottomnav a.on { color: #FFFFFF; }
+  .bottomnav a.on svg { color: #71BC6F; }
   .bottomnav svg { width: 22px; height: 22px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .tool { transition: none; }
+  .cartao { transition: none; }
+  .cartao:hover { transform: none; }
 }
 </style>
 </head>
@@ -405,183 +397,76 @@ footer p { margin: 0; max-width: 70ch; }
   </div>
 </section>
 
-<div class="app">
-
-  <!-- Menu lateral (computador) -->
-  <aside class="side" aria-label="Menu do portal">
-    <a class="brand" href="#inicio">
-      <img src="assets/syndex-logo.png" alt="Syndex — Diga sim para o sucesso." width="464" height="142">
-      <span>Portal interno</span>
-    </a>
-    <nav class="nav" aria-label="Seções">
-      <a href="#inicio" class="on" data-spy="inicio"><svg class="i"><use href="#i-home"/></svg><span class="label">Início</span></a>
-      <a href="#clientes" data-spy="clientes"><svg class="i"><use href="#i-users"/></svg><span class="label">Clientes</span><span class="n">5</span></a>
-      <a href="#cotacoes" data-spy="cotacoes"><svg class="i"><use href="#i-file"/></svg><span class="label">Cotações e propostas</span><span class="n">7</span></a>
-      <a href="#rotina" data-spy="rotina"><svg class="i"><use href="#i-bag"/></svg><span class="label">Rotina</span><span class="n">3</span></a>
-      <a href="#cliente" data-spy="cliente"><svg class="i"><use href="#i-chat"/></svg><span class="label">Para o cliente</span><span class="n">1</span></a>
-      <a href="https://syndex.com.br/" target="_blank" rel="noopener" class="nav-ext"><svg class="i"><use href="#i-ext"/></svg><span class="label">Site da Syndex</span></a>
+<div class="hub" id="inicio">
+  <!-- Barra fixa: logo, áreas e busca -->
+  <header class="barra">
+    <a class="barra-marca" href="#inicio"><img src="assets/syndex-logo-branco.png" alt="Syndex" width="458" height="141"><span>HUB</span></a>
+    <nav class="barra-nav" aria-label="Áreas do HUB">
+      <a href="#cotacoes" data-spy="cotacoes">Cotações e propostas</a>
+      <a href="#clientes" data-spy="clientes">Clientes</a>
+      <a href="#rotina" data-spy="rotina">Rotina</a>
+      <a href="#cliente" data-spy="cliente">Para o cliente</a>
     </nav>
-    <div class="side-foot">
-      <div class="mini">
-        <strong>Use no celular</strong>
-        <span>Adicione o portal à tela inicial e abra como um app.</span>
-        <a href="#instalar">Como instalar</a>
-      </div>
+    <div class="busca" role="search">
+      <svg class="i"><use href="#i-search"/></svg>
+      <label class="sr" for="busca">Buscar ferramenta</label>
+      <input id="busca" type="search" placeholder="Buscar ferramenta" autocomplete="off">
     </div>
-  </aside>
+  </header>
 
-  <div style="flex: 1; min-width: 0; display: flex; flex-direction: column;">
-    <!-- Topo (celular) -->
-    <header class="topbar">
-      <img src="assets/syndex-simbolo.png" alt="" width="105" height="141">
-      <strong>Portal Syndex</strong>
-    </header>
+  <div class="ceu">
+    <main class="conteudo">
+      <div class="cab">
+        <span class="data" id="hoje">&nbsp;</span>
+        <h2 id="saudacao">Olá!</h2>
+        <p>Escolha por onde começar.</p>
+      </div>
 
-    <main class="main" id="inicio">
-      <div class="wrap">
+      <p class="empty" id="vazio" hidden>Nenhuma ferramenta encontrada. Tente outra palavra, como “cotação” ou “despesa”.</p>
 
-        <!-- Boas-vindas -->
-        <div class="hero">
-          <div class="hero-top">
-            <div class="hello">
-              <span class="date" id="hoje">&nbsp;</span>
-              <h1 id="saudacao">Olá!</h1>
-              <p>As ferramentas da Syndex em um só lugar.</p>
-            </div>
-            <div class="search" role="search">
-              <label for="busca">Buscar ferramenta</label>
-              <div class="search-box">
-                <svg class="i"><use href="#i-search"/></svg>
-                <input id="busca" type="search" placeholder="Cotação, despesa, pricing…" autocomplete="off">
-              </div>
-            </div>
-          </div>
-          <div class="shortcuts">
-            <a class="btn primary" href="cotacao-frete/" target="_blank" rel="noopener"><svg class="i"><use href="#i-plus"/></svg>Nova cotação de frete</a>
-            <a class="btn" href="https://tomsoares10-dev.github.io/despesas-syndex/" target="_blank" rel="noopener">Lançar despesa de viagem</a>
-            <a class="btn" href="https://tomsoares10-dev.github.io/syndex-foto-grupo-whatsapp/" target="_blank" rel="noopener">Foto de grupo WhatsApp</a>
-          </div>
-        </div>
-
-        <p class="empty" id="vazio" hidden>Nenhuma ferramenta encontrada. Tente outra palavra, como “cotação” ou “despesa”.</p>
-
-        <!-- Clientes -->
-        <section class="section" id="clientes" aria-labelledby="t-clientes">
-          <div class="section-head"><h2 id="t-clientes">Clientes</h2><span>5 ferramentas</span></div>
-          <div class="grid">
-            <a class="tool" data-tool data-keys="crm acoes tarefas feito pendente" href="https://claude.ai/artifact/UTYDZ7Yiz9uVpCFu3c4wyU" target="_blank" rel="noopener">
-              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-check"/></svg></span><span class="chip">Feito · Não feito</span></div>
-              <div class="tool-text"><span class="tool-name">Syndex Ações</span><span class="tool-desc">O que já foi feito e o que falta fazer em cada cliente.</span></div>
-              <span class="tool-cta"><span class="label">Abrir</span> <span class="where">no Claude</span><svg class="i"><use href="#i-arrow"/></svg></span>
-            </a>
-            <a class="tool" data-tool data-keys="carteira estado cidade mapa status" href="https://claude.ai/artifact/Rw2DmPBMvqrumYUm1ZvKFY" target="_blank" rel="noopener">
-              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-pin"/></svg></span><span class="chip">Estado · Cidade</span></div>
-              <div class="tool-text"><span class="tool-name">Carteira por estado</span><span class="tool-desc">Clientes separados por estado e cidade, com o status de cada um.</span></div>
-              <div class="legend" aria-label="Legenda de status">
-                <span><i style="background:#2E9E44"></i>Em contato</span>
-                <span><i style="background:#E2B007"></i>Retomar</span>
-                <span><i style="background:#D14343"></i>Sem contato</span>
-              </div>
-              <span class="tool-cta"><span class="label">Abrir</span> <span class="where">no Claude</span><svg class="i"><use href="#i-arrow"/></svg></span>
-            </a>
-            <a class="tool" data-tool data-keys="clientes ativos carteira frete importacao desembaraco exportacao documento" href="https://claude.ai/code/artifact/bb19b717-4db6-4d15-b482-61c9fd01d98a" target="_blank" rel="noopener">
-              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-briefcase"/></svg></span><span class="chip">Documento</span></div>
-              <div class="tool-text"><span class="tool-name">Clientes Ativos</span><span class="tool-desc">Carteira ativa por frete de importação e desembaraço de importação e exportação.</span></div>
-              <span class="tool-cta"><span class="label">Abrir</span> <span class="where">no Claude</span><svg class="i"><use href="#i-arrow"/></svg></span>
-            </a>
-            <a class="tool" data-tool data-keys="diario visitas agenda reuniao cliente temperatura objecoes proximo passo relatorio mes pdf" href="visitas/" target="_blank" rel="noopener">
-              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-calendar"/></svg></span><span class="chip">Relatório do mês</span></div>
-              <div class="tool-text"><span class="tool-name">Diário de Visitas</span><span class="tool-desc">Agenda de visitas, anotações, próximos passos e relatório do mês em PDF.</span></div>
-              <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
-            </a>
-            <a class="tool" data-tool data-keys="chat whatsapp comercial conversas follow-up etiquetas prototipo" href="chat/" target="_blank" rel="noopener">
-              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-chat"/></svg></span><span class="chip">Protótipo</span></div>
-              <div class="tool-text"><span class="tool-name">Syndex Chat</span><span class="tool-desc">WhatsApp comercial: conversas por etapa, follow-up e pedido de cotação. Layout de teste.</span></div>
-              <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
-            </a>
+        <section class="area a-cotacoes" id="cotacoes" aria-labelledby="t-cotacoes">
+          <h3 id="t-cotacoes">Cotações e propostas<small>8 ferramentas</small></h3>
+          <div class="cartoes">
+              <a class="cartao foto largo" data-tool data-keys="cotacao frete maritimo container conteiner armador pdf" href="cotacao-frete/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-ship"/></svg></span><b>Syndex Cotações</b><span class="desc">Cotação de frete marítimo em PDF: portos, armador, frete por contêiner, freetime e validade.</span><span class="bt">Nova cotação</span></a>
+              <a class="cartao" data-tool data-keys="proposta comercial gerador pdf" href="propostas/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-doc"/></svg></span><b>Gerador de propostas</b><span class="desc">Proposta comercial no padrão visual da Syndex, pronta para enviar.</span><span class="bt">Montar proposta</span></a>
+              <a class="cartao" data-tool data-keys="pricing ficha cadastro cnpj cep operacao" href="pricing/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-clip"/></svg></span><b>Solicitação para Pricing</b><span class="desc">Dados do cliente e da operação para o time de pricing, com CEP preenchido sozinho.</span><span class="bt">Preencher a ficha</span></a>
+              <a class="cartao" data-tool data-keys="mini proposta frete rodoviario carreta ls rodotrem rota mapa estimativa pdf" href="mini-proposta/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-truck"/></svg></span><b>Mini proposta rodoviária</b><span class="desc">Estimativa de frete rodoviário com rota, mini mapa, Carreta LS e Rodotrem.</span><span class="bt">Cotar rodoviário</span></a>
+              <a class="cartao" data-tool data-keys="estimativa custo importacao despacho frete internacional checklist" href="estimativa/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-calc"/></svg></span><b>Estimativa de custo</b><span class="desc">Checklist de custo de importação: frete internacional e despacho.</span><span class="bt">Fazer a estimativa</span></a>
+              <a class="cartao" data-tool data-keys="ttd icms beneficio tratamento tributario diferenciado proposta abertura pdf" href="https://tomsoares10-dev.github.io/syndex-proposta-ttd/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-percent"/></svg></span><b>Proposta TTD</b><span class="desc">Abertura de TTD (Benefício ICMS): dados do cliente, valor e forma de pagamento, em PDF.</span><span class="bt">Montar proposta TTD</span></a>
+              <a class="cartao" data-tool data-keys="cupom especial honorario zero customs free cliente inativo gif email animado desembaraco black dourado exclusivo" href="cupom/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-ticket"/></svg></span><b>Cupom Especial</b><span class="desc">Cupom honorário zero com o nome da empresa, os seus contatos, a quantidade de processos e cartão Azul e verde, Black ou Dourado.</span><span class="bt">Gerar cupom</span></a>
+              <a class="cartao" data-tool data-keys="programa indicacao comissao parceiro honorario proposta documento" href="https://claude.ai/code/artifact/c7d22d8a-c0e9-44c4-8905-a955f8d3c8eb" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-gift"/></svg></span><span class="onde">abre no Claude</span><b>Programa de Indicação</b><span class="desc">Proposta do programa de comissão por indicação de novos clientes.</span><span class="bt">Ver o programa</span></a>
           </div>
         </section>
-
-        <!-- Cotações e propostas -->
-        <section class="section" id="cotacoes" aria-labelledby="t-cotacoes">
-          <div class="section-head"><h2 id="t-cotacoes">Cotações e propostas</h2><span>8 ferramentas</span></div>
-          <div class="grid">
-            <a class="tool" data-tool data-keys="cotacao frete maritimo container conteiner armador pdf" href="cotacao-frete/" target="_blank" rel="noopener">
-              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-ship"/></svg></span><span class="chip">Marítimo · PDF</span></div>
-              <div class="tool-text"><span class="tool-name">Syndex Cotações</span><span class="tool-desc">Cotação de frete marítimo em PDF: portos, armador, frete por contêiner, freetime e validade.</span></div>
-              <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
-            </a>
-            <a class="tool" data-tool data-keys="pricing ficha cadastro cnpj cep operacao" href="pricing/" target="_blank" rel="noopener">
-              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-clip"/></svg></span><span class="chip">Ficha · PDF</span></div>
-              <div class="tool-text"><span class="tool-name">Solicitação para Pricing</span><span class="tool-desc">Dados do cliente e da operação para o time de pricing, com CEP preenchido sozinho.</span></div>
-              <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
-            </a>
-            <a class="tool" data-tool data-keys="proposta comercial gerador pdf" href="propostas/" target="_blank" rel="noopener">
-              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-doc"/></svg></span><span class="chip">Proposta · PDF</span></div>
-              <div class="tool-text"><span class="tool-name">Gerador de propostas</span><span class="tool-desc">Proposta comercial no padrão visual da Syndex, pronta para enviar.</span></div>
-              <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
-            </a>
-            <a class="tool" data-tool data-keys="ttd icms beneficio tratamento tributario diferenciado proposta abertura pdf" href="https://tomsoares10-dev.github.io/syndex-proposta-ttd/" target="_blank" rel="noopener">
-              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-percent"/></svg></span><span class="chip">ICMS · PDF</span></div>
-              <div class="tool-text"><span class="tool-name">Proposta TTD</span><span class="tool-desc">Abertura de TTD (Benefício ICMS): dados do cliente, valor e forma de pagamento, em PDF.</span></div>
-              <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
-            </a>
-            <a class="tool" data-tool data-keys="estimativa custo importacao despacho frete internacional checklist" href="estimativa/" target="_blank" rel="noopener">
-              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-calc"/></svg></span><span class="chip">1 página</span></div>
-              <div class="tool-text"><span class="tool-name">Estimativa de custo</span><span class="tool-desc">Checklist de custo de importação: frete internacional e despacho.</span></div>
-              <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
-            </a>
-            <a class="tool" data-tool data-keys="mini proposta frete rodoviario carreta ls rodotrem rota mapa estimativa pdf" href="mini-proposta/" target="_blank" rel="noopener">
-              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-truck"/></svg></span><span class="chip">Rodoviário · PDF</span></div>
-              <div class="tool-text"><span class="tool-name">Mini proposta rodoviária</span><span class="tool-desc">Estimativa de frete rodoviário com rota, mini mapa, Carreta LS e Rodotrem.</span></div>
-              <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
-            </a>
-            <a class="tool" data-tool data-keys="cupom especial honorario zero customs free cliente inativo gif email animado desembaraco black dourado exclusivo" href="cupom/" target="_blank" rel="noopener">
-              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-ticket"/></svg></span><span class="chip">GIF · PNG</span></div>
-              <div class="tool-text"><span class="tool-name">Cupom Especial</span><span class="tool-desc">Cupom honorário zero com o nome da empresa, os seus contatos, a quantidade de processos e cartão Azul e verde, Black ou Dourado.</span></div>
-              <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
-            </a>
-            <a class="tool" data-tool data-keys="programa indicacao comissao parceiro honorario proposta documento" href="https://claude.ai/code/artifact/c7d22d8a-c0e9-44c4-8905-a955f8d3c8eb" target="_blank" rel="noopener">
-              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-gift"/></svg></span><span class="chip">Documento</span></div>
-              <div class="tool-text"><span class="tool-name">Programa de Indicação</span><span class="tool-desc">Proposta do programa de comissão por indicação de novos clientes.</span></div>
-              <span class="tool-cta"><span class="label">Abrir</span> <span class="where">no Claude</span><svg class="i"><use href="#i-arrow"/></svg></span>
-            </a>
+        <section class="area a-clientes" id="clientes" aria-labelledby="t-clientes">
+          <h3 id="t-clientes">Clientes<small>5 ferramentas</small></h3>
+          <div class="cartoes">
+              <a class="cartao largo" data-tool data-keys="diario visitas agenda reuniao cliente temperatura objecoes proximo passo relatorio mes pdf" href="visitas/" target="_blank" rel="noopener"><svg class="i marca" aria-hidden="true"><use href="#i-calendar"/></svg><span class="ic"><svg class="i"><use href="#i-calendar"/></svg></span><b>Diário de Visitas</b><span class="desc">Agenda de visitas, anotações, próximos passos e relatório do mês em PDF.</span><span class="bt">Registrar visita</span></a>
+              <a class="cartao" data-tool data-keys="crm acoes tarefas feito pendente" href="https://claude.ai/artifact/UTYDZ7Yiz9uVpCFu3c4wyU" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-check"/></svg></span><span class="onde">abre no Claude</span><b>Syndex Ações</b><span class="desc">O que já foi feito e o que falta fazer em cada cliente.</span><span class="bt">Ver pendências</span></a>
+              <a class="cartao" data-tool data-keys="carteira estado cidade mapa status" href="https://claude.ai/artifact/Rw2DmPBMvqrumYUm1ZvKFY" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-pin"/></svg></span><span class="onde">abre no Claude</span><b>Carteira por estado</b><span class="desc">Clientes separados por estado e cidade, com o status de cada um.</span><span class="legenda" aria-label="Legenda de status"><span><i style="background:#2E9E44"></i>Em contato</span><span><i style="background:#E2B007"></i>Retomar</span><span><i style="background:#D14343"></i>Sem contato</span></span><span class="bt">Ver a carteira</span></a>
+              <a class="cartao" data-tool data-keys="clientes ativos carteira frete importacao desembaraco exportacao documento" href="https://claude.ai/code/artifact/bb19b717-4db6-4d15-b482-61c9fd01d98a" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-briefcase"/></svg></span><span class="onde">abre no Claude</span><b>Clientes Ativos</b><span class="desc">Carteira ativa por frete de importação e desembaraço de importação e exportação.</span><span class="bt">Ver clientes ativos</span></a>
+              <a class="cartao" data-tool data-keys="chat whatsapp comercial conversas follow-up etiquetas prototipo" href="chat/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-chat"/></svg></span><b>Syndex Chat</b><span class="desc">WhatsApp comercial: conversas por etapa, follow-up e pedido de cotação. Layout de teste.</span><span class="bt">Abrir conversas</span></a>
           </div>
         </section>
-
-        <!-- Rotina -->
-        <section class="section" id="rotina" aria-labelledby="t-rotina">
-          <div class="section-head"><h2 id="t-rotina">Rotina</h2><span>3 ferramentas</span></div>
-          <div class="grid">
-            <a class="tool" data-tool data-keys="despesa viagem reembolso km nota rq 04 079 relatorio" href="https://tomsoares10-dev.github.io/despesas-syndex/" target="_blank" rel="noopener">
-              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-receipt"/></svg></span><span class="chip">RQ 04 079</span></div>
-              <div class="tool-text"><span class="tool-name">Despesas de viagem</span><span class="tool-desc">Lance cada despesa com foto da nota. O relatório sai assinado, com km a R$ 1,65.</span></div>
-              <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
-            </a>
-            <a class="tool" data-tool data-keys="reposicao materiais falta limpeza copa escritorio rh" href="https://claude.ai/artifact/CFqqwFx4yi2RZcCpc6vhEA" target="_blank" rel="noopener">
-              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-box"/></svg></span><span class="chip">PDF para o RH</span></div>
-              <div class="tool-text"><span class="tool-name">Syndex Reposição</span><span class="tool-desc">Checklist de materiais em falta: escritório, limpeza, copa e informática.</span></div>
-              <span class="tool-cta"><span class="label">Abrir</span> <span class="where">no Claude</span><svg class="i"><use href="#i-arrow"/></svg></span>
-            </a>
-            <a class="tool" data-tool data-keys="foto grupo whatsapp logo matriz perfil" href="https://tomsoares10-dev.github.io/syndex-foto-grupo-whatsapp/" target="_blank" rel="noopener">
-              <div class="tool-top"><span class="ico"><svg class="i"><use href="#i-photo"/></svg></span><span class="chip">PNG 640×640</span></div>
-              <div class="tool-text"><span class="tool-name">Foto de grupo WhatsApp</span><span class="tool-desc">Um ou vários logos, uma ou duas empresas por foto. Baixe as fotos de grupo na matriz Syndex, em 640×640.</span></div>
-              <span class="tool-cta"><span class="label">Abrir</span><svg class="i"><use href="#i-arrow"/></svg></span>
-            </a>
+        <section class="area a-rotina" id="rotina" aria-labelledby="t-rotina">
+          <h3 id="t-rotina">Rotina<small>3 ferramentas</small></h3>
+          <div class="cartoes">
+              <a class="cartao" data-tool data-keys="despesa viagem reembolso km nota rq 04 079 relatorio" href="https://tomsoares10-dev.github.io/despesas-syndex/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-receipt"/></svg></span><b>Despesas de viagem</b><span class="desc">Lance cada despesa com foto da nota. O relatório sai assinado, com km a R$ 1,65.</span><span class="bt">Lançar despesa</span></a>
+              <a class="cartao" data-tool data-keys="reposicao materiais falta limpeza copa escritorio rh" href="https://claude.ai/artifact/CFqqwFx4yi2RZcCpc6vhEA" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-box"/></svg></span><span class="onde">abre no Claude</span><b>Syndex Reposição</b><span class="desc">Checklist de materiais em falta: escritório, limpeza, copa e informática.</span><span class="bt">Pedir reposição</span></a>
+              <a class="cartao" data-tool data-keys="foto grupo whatsapp logo matriz perfil" href="https://tomsoares10-dev.github.io/syndex-foto-grupo-whatsapp/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-photo"/></svg></span><b>Foto de grupo WhatsApp</b><span class="desc">Um ou vários logos, uma ou duas empresas por foto. Baixe as fotos de grupo na matriz Syndex, em 640×640.</span><span class="bt">Criar foto</span></a>
           </div>
         </section>
 
         <!-- Para o cliente -->
-        <section class="section" id="cliente" aria-labelledby="t-cliente" data-tool data-keys="peca sua cotacao cliente whatsapp maritimo aereo rodoviario link">
-          <div class="section-head"><h2 id="t-cliente">Para o cliente</h2><span>Página pública</span></div>
-          <div class="client">
-            <span class="ico"><svg class="i"><use href="#i-chat"/></svg></span>
-            <div class="client-text">
-              <strong>Peça sua cotação</strong>
+        <section class="area a-cliente" id="cliente" aria-labelledby="t-cliente">
+          <h3 id="t-cliente">Para o cliente<small>página pública</small></h3>
+          <div class="cliente-cartao" data-tool data-keys="peca sua cotacao cliente whatsapp maritimo aereo rodoviario link">
+            <span class="ic"><svg class="i"><use href="#i-phone"/></svg></span>
+            <div class="tx">
+              <b>Peça sua cotação</b>
               <span>O cliente escolhe marítimo, aéreo ou rodoviário, preenche os dados e o pedido chega no WhatsApp.</span>
             </div>
-            <div class="client-actions">
-              <button type="button" class="btn light" id="copiar-link"><svg class="i"><use href="#i-copy"/></svg>Copiar link para o cliente</button>
+            <div class="cliente-acoes">
+              <button type="button" class="btn claro" id="copiar-link"><svg class="i"><use href="#i-copy"/></svg>Copiar link para o cliente</button>
               <a class="btn" href="cotacao/" target="_blank" rel="noopener">Ver a página</a>
             </div>
             <p class="copy-msg" id="copy-msg" role="status" aria-live="polite" hidden></p>
@@ -589,20 +474,20 @@ footer p { margin: 0; max-width: 70ch; }
         </section>
 
         <!-- Instalar -->
-        <section class="section" id="instalar" aria-labelledby="t-instalar">
-          <div class="section-head"><h2 id="t-instalar">Use no celular</h2><span>Como um app</span></div>
-          <div class="install">
-            <div class="install-card">
-              <h3>Android (Chrome)</h3>
+        <section class="area" id="instalar" aria-labelledby="t-instalar">
+          <h3 id="t-instalar">Use no celular<small>como um app</small></h3>
+          <div class="instalar">
+            <div class="vidro">
+              <h4>Android (Chrome)</h4>
               <ol>
                 <li>Abra este portal no Chrome.</li>
                 <li>Toque no menu <b>⋮</b> e em <b>Instalar app</b> ou <b>Adicionar à tela inicial</b>.</li>
                 <li>Abra sempre pelo ícone da Syndex.</li>
               </ol>
-              <button type="button" class="btn primary" id="instalar-btn" hidden><svg class="i"><use href="#i-phone"/></svg>Instalar agora</button>
+              <button type="button" class="btn" id="instalar-btn" hidden><svg class="i"><use href="#i-phone"/></svg>Instalar agora</button>
             </div>
-            <div class="install-card">
-              <h3>iPhone (Safari)</h3>
+            <div class="vidro">
+              <h4>iPhone (Safari)</h4>
               <ol>
                 <li>Abra este portal no Safari.</li>
                 <li>Toque em <b>Compartilhar</b> e em <b>Adicionar à Tela de Início</b>.</li>
@@ -612,12 +497,10 @@ footer p { margin: 0; max-width: 70ch; }
           </div>
         </section>
 
-        <footer>
+        <footer class="rodape">
           <span>Syndex Logística e Gestão Aduaneira · Portal interno · <a href="https://syndex.com.br/" target="_blank" rel="noopener">syndex.com.br</a></span>
-          <p>As ferramentas marcadas “no Claude” abrem em links do Claude e só funcionam para quem recebeu acesso. Peça ao Tomás.</p>
+          <p>As ferramentas que abrem no Claude só funcionam para quem recebeu acesso. Peça ao Tomás.</p>
         </footer>
-
-      </div>
     </main>
   </div>
 </div>
@@ -625,8 +508,8 @@ footer p { margin: 0; max-width: 70ch; }
 <!-- Barra inferior (celular) -->
 <nav class="bottomnav" aria-label="Navegação principal">
   <a href="#inicio" class="on" data-spy="inicio"><svg class="i"><use href="#i-home"/></svg>Início</a>
-  <a href="#clientes" data-spy="clientes"><svg class="i"><use href="#i-users"/></svg>Clientes</a>
   <a href="#cotacoes" data-spy="cotacoes"><svg class="i"><use href="#i-file"/></svg>Cotações</a>
+  <a href="#clientes" data-spy="clientes"><svg class="i"><use href="#i-users"/></svg>Clientes</a>
   <a href="#rotina" data-spy="rotina"><svg class="i"><use href="#i-bag"/></svg>Rotina</a>
 </nav>
 
@@ -658,7 +541,6 @@ footer p { margin: 0; max-width: 70ch; }
       if (ok) total++;
     });
     secoes.forEach(function (s) {
-      if (s.hasAttribute('data-tool')) return;
       var algum = s.querySelector('[data-tool]:not([hidden])');
       s.hidden = !algum;
     });
