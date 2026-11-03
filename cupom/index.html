@@ -183,13 +183,13 @@ kbd { font: 600 12px ui-monospace, "SFMono-Regular", Menlo, monospace; backgroun
           <input type="number" id="qtd" min="1" max="20" step="1" value="1" inputmode="numeric">
           <button type="button" class="step" id="qtd-mais" aria-label="Aumentar a quantidade">+</button>
         </div>
-        <p class="hint">Muda o "1 processo" da frente, a chamada e as regras do verso. Com 10 processos, dá para escolher o cartão exclusivo black ou dourado.</p>
-        <div class="premium" id="premium" hidden>
+        <p class="hint">Muda o "1 processo" da frente, a chamada e as regras do verso.</p>
+        <div class="premium" id="premium">
           <span class="label">Estilo do cartão</span>
           <div class="seg" role="radiogroup" aria-label="Estilo do cartão exclusivo">
-            <input type="radio" name="tema" id="tema-black" value="black" checked><label for="tema-black"><i class="amostra black" aria-hidden="true"></i>Black</label>
+            <input type="radio" name="tema" id="tema-padrao" value="padrao" checked><label for="tema-padrao"><i class="amostra padrao" aria-hidden="true"></i>Azul e verde</label>
+            <input type="radio" name="tema" id="tema-black" value="black"><label for="tema-black"><i class="amostra black" aria-hidden="true"></i>Black</label>
             <input type="radio" name="tema" id="tema-gold" value="gold"><label for="tema-gold"><i class="amostra gold" aria-hidden="true"></i>Dourado</label>
-            <input type="radio" name="tema" id="tema-padrao" value="padrao"><label for="tema-padrao"><i class="amostra padrao" aria-hidden="true"></i>Azul e verde</label>
           </div>
         </div>
       </div>
@@ -371,10 +371,9 @@ kbd { font: 600 12px ui-monospace, "SFMono-Regular", Menlo, monospace; backgroun
   // ---------- frente do cartão com o nome ----------
   var IMG = {};
   function tema() {
-    if (qtd() !== 10) return "padrao";
     var r = document.querySelector('input[name="tema"]:checked');
     if (r && r.value === "padrao") return "padrao";
-    return r && TEMAS[r.value] ? r.value : "black";
+    return r && TEMAS[r.value] ? r.value : "padrao";
   }
   function cor(k, padrao) { var t = tema(); return t === "padrao" ? padrao : (TEMAS[t].cores[k] || padrao); }
   var TW = 1123, TH = 622;
@@ -491,7 +490,6 @@ kbd { font: 600 12px ui-monospace, "SFMono-Regular", Menlo, monospace; backgroun
 
   function atualiza() {
     $("qtd-menos").disabled = qtd() <= 1; $("qtd-mais").disabled = qtd() >= 20;
-    $("premium").hidden = qtd() !== 10;
     var n = nomeAtual();
     var cortado = desenhaFrente(cvFrente, n);
     hint.textContent = cortado ? "Nome muito longo: ele foi cortado. Use uma versão mais curta." : (n ? "Aparece na frente do cartão, abaixo de \"Especial para\"." : "Digite o nome para ver na prévia.");
