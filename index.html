@@ -117,53 +117,53 @@ body { background: #040A17; }
 .area h3 { margin: 0; display: flex; align-items: baseline; gap: 12px; font-size: 22px; font-weight: 800; color: #FFFFFF; }
 .area h3 small { font-size: 14px; font-weight: 600; color: #7F93B5; }
 .cartoes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+/* As 4 cores dos cartões. Cada pessoa escolhe a de cada ferramenta em "Configuração" (fica no aparelho). */
+.cor-verde  { --c1: #2E7A31; --c2: #154019; --t: #FFFFFF; --t2: rgba(244, 247, 252, .84); --ic-bg: rgba(255, 255, 255, .15); --ic: #FFFFFF; --bt-bg: #FFFFFF; --bt-tx: #2E7A31; --borda: rgba(255, 255, 255, .14); --borda-bt: rgba(255, 255, 255, .5); --marca: rgba(255, 255, 255, .09); --brilho: rgba(255, 255, 255, .12); --veu: 21, 64, 25; }
+.cor-azul   { --c1: #0A5BB0; --c2: #0A2747; --t: #FFFFFF; --t2: rgba(244, 247, 252, .84); --ic-bg: rgba(255, 255, 255, .15); --ic: #FFFFFF; --bt-bg: #FFFFFF; --bt-tx: #02488F; --borda: rgba(255, 255, 255, .14); --borda-bt: rgba(255, 255, 255, .5); --marca: rgba(255, 255, 255, .09); --brilho: rgba(255, 255, 255, .12); --veu: 2, 52, 110; }
+.cor-preto  { --c1: #1B212C; --c2: #05070B; --t: #FFFFFF; --t2: rgba(232, 238, 248, .8); --ic-bg: rgba(255, 255, 255, .1); --ic: #FFFFFF; --bt-bg: #FFFFFF; --bt-tx: #0B0F17; --borda: rgba(255, 255, 255, .17); --borda-bt: rgba(255, 255, 255, .45); --marca: rgba(255, 255, 255, .07); --brilho: rgba(255, 255, 255, .07); --veu: 4, 7, 12; }
+.cor-branco { --c1: #FFFFFF; --c2: #E6EDF7; --t: #0A2747; --t2: #3A4B70; --ic-bg: #E3ECF8; --ic: #02488F; --bt-bg: #02488F; --bt-tx: #FFFFFF; --borda: rgba(255, 255, 255, .7); --borda-bt: rgba(2, 72, 143, .35); --marca: rgba(2, 72, 143, .07); --brilho: rgba(255, 255, 255, .7); --veu: 255, 255, 255; }
 .cartao {
-  --c1: #02488F; --c2: #0A2747; --tx: #02488F;
   position: relative; display: flex; flex-direction: column; gap: 6px; min-height: 236px; padding: 24px; overflow: hidden;
-  border-radius: 24px; border: 1px solid rgba(255, 255, 255, .14); text-decoration: none; color: #FFFFFF;
-  background: radial-gradient(120% 90% at 100% 0%, rgba(255, 255, 255, .12), rgba(255, 255, 255, 0) 55%), linear-gradient(160deg, var(--c1), var(--c2));
+  border-radius: 24px; border: 1px solid var(--borda); text-decoration: none; color: var(--t);
+  background: radial-gradient(120% 90% at 100% 0%, var(--brilho), rgba(255, 255, 255, 0) 55%), linear-gradient(160deg, var(--c1), var(--c2));
   transition: transform .18s ease, border-color .18s ease;
 }
+.hub .cartao { color: var(--t); }   /* vence o "a { color: inherit }" da página, para o título seguir a cor do cartão */
 .cartao:hover { transform: translateY(-3px); border-color: rgba(255, 255, 255, .4); }
 .cartao:focus-visible { outline: 3px solid #71BC6F; outline-offset: 3px; }
-.cartao .ic { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; background: rgba(255, 255, 255, .15); margin-bottom: auto; }
+.cartao .ic { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; background: var(--ic-bg); color: var(--ic); margin-bottom: auto; }
 .cartao .ic svg { width: 26px; height: 26px; }
 .cartao b { margin-top: 18px; font-size: 22px; line-height: 1.15; font-weight: 800; }
-.cartao .desc { font-size: 14.5px; line-height: 1.45; color: rgba(244, 247, 252, .82); max-width: 40ch; }
-.cartao .bt { align-self: flex-start; margin-top: 14px; padding: 10px 16px; border-radius: 12px; background: #FFFFFF; color: var(--tx); font-weight: 800; font-size: 14.5px; }
-.cartao .onde { position: absolute; top: 22px; right: 22px; font-size: 12.5px; font-weight: 700; color: rgba(244, 247, 252, .75); }
-.cartao .legenda { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 4px; font-size: 12.5px; color: rgba(244, 247, 252, .85); }
+.cartao .desc { font-size: 14.5px; line-height: 1.45; color: var(--t2); max-width: 40ch; }
+.cartao .bt { align-self: flex-start; margin-top: 14px; padding: 10px 16px; border-radius: 12px; background: var(--bt-bg); color: var(--bt-tx); font-weight: 800; font-size: 14.5px; }
+.cartao .onde { position: absolute; top: 22px; right: 22px; font-size: 12.5px; font-weight: 700; color: var(--t2); }
+.cartao .legenda { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 4px; font-size: 12.5px; color: var(--t2); }
 .cartao .legenda i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; }
 .cartao.largo { grid-column: span 2; }
-.cartao .marca { position: absolute; right: -24px; bottom: -40px; width: 240px; height: 240px; stroke-width: 1.2; color: rgba(255, 255, 255, .09); pointer-events: none; }
-/* cores por área */
-.a-cotacoes .cartao { --c1: #2E7A31; --c2: #154019; --tx: #2E7A31; }
-.a-clientes .cartao { --c1: #0A5BB0; --c2: #0A2747; --tx: #02488F; }
-.a-rotina .cartao { --c1: #4A6189; --c2: #1F2C44; --tx: #2C3E5E; }
+.cartao .marca { position: absolute; right: -24px; bottom: -40px; width: 240px; height: 240px; stroke-width: 1.2; color: var(--marca); pointer-events: none; }
 /* Syndex Cotações com a cena do Yvon fincando a bandeira */
 .cartao.foto {
   min-height: 300px; justify-content: flex-end;
-  background: linear-gradient(90deg, rgba(4, 10, 23, .96) 0%, rgba(4, 10, 23, .78) 36%, rgba(4, 10, 23, 0) 66%), url(assets/capa-terra-1280.jpg) 88% 22% / 175% auto no-repeat, #040A17;
+  background: linear-gradient(90deg, rgba(var(--veu), .96) 0%, rgba(var(--veu), .8) 36%, rgba(var(--veu), 0) 66%), url(assets/capa-terra-1280.jpg) 88% 22% / 175% auto no-repeat, #040A17;
 }
 .cartao.foto .ic { display: none; }
 .cartao.foto b { font-size: 28px; max-width: 16ch; }
 .cartao.foto .desc { max-width: 30ch; }
-.cartao.foto .bt { color: #02488F; }
 /* página do cliente: cartão inteiro com dois botões */
 .cliente-cartao {
-  display: flex; flex-wrap: wrap; align-items: center; gap: 20px; padding: 26px; border-radius: 24px;
-  background: radial-gradient(120% 120% at 100% 0%, rgba(255, 255, 255, .12), rgba(255, 255, 255, 0) 55%), linear-gradient(160deg, #1F8F84, #0E4A45);
-  border: 1px solid rgba(255, 255, 255, .14);
+  display: flex; flex-wrap: wrap; align-items: center; gap: 20px; padding: 26px; border-radius: 24px; color: var(--t);
+  background: radial-gradient(120% 120% at 100% 0%, var(--brilho), rgba(255, 255, 255, 0) 55%), linear-gradient(160deg, var(--c1), var(--c2));
+  border: 1px solid var(--borda);
 }
-.cliente-cartao .ic { width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; background: rgba(255, 255, 255, .15); flex: none; }
+.cliente-cartao .ic { width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; background: var(--ic-bg); color: var(--ic); flex: none; }
 .cliente-cartao .ic svg { width: 28px; height: 28px; }
 .cliente-cartao .tx { flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
 .cliente-cartao .tx b { font-size: 22px; font-weight: 800; }
-.cliente-cartao .tx span { font-size: 14.5px; color: rgba(244, 247, 252, .85); }
+.cliente-cartao .tx span { font-size: 14.5px; color: var(--t2); }
 .cliente-acoes { display: flex; flex-wrap: wrap; gap: 10px; }
-.cliente-acoes .btn { border-color: rgba(255, 255, 255, .5); background: transparent; color: #FFFFFF; min-height: 46px; border-radius: 12px; }
-.cliente-acoes .btn.claro { background: #FFFFFF; border-color: #FFFFFF; color: #0E4A45; }
-.copy-msg { flex-basis: 100%; margin: 0; font-size: 13.5px; color: #DFF3F0; }
+.cliente-acoes .btn { border-color: var(--borda-bt); background: transparent; color: var(--t); min-height: 46px; border-radius: 12px; }
+.cliente-acoes .btn.claro { background: var(--bt-bg); border-color: var(--bt-bg); color: var(--bt-tx); }
+.copy-msg { flex-basis: 100%; margin: 0; font-size: 13.5px; color: var(--t2); }
 .copy-msg input { width: 100%; margin-top: 6px; padding: 9px 11px; border-radius: 10px; border: 0; font: 600 13px var(--sans); color: var(--ink); }
 
 /* instalar e rodapé */
@@ -175,6 +175,40 @@ body { background: #040A17; }
 .rodape { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, .1); font-size: 13px; color: #8FA3C4; }
 .rodape p { margin: 0; max-width: 70ch; }
 .rodape a { color: #C9D6EA; }
+
+/* Configuração: botão na barra e painel lateral com a cor de cada ferramenta */
+.config-bt {
+  flex: none; display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 14px; border-radius: 12px; cursor: pointer;
+  background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .14); color: #DCE6F5; font: 700 14px var(--sans);
+}
+.config-bt:hover { color: #FFFFFF; border-color: rgba(255, 255, 255, .3); }
+.config-bt svg { width: 19px; height: 19px; }
+.config {
+  position: fixed; inset: 0 0 0 auto; margin: 0; width: min(470px, 100vw); max-width: 100vw; height: 100%; max-height: none; padding: 0;
+  border: 0; border-left: 1px solid rgba(255, 255, 255, .12); background: #08101F; color: #F4F7FC; display: none; flex-direction: column;
+}
+.config[open] { display: flex; animation: config-entra .22s ease-out; }
+.config::backdrop { background: rgba(2, 6, 14, .55); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+@keyframes config-entra { from { transform: translateX(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+.config-topo { display: flex; align-items: flex-start; gap: 12px; padding: calc(22px + env(safe-area-inset-top, 0px)) 22px 16px; border-bottom: 1px solid rgba(255, 255, 255, .08); }
+.config-topo h2 { margin: 0; font-size: 22px; font-weight: 800; }
+.config-topo p { margin: 4px 0 0; font-size: 14px; color: #A9BAD6; }
+.config-fechar { margin-left: auto; width: 40px; height: 40px; border-radius: 10px; border: 0; background: rgba(255, 255, 255, .07); color: #DCE6F5; display: grid; place-items: center; cursor: pointer; flex: none; }
+.config-lista { flex: 1; overflow-y: auto; padding: 8px 22px 18px; }
+.config-lista h3 { margin: 18px 0 6px; font-size: 14px; font-weight: 800; color: #8FB0D9; }
+.linha-cor { display: flex; align-items: center; gap: 12px; margin: 0; padding: 10px 0; border: 0; border-bottom: 1px solid rgba(255, 255, 255, .06); min-width: 0; }
+.linha-cor legend { float: left; display: flex; align-items: center; gap: 10px; padding: 0; font-size: 14.5px; font-weight: 700; flex: 1; min-width: 0; }
+.linha-cor legend svg { width: 18px; height: 18px; color: #8FA3C4; flex: none; }
+.linha-cor .cores { margin-left: auto; display: flex; gap: 8px; flex: none; }
+.cor-op { position: relative; display: block; width: 30px; height: 30px; cursor: pointer; }
+.cor-op input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.cor-op span { display: block; width: 30px; height: 30px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, .28); }
+.cor-op .b-branco { background: #FFFFFF; } .cor-op .b-preto { background: #05070B; } .cor-op .b-azul { background: #02488F; } .cor-op .b-verde { background: #2E7A31; }
+.cor-op input:checked + span { box-shadow: 0 0 0 3px #08101F, 0 0 0 5px #71BC6F; border-color: transparent; }
+.cor-op input:focus-visible + span { outline: 2px solid #FFFFFF; outline-offset: 4px; }
+.config-pe { display: flex; gap: 10px; padding: 14px 22px calc(14px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid rgba(255, 255, 255, .08); }
+.config-pe .btn { border-radius: 12px; background: transparent; color: #DCE6F5; border-color: rgba(255, 255, 255, .22); }
+.config-pe .btn.ok { margin-left: auto; background: #FFFFFF; border-color: #FFFFFF; color: #02488F; }
 
 /* barra inferior (só no celular) */
 .bottomnav { display: none; }
@@ -287,6 +321,9 @@ body { background: #040A17; }
   .barra-marca span { display: none; }
   .barra-nav { display: none; }
   .busca { width: auto; flex: 1; height: 42px; }
+  .config-bt { width: 42px; height: 42px; padding: 0; justify-content: center; }
+  .config-bt span { display: none; }
+  .config { width: 100vw; border-left: 0; }
   .conteudo { padding: 30px max(16px, env(safe-area-inset-right, 0px)) calc(110px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); gap: 36px; }
   .cab h2 { font-size: 32px; }
   .cab p { font-size: 15.5px; }
@@ -305,7 +342,7 @@ body { background: #040A17; }
   .cartao.largo { grid-column: auto; }
   .cartao.foto {
     min-height: 360px;
-    background: linear-gradient(0deg, rgba(4, 10, 23, .96) 30%, rgba(4, 10, 23, .55) 52%, rgba(4, 10, 23, 0) 72%), url(assets/capa-terra-1280.jpg) 80% 10% / 220% auto no-repeat, #040A17;
+    background: linear-gradient(0deg, rgba(var(--veu), .96) 30%, rgba(var(--veu), .6) 52%, rgba(var(--veu), 0) 72%), url(assets/capa-terra-1280.jpg) 80% 10% / 220% auto no-repeat, #040A17;
   }
   .cartao.foto b { font-size: 24px; }
   .cliente-cartao { padding: 20px; gap: 14px; border-radius: 20px; }
@@ -330,6 +367,7 @@ body { background: #040A17; }
   html { scroll-behavior: auto; }
   .cartao { transition: none; }
   .cartao:hover { transform: none; }
+  .config[open] { animation: none; }
 }
 </style>
 </head>
@@ -362,6 +400,8 @@ body { background: #040A17; }
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
   <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
   <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
   <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></symbol>
 </svg>
 
@@ -412,6 +452,7 @@ body { background: #040A17; }
       <label class="sr" for="busca">Buscar ferramenta</label>
       <input id="busca" type="search" placeholder="Buscar ferramenta" autocomplete="off">
     </div>
+    <button type="button" class="config-bt" id="config-abrir" aria-haspopup="dialog" aria-controls="config"><svg class="i"><use href="#i-gear"/></svg><span>Configuração</span></button>
   </header>
 
   <div class="ceu">
@@ -427,39 +468,39 @@ body { background: #040A17; }
         <section class="area a-cotacoes" id="cotacoes" aria-labelledby="t-cotacoes">
           <h3 id="t-cotacoes">Cotações e propostas<small>8 ferramentas</small></h3>
           <div class="cartoes">
-              <a class="cartao foto largo" data-tool data-keys="cotacao frete maritimo container conteiner armador pdf" href="cotacao-frete/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-ship"/></svg></span><b>Syndex Cotações</b><span class="desc">Cotação de frete marítimo em PDF: portos, armador, frete por contêiner, freetime e validade.</span><span class="bt">Nova cotação</span></a>
-              <a class="cartao" data-tool data-keys="proposta comercial gerador pdf" href="propostas/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-doc"/></svg></span><b>Gerador de propostas</b><span class="desc">Proposta comercial no padrão visual da Syndex, pronta para enviar.</span><span class="bt">Montar proposta</span></a>
-              <a class="cartao" data-tool data-keys="pricing ficha cadastro cnpj cep operacao" href="pricing/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-clip"/></svg></span><b>Solicitação para Pricing</b><span class="desc">Dados do cliente e da operação para o time de pricing, com CEP preenchido sozinho.</span><span class="bt">Preencher a ficha</span></a>
-              <a class="cartao" data-tool data-keys="mini proposta frete rodoviario carreta ls rodotrem rota mapa estimativa pdf" href="mini-proposta/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-truck"/></svg></span><b>Mini proposta rodoviária</b><span class="desc">Estimativa de frete rodoviário com rota, mini mapa, Carreta LS e Rodotrem.</span><span class="bt">Cotar rodoviário</span></a>
-              <a class="cartao" data-tool data-keys="estimativa custo importacao despacho frete internacional checklist" href="estimativa/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-calc"/></svg></span><b>Estimativa de custo</b><span class="desc">Checklist de custo de importação: frete internacional e despacho.</span><span class="bt">Fazer a estimativa</span></a>
-              <a class="cartao" data-tool data-keys="ttd icms beneficio tratamento tributario diferenciado proposta abertura pdf" href="https://tomsoares10-dev.github.io/syndex-proposta-ttd/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-percent"/></svg></span><b>Proposta TTD</b><span class="desc">Abertura de TTD (Benefício ICMS): dados do cliente, valor e forma de pagamento, em PDF.</span><span class="bt">Montar proposta TTD</span></a>
-              <a class="cartao" data-tool data-keys="cupom especial honorario zero customs free cliente inativo gif email animado desembaraco black dourado exclusivo" href="cupom/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-ticket"/></svg></span><b>Cupom Especial</b><span class="desc">Cupom honorário zero com o nome da empresa, os seus contatos, a quantidade de processos e cartão Azul e verde, Black ou Dourado.</span><span class="bt">Gerar cupom</span></a>
-              <a class="cartao" data-tool data-keys="programa indicacao comissao parceiro honorario proposta documento" href="https://claude.ai/code/artifact/c7d22d8a-c0e9-44c4-8905-a955f8d3c8eb" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-gift"/></svg></span><span class="onde">abre no Claude</span><b>Programa de Indicação</b><span class="desc">Proposta do programa de comissão por indicação de novos clientes.</span><span class="bt">Ver o programa</span></a>
+              <a class="cartao foto largo cor-preto" data-id="syndex-cotacoes" data-cor-padrao="preto" data-tool data-keys="cotacao frete maritimo container conteiner armador pdf" href="cotacao-frete/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-ship"/></svg></span><b>Syndex Cotações</b><span class="desc">Cotação de frete marítimo em PDF: portos, armador, frete por contêiner, freetime e validade.</span><span class="bt">Nova cotação</span></a>
+              <a class="cartao cor-verde" data-id="gerador-de-propostas" data-cor-padrao="verde" data-tool data-keys="proposta comercial gerador pdf" href="propostas/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-doc"/></svg></span><b>Gerador de propostas</b><span class="desc">Proposta comercial no padrão visual da Syndex, pronta para enviar.</span><span class="bt">Montar proposta</span></a>
+              <a class="cartao cor-verde" data-id="solicitacao-para-pricing" data-cor-padrao="verde" data-tool data-keys="pricing ficha cadastro cnpj cep operacao" href="pricing/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-clip"/></svg></span><b>Solicitação para Pricing</b><span class="desc">Dados do cliente e da operação para o time de pricing, com CEP preenchido sozinho.</span><span class="bt">Preencher a ficha</span></a>
+              <a class="cartao cor-verde" data-id="mini-proposta-rodoviaria" data-cor-padrao="verde" data-tool data-keys="mini proposta frete rodoviario carreta ls rodotrem rota mapa estimativa pdf" href="mini-proposta/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-truck"/></svg></span><b>Mini proposta rodoviária</b><span class="desc">Estimativa de frete rodoviário com rota, mini mapa, Carreta LS e Rodotrem.</span><span class="bt">Cotar rodoviário</span></a>
+              <a class="cartao cor-verde" data-id="estimativa-de-custo" data-cor-padrao="verde" data-tool data-keys="estimativa custo importacao despacho frete internacional checklist" href="estimativa/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-calc"/></svg></span><b>Estimativa de custo</b><span class="desc">Checklist de custo de importação: frete internacional e despacho.</span><span class="bt">Fazer a estimativa</span></a>
+              <a class="cartao cor-verde" data-id="proposta-ttd" data-cor-padrao="verde" data-tool data-keys="ttd icms beneficio tratamento tributario diferenciado proposta abertura pdf" href="https://tomsoares10-dev.github.io/syndex-proposta-ttd/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-percent"/></svg></span><b>Proposta TTD</b><span class="desc">Abertura de TTD (Benefício ICMS): dados do cliente, valor e forma de pagamento, em PDF.</span><span class="bt">Montar proposta TTD</span></a>
+              <a class="cartao cor-verde" data-id="cupom-especial" data-cor-padrao="verde" data-tool data-keys="cupom especial honorario zero customs free cliente inativo gif email animado desembaraco black dourado exclusivo" href="cupom/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-ticket"/></svg></span><b>Cupom Especial</b><span class="desc">Cupom honorário zero com o nome da empresa, os seus contatos, a quantidade de processos e cartão Azul e verde, Black ou Dourado.</span><span class="bt">Gerar cupom</span></a>
+              <a class="cartao cor-verde" data-id="programa-de-indicacao" data-cor-padrao="verde" data-tool data-keys="programa indicacao comissao parceiro honorario proposta documento" href="https://claude.ai/code/artifact/c7d22d8a-c0e9-44c4-8905-a955f8d3c8eb" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-gift"/></svg></span><span class="onde">abre no Claude</span><b>Programa de Indicação</b><span class="desc">Proposta do programa de comissão por indicação de novos clientes.</span><span class="bt">Ver o programa</span></a>
           </div>
         </section>
         <section class="area a-clientes" id="clientes" aria-labelledby="t-clientes">
           <h3 id="t-clientes">Clientes<small>5 ferramentas</small></h3>
           <div class="cartoes">
-              <a class="cartao largo" data-tool data-keys="diario visitas agenda reuniao cliente temperatura objecoes proximo passo relatorio mes pdf" href="visitas/" target="_blank" rel="noopener"><svg class="i marca" aria-hidden="true"><use href="#i-calendar"/></svg><span class="ic"><svg class="i"><use href="#i-calendar"/></svg></span><b>Diário de Visitas</b><span class="desc">Agenda de visitas, anotações, próximos passos e relatório do mês em PDF.</span><span class="bt">Registrar visita</span></a>
-              <a class="cartao" data-tool data-keys="crm acoes tarefas feito pendente" href="https://claude.ai/artifact/UTYDZ7Yiz9uVpCFu3c4wyU" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-check"/></svg></span><span class="onde">abre no Claude</span><b>Syndex Ações</b><span class="desc">O que já foi feito e o que falta fazer em cada cliente.</span><span class="bt">Ver pendências</span></a>
-              <a class="cartao" data-tool data-keys="carteira estado cidade mapa status" href="https://claude.ai/artifact/Rw2DmPBMvqrumYUm1ZvKFY" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-pin"/></svg></span><span class="onde">abre no Claude</span><b>Carteira por estado</b><span class="desc">Clientes separados por estado e cidade, com o status de cada um.</span><span class="legenda" aria-label="Legenda de status"><span><i style="background:#2E9E44"></i>Em contato</span><span><i style="background:#E2B007"></i>Retomar</span><span><i style="background:#D14343"></i>Sem contato</span></span><span class="bt">Ver a carteira</span></a>
-              <a class="cartao" data-tool data-keys="clientes ativos carteira frete importacao desembaraco exportacao documento" href="https://claude.ai/code/artifact/bb19b717-4db6-4d15-b482-61c9fd01d98a" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-briefcase"/></svg></span><span class="onde">abre no Claude</span><b>Clientes Ativos</b><span class="desc">Carteira ativa por frete de importação e desembaraço de importação e exportação.</span><span class="bt">Ver clientes ativos</span></a>
-              <a class="cartao" data-tool data-keys="chat whatsapp comercial conversas follow-up etiquetas prototipo" href="chat/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-chat"/></svg></span><b>Syndex Chat</b><span class="desc">WhatsApp comercial: conversas por etapa, follow-up e pedido de cotação. Layout de teste.</span><span class="bt">Abrir conversas</span></a>
+              <a class="cartao largo cor-azul" data-id="diario-de-visitas" data-cor-padrao="azul" data-tool data-keys="diario visitas agenda reuniao cliente temperatura objecoes proximo passo relatorio mes pdf" href="visitas/" target="_blank" rel="noopener"><svg class="i marca" aria-hidden="true"><use href="#i-calendar"/></svg><span class="ic"><svg class="i"><use href="#i-calendar"/></svg></span><b>Diário de Visitas</b><span class="desc">Agenda de visitas, anotações, próximos passos e relatório do mês em PDF.</span><span class="bt">Registrar visita</span></a>
+              <a class="cartao cor-azul" data-id="syndex-acoes" data-cor-padrao="azul" data-tool data-keys="crm acoes tarefas feito pendente" href="https://claude.ai/artifact/UTYDZ7Yiz9uVpCFu3c4wyU" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-check"/></svg></span><span class="onde">abre no Claude</span><b>Syndex Ações</b><span class="desc">O que já foi feito e o que falta fazer em cada cliente.</span><span class="bt">Ver pendências</span></a>
+              <a class="cartao cor-azul" data-id="carteira-por-estado" data-cor-padrao="azul" data-tool data-keys="carteira estado cidade mapa status" href="https://claude.ai/artifact/Rw2DmPBMvqrumYUm1ZvKFY" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-pin"/></svg></span><span class="onde">abre no Claude</span><b>Carteira por estado</b><span class="desc">Clientes separados por estado e cidade, com o status de cada um.</span><span class="legenda" aria-label="Legenda de status"><span><i style="background:#2E9E44"></i>Em contato</span><span><i style="background:#E2B007"></i>Retomar</span><span><i style="background:#D14343"></i>Sem contato</span></span><span class="bt">Ver a carteira</span></a>
+              <a class="cartao cor-azul" data-id="clientes-ativos" data-cor-padrao="azul" data-tool data-keys="clientes ativos carteira frete importacao desembaraco exportacao documento" href="https://claude.ai/code/artifact/bb19b717-4db6-4d15-b482-61c9fd01d98a" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-briefcase"/></svg></span><span class="onde">abre no Claude</span><b>Clientes Ativos</b><span class="desc">Carteira ativa por frete de importação e desembaraço de importação e exportação.</span><span class="bt">Ver clientes ativos</span></a>
+              <a class="cartao cor-azul" data-id="syndex-chat" data-cor-padrao="azul" data-tool data-keys="chat whatsapp comercial conversas follow-up etiquetas prototipo" href="chat/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-chat"/></svg></span><b>Syndex Chat</b><span class="desc">WhatsApp comercial: conversas por etapa, follow-up e pedido de cotação. Layout de teste.</span><span class="bt">Abrir conversas</span></a>
           </div>
         </section>
         <section class="area a-rotina" id="rotina" aria-labelledby="t-rotina">
           <h3 id="t-rotina">Rotina<small>3 ferramentas</small></h3>
           <div class="cartoes">
-              <a class="cartao" data-tool data-keys="despesa viagem reembolso km nota rq 04 079 relatorio" href="https://tomsoares10-dev.github.io/despesas-syndex/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-receipt"/></svg></span><b>Despesas de viagem</b><span class="desc">Lance cada despesa com foto da nota. O relatório sai assinado, com km a R$ 1,65.</span><span class="bt">Lançar despesa</span></a>
-              <a class="cartao" data-tool data-keys="reposicao materiais falta limpeza copa escritorio rh" href="https://claude.ai/artifact/CFqqwFx4yi2RZcCpc6vhEA" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-box"/></svg></span><span class="onde">abre no Claude</span><b>Syndex Reposição</b><span class="desc">Checklist de materiais em falta: escritório, limpeza, copa e informática.</span><span class="bt">Pedir reposição</span></a>
-              <a class="cartao" data-tool data-keys="foto grupo whatsapp logo matriz perfil" href="https://tomsoares10-dev.github.io/syndex-foto-grupo-whatsapp/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-photo"/></svg></span><b>Foto de grupo WhatsApp</b><span class="desc">Um ou vários logos, uma ou duas empresas por foto. Baixe as fotos de grupo na matriz Syndex, em 640×640.</span><span class="bt">Criar foto</span></a>
+              <a class="cartao cor-preto" data-id="despesas-de-viagem" data-cor-padrao="preto" data-tool data-keys="despesa viagem reembolso km nota rq 04 079 relatorio" href="https://tomsoares10-dev.github.io/despesas-syndex/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-receipt"/></svg></span><b>Despesas de viagem</b><span class="desc">Lance cada despesa com foto da nota. O relatório sai assinado, com km a R$ 1,65.</span><span class="bt">Lançar despesa</span></a>
+              <a class="cartao cor-preto" data-id="syndex-reposicao" data-cor-padrao="preto" data-tool data-keys="reposicao materiais falta limpeza copa escritorio rh" href="https://claude.ai/artifact/CFqqwFx4yi2RZcCpc6vhEA" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-box"/></svg></span><span class="onde">abre no Claude</span><b>Syndex Reposição</b><span class="desc">Checklist de materiais em falta: escritório, limpeza, copa e informática.</span><span class="bt">Pedir reposição</span></a>
+              <a class="cartao cor-preto" data-id="foto-de-grupo-whatsapp" data-cor-padrao="preto" data-tool data-keys="foto grupo whatsapp logo matriz perfil" href="https://tomsoares10-dev.github.io/syndex-foto-grupo-whatsapp/" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-photo"/></svg></span><b>Foto de grupo WhatsApp</b><span class="desc">Um ou vários logos, uma ou duas empresas por foto. Baixe as fotos de grupo na matriz Syndex, em 640×640.</span><span class="bt">Criar foto</span></a>
           </div>
         </section>
 
         <!-- Para o cliente -->
         <section class="area a-cliente" id="cliente" aria-labelledby="t-cliente">
           <h3 id="t-cliente">Para o cliente<small>página pública</small></h3>
-          <div class="cliente-cartao" data-tool data-keys="peca sua cotacao cliente whatsapp maritimo aereo rodoviario link">
+          <div class="cliente-cartao cor-branco" data-id="peca-sua-cotacao" data-cor-padrao="branco" data-tool data-keys="peca sua cotacao cliente whatsapp maritimo aereo rodoviario link">
             <span class="ic"><svg class="i"><use href="#i-phone"/></svg></span>
             <div class="tx">
               <b>Peça sua cotação</b>
@@ -505,6 +546,70 @@ body { background: #040A17; }
   </div>
 </div>
 
+<!-- Configuração: cor de cada cartão (fica salva só neste aparelho) -->
+<dialog class="config" id="config" aria-labelledby="config-titulo">
+  <div class="config-topo">
+    <div><h2 id="config-titulo">Configuração</h2><p>Escolha a cor de cada ferramenta. Fica salvo só neste aparelho.</p></div>
+    <button type="button" class="config-fechar" id="config-fechar" aria-label="Fechar"><svg class="i"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="config-lista" id="config-lista"></div>
+  <div class="config-pe">
+    <button type="button" class="btn" id="config-padrao">Voltar às cores originais</button>
+    <button type="button" class="btn ok" id="config-pronto">Pronto</button>
+  </div>
+</dialog>
+<script>
+/* Cores dos cartões: lidas antes de a página aparecer, para não piscar a cor de fábrica. */
+(function () {
+  var CHAVE = 'hubsyndex.cores.v1', CORES = ['branco', 'preto', 'azul', 'verde'];
+  var NOMES = { branco: 'Branco', preto: 'Preto', azul: 'Azul Syndex', verde: 'Verde Syndex' };
+  var cartoes = Array.prototype.slice.call(document.querySelectorAll('[data-cor-padrao]'));
+  var escolhas = {};
+  try { escolhas = JSON.parse(localStorage.getItem(CHAVE)) || {}; } catch (e) {}
+  function gravar() { try { localStorage.setItem(CHAVE, JSON.stringify(escolhas)); } catch (e) {} }
+  function corDe(el) { var c = escolhas[el.getAttribute('data-id')]; return CORES.indexOf(c) >= 0 ? c : el.getAttribute('data-cor-padrao'); }
+  function pintar(el) { var c = corDe(el); CORES.forEach(function (k) { el.classList.toggle('cor-' + k, k === c); }); }
+  cartoes.forEach(pintar);
+
+  // monta o painel com uma linha por ferramenta, agrupadas pela área
+  var lista = document.getElementById('config-lista'), html = '', areaAtual = '';
+  cartoes.forEach(function (el) {
+    var area = el.closest('.area').querySelector('h3').firstChild.textContent.trim();
+    if (area !== areaAtual) { html += '<h3>' + area + '</h3>'; areaAtual = area; }
+    var id = el.getAttribute('data-id'), nome = (el.querySelector('b') || {}).textContent;
+    var ic = el.querySelector('.ic use'), icone = ic ? ic.getAttribute('href') : '#i-file';
+    html += '<fieldset class="linha-cor"><legend><svg class="i" aria-hidden="true"><use href="' + icone + '"/></svg>' + nome + '</legend><div class="cores">' +
+      CORES.map(function (c) {
+        return '<label class="cor-op" title="' + NOMES[c] + '"><input type="radio" name="cor-' + id + '" value="' + c + '" data-id="' + id + '"><span class="b-' + c + '"></span><span class="sr">' + NOMES[c] + '</span></label>';
+      }).join('') + '</div></fieldset>';
+  });
+  lista.innerHTML = html;
+  function marcar() {
+    cartoes.forEach(function (el) {
+      var r = lista.querySelector('input[name="cor-' + el.getAttribute('data-id') + '"][value="' + corDe(el) + '"]');
+      if (r) r.checked = true;
+    });
+  }
+  marcar();
+  lista.addEventListener('change', function (e) {
+    var id = e.target.getAttribute('data-id'); if (!id) return;
+    escolhas[id] = e.target.value; gravar();
+    cartoes.forEach(function (el) { if (el.getAttribute('data-id') === id) pintar(el); });
+  });
+  document.getElementById('config-padrao').addEventListener('click', function () {
+    escolhas = {}; gravar(); cartoes.forEach(pintar); marcar();
+  });
+
+  // abrir e fechar
+  var painel = document.getElementById('config'), abrir = document.getElementById('config-abrir');
+  function fechar() { if (painel.close) painel.close(); else painel.removeAttribute('open'); abrir.focus(); }
+  abrir.addEventListener('click', function () { if (painel.showModal) painel.showModal(); else painel.setAttribute('open', ''); });
+  document.getElementById('config-fechar').addEventListener('click', fechar);
+  document.getElementById('config-pronto').addEventListener('click', fechar);
+  painel.addEventListener('click', function (e) { if (e.target === painel) fechar(); });
+})();
+</script>
+
 <!-- Barra inferior (celular) -->
 <nav class="bottomnav" aria-label="Navegação principal">
   <a href="#inicio" class="on" data-spy="inicio"><svg class="i"><use href="#i-home"/></svg>Início</a>
@@ -528,6 +633,7 @@ body { background: #040A17; }
   // Busca
   var norm = function (s) { return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); };
   var busca = document.getElementById('busca');
+  if (window.matchMedia && matchMedia('(max-width: 899px)').matches) busca.placeholder = 'Buscar';   // no celular o campo é curto
   var itens = Array.prototype.slice.call(document.querySelectorAll('[data-tool]'));
   var secoes = Array.prototype.slice.call(document.querySelectorAll('#clientes, #cotacoes, #rotina, #cliente'));
   var vazio = document.getElementById('vazio');
