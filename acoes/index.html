@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HUB | SYNDEX - Syndex Ações</title>
+<link rel="icon" type="image/png" href="../icon-192.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #EEF2F5;
+  --surface: #FFFFFF;
+  --ink: #17222E;
+  --muted: #5B6875;
+  --line: #D3DAE1;
+  --stamp: #2944A0;
+  --on-stamp: #FFFFFF;
+  --stamp-soft: rgba(41, 68, 160, .08);
+  --late: #B3362B;
+  --on-late: #FFFFFF;
+  --late-soft: rgba(179, 54, 43, .10);
+  --today: #8A5A0E;
+  --today-soft: rgba(154, 100, 16, .12);
+  --overlay: rgba(14, 22, 30, .45);
+  --sans: "Barlow", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --cond: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", "Segoe UI", sans-serif;
+  color-scheme: light;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #10161D; --surface: #18212B; --ink: #E3E9EF; --muted: #95A2AF; --line: #2A3540;
+    --stamp: #8FA6F2; --on-stamp: #0F1620; --stamp-soft: rgba(143, 166, 242, .12);
+    --late: #F08A7E; --on-late: #1A0E0C; --late-soft: rgba(240, 138, 126, .13);
+    --today: #E2B25C; --today-soft: rgba(226, 178, 92, .14); --overlay: rgba(0, 0, 0, .6);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #10161D; --surface: #18212B; --ink: #E3E9EF; --muted: #95A2AF; --line: #2A3540;
+  --stamp: #8FA6F2; --on-stamp: #0F1620; --stamp-soft: rgba(143, 166, 242, .12);
+  --late: #F08A7E; --on-late: #1A0E0C; --late-soft: rgba(240, 138, 126, .13);
+  --today: #E2B25C; --today-soft: rgba(226, 178, 92, .14); --overlay: rgba(0, 0, 0, .6);
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: inherit; }
+[hidden] { display: none !important; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 400 1rem/1.5 var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--stamp); outline-offset: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+main { max-width: 760px; margin: 0 auto; padding: 1.25rem 1.25rem 5rem; }
+
+/* Cabeçalho */
+.marca { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.marca strong { font: 600 1.05rem/1 var(--cond); letter-spacing: .01em; }
+.privado { display: inline-flex; align-items: center; gap: .35rem; font-size: .85rem; color: var(--muted); }
+.privado svg { width: 14px; height: 14px; }
+.topo { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem 1.5rem; flex-wrap: wrap; margin: 2rem 0 1.5rem; }
+h1 {
+  margin: 0; font: 600 clamp(2.3rem, 7vw, 3.7rem)/1.02 var(--cond);
+  letter-spacing: -.01em; font-variant-numeric: tabular-nums;
+}
+.sub { margin: .55rem 0 0; color: var(--muted); font-size: 1.05rem; max-width: 34rem; }
+.sub .atrasada { color: var(--late); font-weight: 600; }
+.sub .hoje { color: var(--today); font-weight: 600; }
+
+.primario, .perigo, .sec {
+  border: 0; border-radius: 6px; padding: .7rem 1.15rem; font-weight: 600; cursor: pointer;
+  min-height: 44px;
+}
+.primario { background: var(--stamp); color: var(--on-stamp); }
+.primario:hover { filter: brightness(1.08); }
+.perigo { background: var(--late); color: var(--on-late); }
+.sec { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
+.sec:hover { box-shadow: inset 0 0 0 1px var(--muted); }
+button:disabled { opacity: .45; cursor: not-allowed; filter: none; }
+
+.aviso { margin: 0 0 1rem; padding: .6rem .8rem; border-radius: 6px; background: var(--today-soft); color: var(--ink); font-size: .92rem; }
+
+/* Barra de filtros */
+.barra {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: var(--bg); padding: .6rem 0 .75rem; border-bottom: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; gap: .6rem 1rem; align-items: center; justify-content: space-between;
+}
+.abas { display: flex; gap: .25rem; }
+.abas button {
+  background: transparent; border: 0; cursor: pointer; padding: .45rem .75rem; border-radius: 6px;
+  font: 600 1.15rem/1 var(--cond); color: var(--muted); min-height: 40px;
+}
+.abas button .n { font-variant-numeric: tabular-nums; margin-left: .3rem; font-weight: 500; }
+.abas button[aria-pressed="true"] { color: var(--stamp); background: var(--stamp-soft); }
+.filtros { display: flex; gap: .5rem; flex: 1 1 320px; justify-content: flex-end; flex-wrap: wrap; }
+.filtros input, .filtros select {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 6px;
+  padding: .5rem .65rem; min-height: 40px; min-width: 0;
+}
+.filtros input { flex: 1 1 180px; }
+.filtros select { flex: 0 1 210px; }
+
+/* Lista */
+.grupo h2 {
+  margin: 1.4rem 0 .2rem; font: 600 1rem/1.2 var(--cond); color: var(--muted); letter-spacing: .02em;
+}
+.grupo h2 .qtd { font-weight: 500; margin-left: .35rem; }
+.grupo.atrasadas h2 { color: var(--late); }
+ul { list-style: none; margin: 0; padding: 0; }
+.item {
+  position: relative; display: grid; grid-template-columns: 4.2rem 1fr auto; gap: .2rem .6rem;
+  align-items: start; padding: .85rem 0; border-bottom: 1px solid var(--line);
+}
+.check {
+  justify-self: center; margin-top: .1rem; width: 30px; height: 30px; border-radius: 50%;
+  border: 2px solid var(--line); background: var(--surface); cursor: pointer; padding: 0;
+  display: grid; place-items: center; color: transparent;
+}
+.check svg { width: 16px; height: 16px; }
+.check:hover { border-color: var(--stamp); color: var(--stamp); }
+.acao { margin: 0; font-weight: 500; font-size: 1.05rem; line-height: 1.35; overflow-wrap: anywhere; }
+.meta { margin: .2rem 0 0; display: flex; flex-wrap: wrap; gap: .25rem .75rem; align-items: center; font-size: .92rem; color: var(--muted); }
+.empresa {
+  background: none; border: 0; padding: 0; cursor: pointer; color: var(--ink); font-weight: 600;
+  text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px;
+}
+.empresa:hover { text-decoration-color: var(--ink); }
+.prazo { padding: .05rem .45rem; border-radius: 4px; }
+.prazo.atrasada { background: var(--late-soft); color: var(--late); font-weight: 600; }
+.prazo.hoje { background: var(--today-soft); color: var(--today); font-weight: 600; }
+.obs, .nota { margin: .35rem 0 0; font-size: .93rem; color: var(--muted); white-space: pre-wrap; overflow-wrap: anywhere; }
+.nota-rot { color: var(--ink); font-weight: 500; }
+.item.feito .acao { color: var(--muted); }
+
+.carimbo {
+  justify-self: center; margin-top: .15rem; text-align: center; color: var(--stamp);
+  font: 700 1.05rem/1 var(--cond); border: 2px solid var(--stamp); outline: 1px solid var(--stamp);
+  outline-offset: 2px; border-radius: 3px; padding: .2rem .4rem .25rem; transform: rotate(-7deg);
+  opacity: .9;
+}
+.carimbo small { display: block; font: 600 .72rem/1.1 var(--cond); margin-top: .1rem; }
+
+.item.carimbando .check { visibility: hidden; }
+.item.carimbando::after {
+  content: "Feito"; position: absolute; left: .55rem; top: 1rem;
+  font: 700 1.15rem/1 var(--cond); color: var(--stamp); background: var(--bg);
+  border: 2px solid var(--stamp); outline: 1px solid var(--stamp); outline-offset: 2px;
+  border-radius: 3px; padding: .2rem .45rem; transform: rotate(-7deg);
+  animation: carimbo .42s cubic-bezier(.2, .9, .3, 1.25) both;
+}
+@keyframes carimbo {
+  from { opacity: 0; transform: rotate(-14deg) scale(1.9); }
+  to { opacity: 1; transform: rotate(-7deg) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) { .item.carimbando::after { animation: none; } }
+
+.linha-acoes { display: flex; gap: .1rem; }
+.icone {
+  width: 38px; height: 38px; display: grid; place-items: center; border: 0; border-radius: 6px;
+  background: transparent; color: var(--muted); cursor: pointer;
+}
+.icone svg { width: 18px; height: 18px; }
+.icone:hover { color: var(--ink); background: var(--stamp-soft); }
+.icone.excluir:hover { color: var(--late); background: var(--late-soft); }
+
+.vazio { margin: 2.5rem 0; color: var(--muted); text-align: center; }
+
+/* Diálogos */
+dialog {
+  border: 0; border-radius: 10px; padding: 0; background: var(--surface); color: var(--ink);
+  width: min(30rem, calc(100vw - 2rem)); max-height: calc(100% - 2rem);
+}
+dialog::backdrop { background: var(--overlay); }
+dialog form { padding: 1.35rem 1.35rem 1.2rem; display: grid; gap: .9rem; }
+dialog h2 { margin: 0; font: 600 1.6rem/1.1 var(--cond); }
+.campo { display: grid; gap: .3rem; font-weight: 500; font-size: .95rem; }
+.campo .opc { color: var(--muted); font-weight: 400; }
+.campo input, .campo textarea {
+  background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: .6rem .7rem;
+  font-weight: 400; min-height: 44px; width: 100%;
+}
+.campo textarea { resize: vertical; }
+.ficha { border-left: 3px solid var(--stamp); padding: .35rem 0 .35rem .8rem; }
+.ficha .meta { color: var(--muted); }
+.erro { margin: 0; color: var(--late); font-weight: 500; font-size: .93rem; min-height: 0; }
+.erro:empty { display: none; }
+.trava { margin: 0; font-size: .88rem; color: var(--muted); display: flex; gap: .4rem; align-items: center; }
+.trava svg { width: 14px; height: 14px; flex: none; }
+.botoes { display: flex; justify-content: flex-end; gap: .6rem; flex-wrap: wrap; margin-top: .2rem; }
+
+/* Aviso rápido */
+.toast {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; pointer-events: none;
+  display: flex; justify-content: center; padding: 0 1rem calc(1rem + env(safe-area-inset-bottom, 0px));
+}
+.toast p {
+  margin: 0; max-width: 32rem; background: var(--ink); color: var(--bg); padding: .7rem 1rem;
+  border-radius: 8px; font-weight: 500; opacity: 0; transform: translateY(8px);
+  transition: opacity .2s, transform .2s;
+}
+.toast.on p { opacity: 1; transform: none; }
+.toast.erro p { background: var(--late); color: var(--on-late); }
+@media (prefers-reduced-motion: reduce) { .toast p { transition: none; } }
+
+@media (max-width: 520px) {
+  main { padding: 1rem 1rem 5rem; }
+  .item { grid-template-columns: 3.4rem 1fr; }
+  .linha-acoes { grid-column: 2; justify-content: flex-start; margin-left: -.55rem; }
+  .filtros { justify-content: stretch; }
+  .filtros select { flex: 1 1 100%; }
+  .topo .primario { width: 100%; }
+}
+</style>
+</head>
+<body>
+<main>
+  <div class="marca">
+    <strong>Syndex Ações</strong>
+    <span class="privado" id="privado"></span>
+  </div>
+
+  <header class="topo">
+    <div>
+      <h1 id="hero">Carregando suas ações…</h1>
+      <p class="sub" id="heroSub"></p>
+    </div>
+    <button type="button" class="primario" id="btnNova" hidden>Nova ação</button>
+  </header>
+
+  <p class="aviso" id="aviso" hidden></p>
+
+  <nav class="barra" id="barra" aria-label="Filtros" hidden>
+    <div class="abas">
+      <button type="button" data-aba="aberto" aria-pressed="true">Não feito<span class="n" id="nAberto">0</span></button>
+      <button type="button" data-aba="feito" aria-pressed="false">Feito<span class="n" id="nFeito">0</span></button>
+    </div>
+    <div class="filtros">
+      <label class="sr-only" for="busca">Buscar</label>
+      <input type="search" id="busca" placeholder="Buscar ação ou empresa" autocomplete="off">
+      <label class="sr-only" for="filtroEmpresa">Empresa</label>
+      <select id="filtroEmpresa"><option value="">Todas as empresas</option></select>
+    </div>
+  </nav>
+
+  <div id="lista"></div>
+  <p class="vazio" id="vazio" hidden></p>
+</main>
+
+<datalist id="listaEmpresas"></datalist>
+
+<dialog id="dlgAcao" aria-labelledby="aTitulo">
+  <form id="formAcao" novalidate>
+    <h2 id="aTitulo">Nova ação</h2>
+    <label class="campo">Empresa
+      <input id="fEmpresa" list="listaEmpresas" autocomplete="off" maxlength="120" placeholder="Ex.: Brasil Mundi">
+    </label>
+    <label class="campo">O que precisa ser feito
+      <textarea id="fAcao" rows="2" maxlength="500" placeholder="Ex.: Enviar proposta de desembaraço"></textarea>
+    </label>
+    <label class="campo"><span>Prazo <span class="opc">(opcional)</span></span>
+      <input id="fPrazo" type="date">
+    </label>
+    <label class="campo"><span>Observação <span class="opc">(opcional)</span></span>
+      <textarea id="fObs" rows="2" maxlength="1000"></textarea>
+    </label>
+    <label class="campo" id="fNotaWrap" hidden><span>Como ficou <span class="opc">(opcional)</span></span>
+      <textarea id="fNota" rows="2" maxlength="1000"></textarea>
+    </label>
+    <p class="erro" id="fErro" role="alert"></p>
+    <div class="botoes">
+      <button type="button" class="sec" id="aCancelar">Cancelar</button>
+      <button type="submit" class="primario" id="aSalvar">Adicionar ação</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="dlgConf" aria-labelledby="cTitulo">
+  <form id="formConf" method="dialog">
+    <h2 id="cTitulo"></h2>
+    <div class="ficha">
+      <p class="acao" id="cAcao"></p>
+      <p class="meta" id="cEmpresa"></p>
+    </div>
+    <label class="campo" id="cNotaWrap"><span>Como ficou? <span class="opc">(opcional)</span></span>
+      <textarea id="cNota" rows="2" maxlength="1000" placeholder="Ex.: cliente pediu retorno em novembro"></textarea>
+    </label>
+    <label class="campo" id="cDigWrap"><span id="cDigRot"></span>
+      <input id="cDig" autocomplete="off" autocapitalize="off" spellcheck="false">
+    </label>
+    <p class="trava" id="cTrava"></p>
+    <div class="botoes">
+      <button type="button" class="sec" id="cCancelar">Cancelar</button>
+      <button type="submit" value="ok" class="primario" id="cOk"></button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><p id="toastTxt"></p></div>
+
+<script>
+(() => {
+  const ICON = {
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+    edit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg>',
+    trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
+    undo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 010 12h-3"/></svg>',
+    lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>'
+  };
+  const LS_KEY = 'syndex-acoes:v1';
+  const reduzMovimento = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = id => document.getElementById(id);
+
+  const state = { items: [], aba: 'aberto', busca: '', empresa: '', modo: 'carregando', somenteLeitura: false };
+  let backend = null;
+  let editando = null;
+
+  function h(tag, props, ...kids) {
+    const el = document.createElement(tag);
+    for (const [k, v] of Object.entries(props || {})) {
+      if (v == null || v === false) continue;
+      if (k === 'class') el.className = v;
+      else if (k === 'text') el.textContent = v;
+      else if (k === 'icon') el.innerHTML = ICON[v];
+      else if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
+      else el.setAttribute(k, v === true ? '' : v);
+    }
+    for (const kid of kids.flat()) if (kid != null && kid !== false) el.append(kid);
+    return el;
+  }
+
+  /* ---------- Datas ---------- */
+  function hojeISO() {
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+  function somaDias(iso, n) {
+    const [y, m, d] = iso.split('-').map(Number);
+    const dt = new Date(y, m - 1, d + n);
+    return dt.getFullYear() + '-' + String(dt.getMonth() + 1).padStart(2, '0') + '-' + String(dt.getDate()).padStart(2, '0');
+  }
+  function fmt(dt) {
+    const o = { day: '2-digit', month: 'short' };
+    if (dt.getFullYear() !== new Date().getFullYear()) o.year = 'numeric';
+    return dt.toLocaleDateString('pt-BR', o).replace(/ de /g, ' ').replace('.', '');
+  }
+  function fmtISO(iso) { const [y, m, d] = iso.split('-').map(Number); return fmt(new Date(y, m - 1, d)); }
+  function fmtTS(ts) { const d = new Date(ts); return isNaN(d) ? '' : fmt(d); }
+  function classePrazo(p, hoje) { return p < hoje ? 'atrasada' : p === hoje ? 'hoje' : ''; }
+  function textoPrazo(p, hoje) {
+    if (p < hoje) return 'Venceu ' + fmtISO(p);
+    if (p === hoje) return 'Prazo hoje';
+    if (p === somaDias(hoje, 1)) return 'Prazo amanhã';
+    return 'Até ' + fmtISO(p);
+  }
+
+  /* ---------- Texto ---------- */
+  const norm = s => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+  const plural = (n, um, varios) => n + ' ' + (n === 1 ? um : varios);
+  function juntar(partes) {
+    if (partes.length <= 1) return partes;
+    const out = [];
+    partes.forEach((p, i) => {
+      if (i > 0) out.push(i === partes.length - 1 ? ' e ' : ', ');
+      out.push(p);
+    });
+    return out;
+  }
+  function empresasUnicas() {
+    const mapa = new Map();
+    for (const i of state.items) {
+      const k = norm(i.empresa);
+      if (k && !mapa.has(k)) mapa.set(k, i.empresa);
+    }
+    return [...mapa.values()].sort((a, b) => a.localeCompare(b, 'pt-BR', { sensitivity: 'base' }));
+  }
+
+  /* ---------- Armazenamento ---------- */
+  const localBackend = {
+    carregar() { try { const r = localStorage.getItem(LS_KEY); const v = r ? JSON.parse(r) : []; return Array.isArray(v) ? v : []; } catch (e) { return []; } },
+    gravar(items) { try { localStorage.setItem(LS_KEY, JSON.stringify(items)); } catch (e) { throw { code: 'local' }; } },
+    iniciar() { state.items = this.carregar(); render(); },
+    async add(dados) {
+      const id = 'a' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+      const items = [...state.items, { id, ...dados }];
+      this.gravar(items); state.items = items; render();
+    },
+    async update(id, patch) {
+      const items = state.items.map(i => i.id === id ? { ...i, ...patch } : i);
+      this.gravar(items); state.items = items; render();
+    },
+    async remove(id) {
+      const items = state.items.filter(i => i.id !== id);
+      this.gravar(items); state.items = items; render();
+    }
+  };
+
+  function dbBackend(col) {
+    return {
+      iniciar() {
+        col.onSnapshot(snap => {
+          state.items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          if (state.modo === 'carregando') state.modo = 'conta';
+          render();
+        }, () => {
+          state.modo = 'erro';
+          render();
+        });
+      },
+      add(dados) { return col.doc().set(dados); },
+      update(id, patch) { return col.doc(id).update(patch); },
+      remove(id) { return col.doc(id).delete(); }
+    };
+  }
+
+  async function salvar(fn, msgOk) {
+    try {
+      await fn();
+      aviso(msgOk);
+      return true;
+    } catch (e) {
+      const code = e && e.code;
+      if (code === 'unavailable') {
+        await new Promise(r => setTimeout(r, 400 + Math.random() * 600));
+        try { await fn(); aviso(msgOk); return true; } catch (e2) { /* segue para a mensagem */ }
+        aviso('Sem conexão com o armazenamento. Tente de novo em instantes.', true);
+      } else if (code === 'quota_exceeded') {
+        aviso('Espaço de armazenamento cheio. Exclua ações antigas para continuar.', true);
+      } else if (code === 'invalid_argument') {
+        state.somenteLeitura = true; render();
+        aviso('Esta página não aceita alterações para você.', true);
+      } else if (code === 'local') {
+        aviso('O navegador não deixou salvar. Libere espaço no aparelho e tente de novo.', true);
+      } else {
+        aviso('Não foi possível salvar. Tente de novo.', true);
+      }
+      return false;
+    }
+  }
+
+  /* ---------- Aviso rápido ---------- */
+  let toastTimer = null;
+  function aviso(msg, erro) {
+    $('toastTxt').textContent = msg;
+    const t = $('toast');
+    t.classList.toggle('erro', !!erro);
+    t.classList.add('on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('on'), erro ? 5000 : 2600);
+  }
+
+  /* ---------- Renderização ---------- */
+  let assinaturaEmpresas = '';
+  function render() {
+    const hoje = hojeISO();
+    const abertos = state.items.filter(i => i.status !== 'feito');
+    const feitos = state.items.filter(i => i.status === 'feito');
+    const atrasadas = abertos.filter(i => i.prazo && i.prazo < hoje).length;
+    const paraHoje = abertos.filter(i => i.prazo === hoje).length;
+
+    const ativo = state.modo === 'conta' || state.modo === 'local';
+    const podeEditar = ativo && !state.somenteLeitura;
+
+    // Selo de privacidade
+    const priv = $('privado');
+    priv.replaceChildren();
+    if (state.modo === 'conta') { priv.innerHTML = ICON.lock; priv.append(' Só você vê e altera'); }
+    else if (state.modo === 'local') { priv.textContent = 'Salvo neste navegador'; }
+
+    // Título
+    const hero = $('hero'), sub = $('heroSub');
+    sub.replaceChildren();
+    if (state.modo === 'carregando') hero.textContent = 'Carregando suas ações…';
+    else if (state.modo === 'bloqueado') { hero.textContent = 'Esta lista é privada.'; sub.textContent = 'Só o dono pode ver e alterar estas ações.'; }
+    else if (state.modo === 'erro') { hero.textContent = 'As ações não carregaram.'; sub.textContent = 'Recarregue a página para tentar de novo.'; }
+    else if (!state.items.length) { hero.textContent = 'Nenhuma ação registrada.'; sub.textContent = 'Comece pela primeira: o que precisa ser feito e para qual empresa.'; }
+    else if (!abertos.length) { hero.textContent = 'Tudo feito.'; sub.textContent = plural(feitos.length, 'ação concluída', 'ações concluídas') + ', nada pendente.'; }
+    else {
+      hero.textContent = abertos.length === 1 ? 'Falta 1 ação.' : 'Faltam ' + abertos.length + ' ações.';
+      const partes = [];
+      if (atrasadas) partes.push(h('span', { class: 'atrasada', text: plural(atrasadas, 'atrasada', 'atrasadas') }));
+      if (paraHoje) partes.push(h('span', { class: 'hoje', text: paraHoje + ' para hoje' }));
+      if (feitos.length) partes.push(plural(feitos.length, 'já feita', 'já feitas'));
+      if (partes.length) sub.append(...juntar(partes), '.');
+    }
+
+    $('btnNova').hidden = !podeEditar;
+    $('barra').hidden = !ativo || !state.items.length;
+    const av = $('aviso');
+    if (state.modo === 'local') { av.hidden = false; av.textContent = 'As ações ficam salvas só neste aparelho e neste navegador.'; }
+    else av.hidden = true;
+
+    // Empresas (filtro e sugestões)
+    const empresas = empresasUnicas();
+    const pendPorEmpresa = new Map();
+    for (const i of abertos) pendPorEmpresa.set(norm(i.empresa), (pendPorEmpresa.get(norm(i.empresa)) || 0) + 1);
+    const assin = empresas.map(e => e + ':' + (pendPorEmpresa.get(norm(e)) || 0)).join('|');
+    if (state.empresa && !empresas.some(e => norm(e) === norm(state.empresa))) state.empresa = '';
+    if (assin !== assinaturaEmpresas) {
+      assinaturaEmpresas = assin;
+      const sel = $('filtroEmpresa');
+      sel.replaceChildren(h('option', { value: '', text: 'Todas as empresas' }),
+        empresas.map(e => {
+          const n = pendPorEmpresa.get(norm(e)) || 0;
+          return h('option', { value: e, text: n ? e + ' (' + plural(n, 'pendente', 'pendentes') + ')' : e });
+        }));
+      $('listaEmpresas').replaceChildren(...empresas.map(e => h('option', { value: e })));
+    }
+    $('filtroEmpresa').value = state.empresa;
+
+    // Filtragem
+    const q = norm(state.busca);
+    const passa = i => (!state.empresa || norm(i.empresa) === norm(state.empresa)) &&
+      (!q || [i.acao, i.empresa, i.obs, i.nota].some(t => norm(t).includes(q)));
+    const visAbertos = abertos.filter(passa);
+    const visFeitos = feitos.filter(passa);
+    $('nAberto').textContent = visAbertos.length;
+    $('nFeito').textContent = visFeitos.length;
+    document.querySelectorAll('.abas button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.aba === state.aba)));
+
+    const lista = $('lista');
+    lista.replaceChildren();
+    const vazio = $('vazio');
+    vazio.hidden = true;
+    if (!ativo || !state.items.length) return;
+
+    const filtrando = !!(q || state.empresa);
+    if (state.aba === 'aberto') {
+      const ordem = (a, b) => (a.prazo || '').localeCompare(b.prazo || '') || (a.criadoEm || '').localeCompare(b.criadoEm || '');
+      const grupos = [
+        ['atrasadas', 'Atrasadas', i => i.prazo && i.prazo < hoje],
+        ['', 'Para hoje', i => i.prazo === hoje],
+        ['', 'Próximas', i => i.prazo && i.prazo > hoje],
+        ['', 'Sem prazo', i => !i.prazo]
+      ];
+      for (const [cls, titulo, f] of grupos) {
+        const itens = visAbertos.filter(f).sort(ordem);
+        if (!itens.length) continue;
+        lista.append(h('section', { class: 'grupo ' + cls },
+          h('h2', {}, titulo, h('span', { class: 'qtd', text: String(itens.length) })),
+          h('ul', {}, itens.map(i => linhaAberta(i, hoje, podeEditar)))));
+      }
+      if (!visAbertos.length) { vazio.hidden = false; vazio.textContent = filtrando ? 'Nenhuma ação pendente para este filtro.' : 'Nada pendente. Tudo o que foi registrado já está feito.'; }
+    } else {
+      const itens = visFeitos.sort((a, b) => (b.feitoEm || '').localeCompare(a.feitoEm || ''));
+      if (itens.length) lista.append(h('section', { class: 'grupo' }, h('ul', {}, itens.map(i => linhaFeita(i, podeEditar)))));
+      else { vazio.hidden = false; vazio.textContent = filtrando ? 'Nenhuma ação feita para este filtro.' : 'Nenhuma ação marcada como feita ainda.'; }
+    }
+  }
+
+  function botaoEmpresa(i) {
+    return h('button', { type: 'button', class: 'empresa', title: 'Ver só esta empresa', text: i.empresa,
+      onclick: () => { state.empresa = i.empresa; render(); $('filtroEmpresa').focus(); } });
+  }
+  function botoesLinha(i, feito, podeEditar) {
+    if (!podeEditar) return null;
+    return h('div', { class: 'linha-acoes' },
+      feito ? h('button', { type: 'button', class: 'icone', icon: 'undo', title: 'Voltar para não feito', 'aria-label': 'Voltar para não feito: ' + i.acao, onclick: () => reabrir(i) }) : null,
+      h('button', { type: 'button', class: 'icone', icon: 'edit', title: 'Editar', 'aria-label': 'Editar: ' + i.acao, onclick: () => abrirForm(i) }),
+      h('button', { type: 'button', class: 'icone excluir', icon: 'trash', title: 'Excluir', 'aria-label': 'Excluir: ' + i.acao, onclick: () => excluir(i) }));
+  }
+  function linhaAberta(i, hoje, podeEditar) {
+    return h('li', { class: 'item', 'data-id': i.id },
+      h('button', { type: 'button', class: 'check', icon: 'check', title: 'Marcar como feito', 'aria-label': 'Marcar como feito: ' + i.acao, disabled: !podeEditar, onclick: () => marcarFeito(i) }),
+      h('div', {},
+        h('p', { class: 'acao', text: i.acao }),
+        h('p', { class: 'meta' }, botaoEmpresa(i), i.prazo ? h('span', { class: 'prazo ' + classePrazo(i.prazo, hoje), text: textoPrazo(i.prazo, hoje) }) : null),
+        i.obs ? h('p', { class: 'obs', text: i.obs }) : null),
+      botoesLinha(i, false, podeEditar));
+  }
+  function linhaFeita(i, podeEditar) {
+    const quando = i.feitoEm ? fmtTS(i.feitoEm) : '';
+    return h('li', { class: 'item feito', 'data-id': i.id },
+      h('div', { class: 'carimbo', 'aria-hidden': 'true' }, 'Feito', quando ? h('small', { text: quando }) : null),
+      h('div', {},
+        h('p', { class: 'acao' }, h('span', { class: 'sr-only', text: 'Feito em ' + quando + ': ' }), i.acao),
+        h('p', { class: 'meta' }, botaoEmpresa(i), i.prazo ? h('span', { text: 'Prazo era ' + fmtISO(i.prazo) }) : null),
+        i.nota ? h('p', { class: 'nota' }, h('span', { class: 'nota-rot', text: 'Como ficou: ' }), i.nota) : null,
+        i.obs ? h('p', { class: 'obs', text: i.obs }) : null),
+      botoesLinha(i, true, podeEditar));
+  }
+
+  /* ---------- Trava de confirmação ---------- */
+  function confirmar(o) {
+    return new Promise(resolve => {
+      const dlg = $('dlgConf');
+      $('cTitulo').textContent = o.titulo;
+      $('cAcao').textContent = o.item.acao;
+      $('cEmpresa').textContent = o.item.empresa;
+      $('cNotaWrap').hidden = !o.nota;
+      $('cNota').value = o.notaInicial || '';
+      $('cDigWrap').hidden = !o.digitar;
+      $('cDig').value = '';
+      $('cDigRot').textContent = o.digitar ? 'Para confirmar, digite ' + o.digitar : '';
+      const trava = $('cTrava');
+      trava.innerHTML = ICON.lock;
+      trava.append(o.trava || 'Nada muda até você confirmar.');
+      const ok = $('cOk');
+      ok.textContent = o.botao;
+      ok.className = o.perigo ? 'perigo' : 'primario';
+      ok.disabled = !!o.digitar;
+      $('cDig').oninput = () => { ok.disabled = norm($('cDig').value) !== norm(o.digitar); };
+      dlg.returnValue = '';
+      const fechar = () => {
+        dlg.removeEventListener('close', fechar);
+        resolve({ ok: dlg.returnValue === 'ok', nota: $('cNota').value.trim() });
+      };
+      dlg.addEventListener('close', fechar);
+      dlg.showModal();
+      (o.digitar ? $('cDig') : $('cCancelar')).focus();
+    });
+  }
+  $('cCancelar').addEventListener('click', () => $('dlgConf').close('cancel'));
+
+  const espera = ms => new Promise(r => setTimeout(r, ms));
+
+  async function marcarFeito(i) {
+    const r = await confirmar({ titulo: 'Marcar como feito?', item: i, nota: true, notaInicial: i.nota || '', botao: 'Confirmar: feito' });
+    if (!r.ok) return;
+    const li = document.querySelector('[data-id="' + CSS.escape(i.id) + '"]');
+    if (li && !reduzMovimento) { li.classList.add('carimbando'); await espera(620); }
+    const ok = await salvar(() => backend.update(i.id, { status: 'feito', feitoEm: new Date().toISOString(), nota: r.nota }), 'Marcada como feita.');
+    if (!ok && li) li.classList.remove('carimbando');
+  }
+  async function reabrir(i) {
+    const r = await confirmar({ titulo: 'Voltar para não feito?', item: i, botao: 'Confirmar: não feito', trava: 'A ação volta para a lista do que falta. A anotação de como ficou é mantida.' });
+    if (!r.ok) return;
+    await salvar(() => backend.update(i.id, { status: 'aberto', feitoEm: null }), 'Ação voltou para não feito.');
+  }
+  async function excluir(i) {
+    const r = await confirmar({ titulo: 'Excluir esta ação?', item: i, digitar: 'excluir', botao: 'Excluir de vez', perigo: true, trava: 'A exclusão não pode ser desfeita.' });
+    if (!r.ok) return;
+    await salvar(() => backend.remove(i.id), 'Ação excluída.');
+  }
+
+  /* ---------- Formulário ---------- */
+  function abrirForm(item) {
+    editando = item || null;
+    $('aTitulo').textContent = item ? 'Editar ação' : 'Nova ação';
+    $('aSalvar').textContent = item ? 'Salvar alterações' : 'Adicionar ação';
+    $('fEmpresa').value = item ? item.empresa : (state.empresa || '');
+    $('fAcao').value = item ? item.acao : '';
+    $('fPrazo').value = item ? (item.prazo || '') : '';
+    $('fObs').value = item ? (item.obs || '') : '';
+    const feito = !!(item && item.status === 'feito');
+    $('fNotaWrap').hidden = !feito;
+    $('fNota').value = feito ? (item.nota || '') : '';
+    $('fErro').textContent = '';
+    $('dlgAcao').showModal();
+    (item || !$('fEmpresa').value ? $('fEmpresa') : $('fAcao')).focus();
+  }
+  $('btnNova').addEventListener('click', () => abrirForm(null));
+  $('aCancelar').addEventListener('click', () => $('dlgAcao').close());
+  $('formAcao').addEventListener('submit', async e => {
+    e.preventDefault();
+    const erro = (msg, campo) => { $('fErro').textContent = msg; campo.focus(); };
+    const dados = {
+      empresa: $('fEmpresa').value.trim().replace(/\s+/g, ' '),
+      acao: $('fAcao').value.trim(),
+      prazo: $('fPrazo').value || '',
+      obs: $('fObs').value.trim()
+    };
+    if (!dados.empresa) return erro('Informe a empresa.', $('fEmpresa'));
+    if (!dados.acao) return erro('Descreva o que precisa ser feito.', $('fAcao'));
+    const igual = empresasUnicas().find(n => norm(n) === norm(dados.empresa));
+    if (igual) dados.empresa = igual;
+    const alvo = editando;
+    $('dlgAcao').close();
+    if (alvo) {
+      if (alvo.status === 'feito') dados.nota = $('fNota').value.trim();
+      await salvar(() => backend.update(alvo.id, dados), 'Alterações salvas.');
+    } else {
+      const ok = await salvar(() => backend.add({ ...dados, status: 'aberto', criadoEm: new Date().toISOString(), feitoEm: null, nota: '' }), 'Ação adicionada.');
+      if (ok && state.aba !== 'aberto') { state.aba = 'aberto'; render(); }
+    }
+  });
+
+  /* ---------- Filtros ---------- */
+  document.querySelectorAll('.abas button').forEach(b => b.addEventListener('click', () => { state.aba = b.dataset.aba; render(); }));
+  let buscaTimer = null;
+  $('busca').addEventListener('input', e => { clearTimeout(buscaTimer); buscaTimer = setTimeout(() => { state.busca = e.target.value; render(); }, 120); });
+  $('filtroEmpresa').addEventListener('change', e => { state.empresa = e.target.value; render(); });
+
+  /* ---------- Início ---------- */
+  function usarLocal() { backend = localBackend; state.modo = 'local'; backend.iniciar(); }
+
+  async function iniciar() {
+    render();
+    const c = window.claude;
+    if (!c || typeof c.use !== 'function') return usarLocal();
+    let db = null, user = null;
+    try { [db, user] = await Promise.all([c.use('db'), c.use('user')]); } catch (e) { /* sem capacidades */ }
+    if (!db || !user) return usarLocal();
+    let uid = null, dono = false;
+    try { uid = await user.id(); dono = await user.isOwner(); } catch (e) { /* sem identidade */ }
+    if (!dono) { state.modo = 'bloqueado'; render(); return; }
+    if (!uid) return usarLocal();
+    backend = dbBackend(db.doc('data/users/' + uid + '/crm').collection('acoes'));
+    backend.iniciar();
+  }
+  iniciar();
+
+  // Atualiza "atrasada / hoje" na virada do dia
+  let diaAtual = hojeISO();
+  setInterval(() => { const d = hojeISO(); if (d !== diaAtual) { diaAtual = d; render(); } }, 60000);
+})();
+</script>
+</body>
+</html>

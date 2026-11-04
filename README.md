@@ -15,7 +15,7 @@ Funciona no computador e no celular. No celular dá para instalar como app:
 
 | Seção | Ferramenta | Onde abre |
 |---|---|---|
-| Clientes | Syndex Ações | Claude |
+| Clientes | Syndex Ações | Portal (`/acoes`, dados salvos no aparelho) |
 | Clientes | Carteira por estado | Claude |
 | Clientes | Clientes Ativos | Claude (documento) |
 | Clientes | Diário de Visitas | Portal (`/visitas`, dados salvos no aparelho) |
@@ -27,9 +27,9 @@ Funciona no computador e no celular. No celular dá para instalar como app:
 | Cotações e propostas | Estimativa de custo | Portal (`/estimativa`) |
 | Cotações e propostas | Mini proposta rodoviária | Portal (`/mini-proposta`) |
 | Cotações e propostas | Cupom Especial | Portal (`/cupom`) |
-| Cotações e propostas | Programa de Indicação | Claude (documento) |
+| Cotações e propostas | Programa de Indicação | Portal (`/indicacao`, cópia do documento de 7/10/2026) |
 | Rotina | Despesas de viagem | Site (GitHub) |
-| Rotina | Syndex Reposição | Claude |
+| Rotina | Syndex Reposição | Portal (`/reposicao`, marcações salvas no aparelho) |
 | Rotina | Foto de grupo WhatsApp | Site (GitHub) |
 | Para o cliente | Peça sua cotação | Portal (`/cotacao`) |
 
