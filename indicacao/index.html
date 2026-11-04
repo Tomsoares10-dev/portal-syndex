@@ -8,56 +8,31 @@
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap">
 <style>
-:root{
-  --ground:#F3F6FB; --surface:#FFFFFF; --ink:#12244A; --ink-2:#3A4B70; --muted:#55658A;
-  --line:#DCE3EF; --navy:#02488F; --navy-deep:#013A73; --tint:#E7EEF8; --tint-2:#EEF3FA;
-  --sans:"Manrope","Segoe UI",system-ui,-apple-system,sans-serif;
-}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--ground);color:var(--ink);font:400 16px/1.6 var(--sans)}
-.topo{background:var(--navy);color:#fff;padding:calc(14px + env(safe-area-inset-top,0px)) 20px 14px}
+body{margin:0;background:#E9EEF3;color:#12293A;font:400 16px/1.5 "Outfit","Segoe UI",system-ui,sans-serif}
+.topo{background:#02488F;color:#fff;padding:calc(14px + env(safe-area-inset-top,0px)) 20px 14px}
 .topo-in{max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .topo img{height:34px;width:auto;display:block}
 .btns{display:flex;gap:8px}
-.btn{font:700 14px/1 var(--sans);border-radius:10px;padding:10px 14px;border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;text-decoration:none;cursor:pointer}
-.btn.claro{background:#fff;color:var(--navy);border-color:#fff}
-main{max-width:860px;margin:24px auto 48px;padding:0 16px}
-.folha{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:36px 40px}
-.selo{display:inline-block;font:700 12px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--navy);background:var(--tint);border-radius:999px;padding:7px 12px}
-h1{font-size:30px;line-height:1.2;margin:14px 0 6px;font-weight:800;letter-spacing:-.01em}
-.data{color:var(--muted);margin:0 0 8px;font-weight:500}
-h2{font-size:21px;margin:34px 0 10px;padding-top:22px;border-top:1px solid var(--line);color:var(--navy-deep);font-weight:800}
-h3{font-size:17px;margin:24px 0 8px;font-weight:700}
-p,li{color:var(--ink-2)}
-strong{color:var(--ink)}
-ol,ul{padding-left:22px}
-li{margin:6px 0}
-a{color:var(--navy)}
-.tab{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:12px}
-table{border-collapse:collapse;width:100%;min-width:520px;font-size:15px}
-th{background:var(--tint-2);color:var(--ink);text-align:left;font-weight:700;padding:10px 12px;border-bottom:1px solid var(--line)}
-td{padding:10px 12px;border-bottom:1px solid var(--line);color:var(--ink-2)}
-tr:last-child td{border-bottom:0}
-footer{text-align:center;color:var(--muted);font-size:13px;margin-top:20px}
-@media (max-width:600px){
-  .folha{padding:24px 18px;border-radius:12px}
-  h1{font-size:24px}
-  .btn{padding:9px 11px;font-size:13px}
-}
+.btn{font:700 14px/1 "Manrope","Segoe UI",system-ui,sans-serif;border-radius:10px;padding:10px 14px;border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;text-decoration:none;cursor:pointer}
+.btn.claro{background:#fff;color:#02488F;border-color:#fff}
+.btn:focus-visible{outline:2px solid #9AD6AE;outline-offset:2px}
+main{padding:24px 16px 48px}
+.palco{position:relative;width:100%;max-width:794px;height:1123px;margin:0 auto;overflow:hidden;border-radius:6px;box-shadow:0 10px 40px rgba(18,41,58,.18)}
+.a4{position:absolute;left:0;top:0;transform-origin:0 0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.a4 a{color:#9AD6AE}
+footer{text-align:center;color:#55658A;font-size:13px;margin-top:18px}
+@media (max-width:600px){.topo img{height:28px}.btn{padding:9px 10px;font-size:12.5px;white-space:nowrap}main{padding:16px 12px 40px}}
 @media print{
-  @page{size:A4;margin:16mm}
-  body{background:#fff}
-  .topo .btns,footer{display:none}
-  .topo{background:#fff;padding:0 0 10px;border-bottom:2px solid var(--navy)}
-  .topo img{content:url(../assets/syndex-logo.png)}
-  main{margin:0;padding:0;max-width:none}
-  .folha{border:0;padding:0}
-  h2{break-after:avoid}
-  .tab,tr{break-inside:avoid}
-  table{min-width:0}
+  @page{size:A4;margin:0}
+  html,body{width:210mm;height:297mm;overflow:hidden;background:#fff}
+  .topo,footer{display:none}
+  main{padding:0}
+  .palco{max-width:none;width:210mm;height:297mm!important;margin:0;border-radius:0;box-shadow:none}
+  .a4{transform:none!important}
 }
 </style>
 </head>
@@ -72,176 +47,165 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:20px}
   </div>
 </header>
 <main>
-  <article class="folha">
-    <span class="selo">Proposta comercial</span>
-    <h1>Programa de Parceria por Indicação Syndex</h1>
-    <p class="data">7 de outubro de 2026 · Tomás Soares</p>
-<h2>Resumo executivo</h2>
-<p>A Syndex propõe uma parceria comercial em que o parceiro é remunerado por cada processo de desembaraço aduaneiro realizado pelas empresas que indicar. A remuneração varia de 10% a 15% do honorário e cresce com o volume de processos.</p>
-<p>Não há teto de remuneração. Os valores são pagos mensalmente, com extrato detalhado, enquanto as empresas indicadas operarem com a Syndex.</p>
-<h2>Sobre a Syndex</h2>
-<p>A Syndex Logística e Gestão Aduaneira atua no desembaraço aduaneiro de importação e exportação e na gestão logística de cargas. Cada cliente tem atendimento comercial dedicado, do primeiro contato ao acompanhamento das operações.</p>
-<h2>Modelo de parceria</h2>
-<p>O parceiro apresenta a empresa, a Syndex conduz todo o relacionamento comercial e operacional, e cada processo pago gera remuneração ao parceiro.</p>
-<ol>
-<li><strong>Indicação:</strong> o parceiro apresenta a empresa ao comercial da Syndex, por e-mail ou em reunião conjunta.</li>
-<li><strong>Registro:</strong> a Syndex registra a indicação, com data e identificação do parceiro, e confirma o recebimento por escrito.</li>
-<li><strong>Atendimento:</strong> a Syndex conduz a negociação e a operação, sem custo nem responsabilidade operacional para o parceiro.</li>
-<li><strong>Remuneração:</strong> a cada processo de desembaraço pago pela empresa indicada, o parceiro recebe o percentual do seu nível.</li>
-</ol>
-<p>A contagem de processos considera todas as empresas indicadas pelo mesmo parceiro.</p>
-<h3>Base de cálculo</h3>
-<p>A remuneração incide exclusivamente sobre o honorário. Taxas fixas e valores de repasse não entram no cálculo.</p>
-<div class="tab"><table>
-<thead>
-<tr>
-<th>Item da proposta</th>
-<th>Valor</th>
-<th>Base de cálculo</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Honorário</td>
-<td>R$1.621 (salário mínimo de 2026)</td>
-<td>Sim</td>
-</tr>
-<tr>
-<td>SDA (taxa fixa)</td>
-<td>R$220</td>
-<td>Não</td>
-</tr>
-<tr>
-<td>LPCO (quando necessário)</td>
-<td>R$100</td>
-<td>Não</td>
-</tr>
-</tbody>
-</table></div>
-<h2>Estrutura de remuneração</h2>
-<p>O percentual começa em 10% do honorário e avança 1,25 ponto a cada nível, até 15% a partir do 100º processo.</p>
-<div class="tab"><table>
-<thead>
-<tr>
-<th>Nível</th>
-<th>Processos acumulados</th>
-<th>Remuneração por processo</th>
-<th>Benefício exclusivo</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Bronze</td>
-<td>1 a 9</td>
-<td>10%</td>
-<td>—</td>
-</tr>
-<tr>
-<td>Prata</td>
-<td>10 a 19</td>
-<td>11,25%</td>
-<td>Kit corporativo de boas-vindas</td>
-</tr>
-<tr>
-<td>Ouro</td>
-<td>20 a 49</td>
-<td>12,5%</td>
-<td>Reconhecimento institucional</td>
-</tr>
-<tr>
-<td>Platina</td>
-<td>50 a 99</td>
-<td>13,75%</td>
-<td>Diagnóstico aduaneiro sem custo</td>
-</tr>
-<tr>
-<td>Diamante</td>
-<td>100 ou mais</td>
-<td>15%</td>
-<td>Status de Parceiro Estratégico</td>
-</tr>
-</tbody>
-</table></div>
-<p>O novo percentual se aplica a partir do processo que marca a mudança de nível. Os processos anteriores mantêm o percentual vigente na data em que foram pagos.</p>
-<h2>Simulação de remuneração</h2>
-<p>Com honorário de R$1.621, equivalente ao salário mínimo de 2026, a remuneração acumulada do parceiro soma R$20.681 até o 100º processo.</p>
-<div class="tab"><table>
-<thead>
-<tr>
-<th>Faixa de processos</th>
-<th>%</th>
-<th>Comissão por processo</th>
-<th>Total da faixa</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1 a 9</td>
-<td>10%</td>
-<td>R$162</td>
-<td>R$1.458</td>
-</tr>
-<tr>
-<td>10 a 19</td>
-<td>11,25%</td>
-<td>R$182</td>
-<td>R$1.820</td>
-</tr>
-<tr>
-<td>20 a 49</td>
-<td>12,5%</td>
-<td>R$202</td>
-<td>R$6.060</td>
-</tr>
-<tr>
-<td>50 a 99</td>
-<td>13,75%</td>
-<td>R$222</td>
-<td>R$11.100</td>
-</tr>
-<tr>
-<td>100 ou mais</td>
-<td>15%</td>
-<td>R$243</td>
-<td>R$243 a cada processo</td>
-</tr>
-</tbody>
-</table></div>
-<p>Comissões em reais inteiros, sem centavos.</p>
-<h2>Benefícios exclusivos</h2>
-<p>A partir do nível Prata, o parceiro passa a contar com benefícios adicionais à remuneração.</p>
-<ul>
-<li><strong>Kit corporativo de boas-vindas (Prata):</strong> enviado quando as empresas indicadas somam 10 processos.</li>
-<li><strong>Reconhecimento institucional (Ouro):</strong> divulgação como Parceiro Syndex nos canais institucionais da Syndex, mediante autorização prévia do parceiro.</li>
-<li><strong>Diagnóstico aduaneiro sem custo (Platina):</strong> análise de classificação fiscal (NCM), oportunidades de ex-tarifário e benefícios fiscais aplicáveis à empresa do parceiro ou a uma empresa indicada por ele.</li>
-<li><strong>Status de Parceiro Estratégico (Diamante):</strong> gerente de conta dedicado, prioridade no atendimento às empresas indicadas e convite para eventos do setor, como a Intermodal South America.</li>
-</ul>
-<h2>Condições gerais</h2>
-<p>As condições abaixo integram o termo de parceria a ser firmado entre as partes.</p>
-<ul>
-<li><strong>Elegibilidade da indicação:</strong> a empresa indicada não pode integrar a carteira da Syndex nem estar em negociação ativa, e a indicação deve preceder o primeiro contato da Syndex com ela.</li>
-<li><strong>Precedência:</strong> havendo mais de uma indicação para a mesma empresa, prevalece a primeira registrada.</li>
-<li><strong>Fato gerador:</strong> a remuneração é devida após o pagamento do honorário pela empresa indicada. Processos cancelados ou inadimplentes não geram remuneração.</li>
-<li><strong>Apuração e pagamento:</strong> apuração mensal, com extrato detalhado e pagamento até o dia 10 do mês seguinte, mediante nota fiscal (pessoa jurídica) ou RPA (pessoa física).</li>
-<li><strong>Progressão de nível:</strong> o novo percentual vale a partir do processo que marca a mudança de nível, sem efeito retroativo.</li>
-<li><strong>Manutenção de nível:</strong> os níveis Platina e Diamante exigem ao menos 10 processos por trimestre das empresas indicadas. Abaixo disso, o parceiro retorna ao nível anterior.</li>
-<li><strong>Confidencialidade:</strong> as informações das empresas indicadas e de suas operações são tratadas com sigilo, conforme a Lei Geral de Proteção de Dados (LGPD).</li>
-<li><strong>Conformidade:</strong> o parceiro declara que sua participação não conflita com políticas internas, códigos de conduta ou normas anticorrupção aplicáveis à sua empresa.</li>
-<li><strong>Vigência:</strong> 12 meses a partir da assinatura do termo de parceria, com renovação automática. Alterações nas condições são comunicadas com 30 dias de antecedência.</li>
-</ul>
-<h2>Próximos passos</h2>
-<p>A adesão ao programa ocorre em quatro etapas.</p>
-<ol>
-<li>Reunião de apresentação e alinhamento das condições.</li>
-<li>Assinatura do termo de parceria.</li>
-<li>Cadastro do parceiro e dos dados de faturamento.</li>
-<li>Início das indicações.</li>
-</ol>
-<h2>Contato</h2>
-<p><strong>Tomás Soares</strong> · Área Comercial, Syndex Logística e Gestão Aduaneira</p>
-<p>E-mail: <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#97;&#108;&#101;&#115;&#56;&#64;&#115;&#121;&#110;&#100;&#101;&#120;&#46;&#99;&#111;&#109;&#46;&#98;&#114;">&#115;&#97;&#108;&#101;&#115;&#56;&#64;&#115;&#121;&#110;&#100;&#101;&#120;&#46;&#99;&#111;&#109;&#46;&#98;&#114;</a> · Telefone e WhatsApp: (47) 99266-8440</p>
-  </article>
-  <footer>Syndex Logística e Gestão Aduaneira · <a href="https://syndex.com.br/" target="_blank" rel="noopener">syndex.com.br</a></footer>
+<div class="palco">
+<div class="a4" style="width: 794px; height: 1123px; box-sizing: border-box; display: flex; flex-direction: column; overflow: hidden; background: #FFFFFF; color: #12293A; font-family: 'Outfit', 'Segoe UI', 'Helvetica Neue', sans-serif; font-variant-numeric: tabular-nums">
+
+<div style="height: 56px; flex: none; box-sizing: border-box; padding: 0 48px; display: flex; align-items: center; justify-content: space-between">
+<img src="../assets/syndex-logo.png" alt="Syndex" style="height: 30px; width: auto; display: block">
+<div style="font-size: 13px; line-height: 18px; font-weight: 500; color: #1E4D6B">Programa de Parceria por Indicação</div>
+</div>
+
+<div style="height: 412px; flex: none; box-sizing: border-box; position: relative; overflow: hidden; background: #143A52; padding: 40px 48px 32px; display: flex; flex-direction: column; gap: 36px">
+<div aria-hidden="true" style="position: absolute; right: -120px; top: -160px; width: 260px; height: 260px; box-sizing: border-box; border-radius: 44px; border: 1.5px solid rgba(154, 214, 174, 0.3); transform: rotate(45deg)"></div>
+<div aria-hidden="true" style="position: absolute; right: -70px; top: -120px; width: 180px; height: 180px; border-radius: 30px; background: #5DBB7A; transform: rotate(45deg)"></div>
+<div aria-hidden="true" style="position: absolute; left: -90px; bottom: -120px; width: 220px; height: 220px; border-radius: 36px; background: #1E4D6B; transform: rotate(45deg)"></div>
+
+<div style="position: relative; display: flex; gap: 28px; align-items: flex-end">
+<div style="flex: none; width: 410px; display: flex; flex-direction: column; gap: 14px">
+<h1 style="margin: 0; font-size: 42px; line-height: 1.06; font-weight: 700; letter-spacing: -0.8px; color: #FFFFFF">Indique empresas. Receba em cada processo.</h1>
+<p style="margin: 0; font-size: 16px; line-height: 1.45; font-weight: 300; color: #C8DAE6">Remuneração sobre o honorário de desembaraço aduaneiro, sem teto e paga todo mês.</p>
+</div>
+<div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 18px; line-height: 22px; font-weight: 500; color: #9AD6AE">até</div>
+<div style="font-size: 128px; line-height: 0.88; font-weight: 800; letter-spacing: -5px; color: #5DBB7A">15%</div>
+<div style="font-size: 14px; line-height: 19px; color: #C8DAE6; padding-top: 6px">do honorário, em cada processo</div>
+</div>
+</div>
+
+<div style="position: relative">
+<div aria-hidden="true" style="position: absolute; left: 15px; top: 14px; width: 481px; height: 0; border-top: 2px dashed rgba(154, 214, 174, 0.45)"></div>
+<div style="position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="width: 30px; height: 30px; border-radius: 50%; background: #5DBB7A; color: #12293A; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 5px #143A52">1</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 16px; line-height: 20px; font-weight: 600; color: #FFFFFF">Você indica</div>
+<div style="font-size: 13px; line-height: 18px; color: #B9CEDC">Apresente a empresa ao comercial da Syndex.</div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="width: 30px; height: 30px; border-radius: 50%; background: #5DBB7A; color: #12293A; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 5px #143A52">2</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 16px; line-height: 20px; font-weight: 600; color: #FFFFFF">A Syndex atende</div>
+<div style="font-size: 13px; line-height: 18px; color: #B9CEDC">Negociação e operação por nossa conta.</div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="width: 30px; height: 30px; border-radius: 50%; background: #5DBB7A; color: #12293A; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 5px #143A52">3</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<div style="font-size: 16px; line-height: 20px; font-weight: 600; color: #FFFFFF">Você recebe</div>
+<div style="font-size: 13px; line-height: 18px; color: #B9CEDC">O percentual do seu nível, a cada processo pago.</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div style="height: 470px; flex: none; box-sizing: border-box; padding: 30px 48px 24px; display: flex; flex-direction: column">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h2 style="margin: 0; font-size: 24px; line-height: 30px; font-weight: 700; letter-spacing: -0.3px; color: #143A52">Quanto mais processos, maior o seu percentual</h2>
+<p style="margin: 0; font-size: 13px; line-height: 18px; color: #4F6170">Percentual sobre o honorário de cada processo. Valores com honorário de R$1.621.</p>
+</div>
+
+<div style="margin-top: 20px; height: 190px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 3px; align-items: end">
+<div style="height: 92px; box-sizing: border-box; border-radius: 10px 10px 0 0; background: #DDF0E3; color: #12293A; padding: 14px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 28px; line-height: 1; font-weight: 700; letter-spacing: -0.5px">10%</div>
+<div style="font-size: 13px; line-height: 16px; font-weight: 600">Bronze</div>
+</div>
+<div style="height: 116px; box-sizing: border-box; border-radius: 10px 10px 0 0; background: #A9DDB9; color: #12293A; padding: 14px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 28px; line-height: 1; font-weight: 700; letter-spacing: -0.5px">11,25%</div>
+<div style="font-size: 13px; line-height: 16px; font-weight: 600">Prata</div>
+</div>
+<div style="height: 140px; box-sizing: border-box; border-radius: 10px 10px 0 0; background: #5DBB7A; color: #12293A; padding: 14px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 28px; line-height: 1; font-weight: 700; letter-spacing: -0.5px">12,5%</div>
+<div style="font-size: 13px; line-height: 16px; font-weight: 600">Ouro</div>
+</div>
+<div style="height: 166px; box-sizing: border-box; border-radius: 10px 10px 0 0; background: #2B6487; color: #FFFFFF; padding: 14px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-size: 28px; line-height: 1; font-weight: 700; letter-spacing: -0.5px">13,75%</div>
+<div style="font-size: 13px; line-height: 16px; font-weight: 600">Platina</div>
+</div>
+<div style="position: relative; height: 190px; box-sizing: border-box; border-radius: 10px 10px 0 0; background: #143A52; color: #FFFFFF; padding: 14px; display: flex; flex-direction: column; gap: 6px">
+<div aria-hidden="true" style="position: absolute; top: -9px; right: 18px; width: 16px; height: 16px; border-radius: 3px; background: #5DBB7A; transform: rotate(45deg)"></div>
+<div style="font-size: 28px; line-height: 1; font-weight: 700; letter-spacing: -0.5px">15%</div>
+<div style="font-size: 13px; line-height: 16px; font-weight: 600">Diamante</div>
+</div>
+</div>
+<div style="height: 2px; background: #143A52"></div>
+
+<div style="margin-top: 16px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 3px">
+<div style="padding: 0 14px; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; flex-direction: column"><div style="font-size: 16px; line-height: 20px; font-weight: 700; color: #12293A">1 a 9</div><div style="font-size: 12px; line-height: 16px; color: #4F6170">processos</div></div>
+<div style="height: 1px; background: #D5E1DA"></div>
+<div style="display: flex; flex-direction: column"><div style="font-size: 20px; line-height: 24px; font-weight: 700; color: #1E4D6B">R$162</div><div style="font-size: 12px; line-height: 16px; color: #4F6170">por processo</div></div>
+<div style="display: flex; flex-direction: column"><div style="font-size: 12px; line-height: 16px; color: #4F6170">Total da faixa</div><div style="font-size: 14px; line-height: 19px; font-weight: 600; color: #12293A">R$1.458</div></div>
+</div>
+<div style="padding: 0 14px; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; flex-direction: column"><div style="font-size: 16px; line-height: 20px; font-weight: 700; color: #12293A">10 a 19</div><div style="font-size: 12px; line-height: 16px; color: #4F6170">processos</div></div>
+<div style="height: 1px; background: #D5E1DA"></div>
+<div style="display: flex; flex-direction: column"><div style="font-size: 20px; line-height: 24px; font-weight: 700; color: #1E4D6B">R$182</div><div style="font-size: 12px; line-height: 16px; color: #4F6170">por processo</div></div>
+<div style="display: flex; flex-direction: column"><div style="font-size: 12px; line-height: 16px; color: #4F6170">Total da faixa</div><div style="font-size: 14px; line-height: 19px; font-weight: 600; color: #12293A">R$1.820</div></div>
+</div>
+<div style="padding: 0 14px; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; flex-direction: column"><div style="font-size: 16px; line-height: 20px; font-weight: 700; color: #12293A">20 a 49</div><div style="font-size: 12px; line-height: 16px; color: #4F6170">processos</div></div>
+<div style="height: 1px; background: #D5E1DA"></div>
+<div style="display: flex; flex-direction: column"><div style="font-size: 20px; line-height: 24px; font-weight: 700; color: #1E4D6B">R$202</div><div style="font-size: 12px; line-height: 16px; color: #4F6170">por processo</div></div>
+<div style="display: flex; flex-direction: column"><div style="font-size: 12px; line-height: 16px; color: #4F6170">Total da faixa</div><div style="font-size: 14px; line-height: 19px; font-weight: 600; color: #12293A">R$6.060</div></div>
+</div>
+<div style="padding: 0 14px; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; flex-direction: column"><div style="font-size: 16px; line-height: 20px; font-weight: 700; color: #12293A">50 a 99</div><div style="font-size: 12px; line-height: 16px; color: #4F6170">processos</div></div>
+<div style="height: 1px; background: #D5E1DA"></div>
+<div style="display: flex; flex-direction: column"><div style="font-size: 20px; line-height: 24px; font-weight: 700; color: #1E4D6B">R$222</div><div style="font-size: 12px; line-height: 16px; color: #4F6170">por processo</div></div>
+<div style="display: flex; flex-direction: column"><div style="font-size: 12px; line-height: 16px; color: #4F6170">Total da faixa</div><div style="font-size: 14px; line-height: 19px; font-weight: 600; color: #12293A">R$11.100</div></div>
+</div>
+<div style="padding: 0 14px; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; flex-direction: column"><div style="font-size: 16px; line-height: 20px; font-weight: 700; color: #12293A">100+</div><div style="font-size: 12px; line-height: 16px; color: #4F6170">processos</div></div>
+<div style="height: 1px; background: #D5E1DA"></div>
+<div style="display: flex; flex-direction: column"><div style="font-size: 20px; line-height: 24px; font-weight: 700; color: #1E4D6B">R$243</div><div style="font-size: 12px; line-height: 16px; color: #4F6170">por processo</div></div>
+<div style="display: flex; flex-direction: column"><div style="font-size: 12px; line-height: 16px; color: #4F6170">Total da faixa</div><div style="font-size: 14px; line-height: 19px; font-weight: 600; color: #12293A">Sem limite</div></div>
+</div>
+</div>
+</div>
+
+<div style="height: 185px; flex: none; box-sizing: border-box; background: #143A52; color: #FFFFFF; padding: 26px 48px; display: flex; gap: 40px">
+<div style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 8px">
+<div style="font-size: 14px; line-height: 18px; font-weight: 600; color: #9AD6AE">Condições essenciais</div>
+<div style="display: flex; flex-direction: column; gap: 3px; font-size: 12.5px; line-height: 17px; color: #D9E6EE">
+<div style="display: flex; gap: 10px; align-items: center"><div aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 1px; background: #5DBB7A; transform: rotate(45deg)"></div><div>Base de cálculo: somente o honorário (SDA e LPCO ficam fora).</div></div>
+<div style="display: flex; gap: 10px; align-items: center"><div aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 1px; background: #5DBB7A; transform: rotate(45deg)"></div><div>Pagamento mensal, após o pagamento do processo pelo cliente.</div></div>
+<div style="display: flex; gap: 10px; align-items: center"><div aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 1px; background: #5DBB7A; transform: rotate(45deg)"></div><div>O novo percentual vale a partir do processo que muda o nível.</div></div>
+<div style="display: flex; gap: 10px; align-items: center"><div aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 1px; background: #5DBB7A; transform: rotate(45deg)"></div><div>Validade de 1 ano, a partir da assinatura do termo.</div></div>
+<div style="display: flex; gap: 10px; align-items: center"><div aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 1px; background: #5DBB7A; transform: rotate(45deg)"></div><div>Condições completas no termo de parceria.</div></div>
+</div>
+</div>
+<div style="flex: none; width: 230px; box-sizing: border-box; border-left: 1px solid #2B6487; padding-left: 28px; display: flex; flex-direction: column; gap: 10px">
+<div style="font-size: 22px; line-height: 28px; font-weight: 700; color: #FFFFFF">Vamos conversar?</div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="font-size: 17px; line-height: 22px; font-weight: 600; color: #FFFFFF">Tomás Soares</div>
+<div style="font-size: 12.5px; line-height: 17px; color: #C9DAE5">Área Comercial da Syndex</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<a href="mailto:sales8@syndex.com.br" style="font-size: 13px; line-height: 18px">sales8@syndex.com.br</a>
+<div style="font-size: 13px; line-height: 18px; color: #FFFFFF">(47) 99266-8440</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<footer>Programa de Parceria por Indicação · Syndex Logística e Gestão Aduaneira</footer>
 </main>
+<script>
+(function(){
+  var palco=document.querySelector('.palco'), folha=document.querySelector('.a4');
+  function ajustar(){
+    var s=Math.min(1, palco.clientWidth/794);
+    folha.style.transform='scale('+s+')';
+    palco.style.height=Math.round(1123*s)+'px';
+  }
+  window.addEventListener('resize', ajustar);
+  window.addEventListener('beforeprint', function(){ folha.style.transform='none'; });
+  window.addEventListener('afterprint', ajustar);
+  ajustar();
+})();
+</script>
 </body>
 </html>

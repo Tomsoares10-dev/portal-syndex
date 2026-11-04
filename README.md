@@ -27,7 +27,7 @@ Funciona no computador e no celular. No celular dá para instalar como app:
 | Cotações e propostas | Estimativa de custo | Portal (`/estimativa`) |
 | Cotações e propostas | Mini proposta rodoviária | Portal (`/mini-proposta`) |
 | Cotações e propostas | Cupom Especial | Portal (`/cupom`) |
-| Cotações e propostas | Programa de Indicação | Portal (`/indicacao`, cópia do documento de 7/10/2026) |
+| Cotações e propostas | Programa de Indicação | Portal (`/indicacao`, proposta one-page com botão de imprimir/PDF) |
 | Rotina | Despesas de viagem | Site (GitHub) |
 | Rotina | Syndex Reposição | Portal (`/reposicao`, marcações salvas no aparelho) |
 | Rotina | Foto de grupo WhatsApp | Site (GitHub) |
