@@ -263,8 +263,14 @@ input.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-size:14
 }
 @media (max-width:430px){
   #btnNew span{display:none;}
-  #btnText svg,#btnPdf svg{display:none;}
+  #btnText svg,#btnPdf svg,#btnImg svg{display:none;}
   .brand img{height:22px;}
+}
+@media (max-width:370px){
+  .topbar-in{gap:6px;padding:10px 8px;}
+  .actions{gap:4px;}
+  .btn{padding:8px 9px;font-size:13.5px;}
+  .brand img{height:19px;}
 }
 @media (prefers-reduced-motion:reduce){
   *{transition:none !important;animation-duration:2s !important;}
@@ -287,6 +293,10 @@ input.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-size:14
       <button class="btn" id="btnText" type="button" title="Gerar texto para colar no e-mail ou no Teams">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5" y="5" width="8.5" height="8.5" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 3.2V3a1.5 1.5 0 0 0-1.5-1.5H4A1.5 1.5 0 0 0 2.5 3v5A1.5 1.5 0 0 0 4 9.5h.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
         <span class="long">Copiar texto</span><span class="short">Texto</span>
+      </button>
+      <button class="btn" id="btnImg" type="button" title="Baixar como imagem, para mandar no WhatsApp">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="2" y="2.5" width="12" height="11" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="5.8" cy="6.2" r="1.25" fill="currentColor"/><path d="M2.9 11.9l3.5-3.3 2.4 2.2 2-1.8 2.4 2.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="long">Baixar imagem</span><span class="short">Imagem</span>
       </button>
       <button class="btn btn-primary" id="btnPdf" type="button" title="Baixar em PDF">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v8.5M4.5 7.2 8 10.6l3.5-3.4M2.5 13.5h11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -785,8 +795,8 @@ function pdfSafe(s){
     .replace(/[\u2013\u2014\u2212]/g,"-").replace(/\u2026/g,"...").replace(/\u20AC/g,"EUR")
     .replace(/[\u00A0\u202F\u2007]/g," ").replace(/[^\x00-\xFF]/g,"?");
 }
-function buildPDF(){
-  var doc=new window.jspdf.jsPDF({unit:"pt",format:"a4",compress:true});
+function buildPDF(makeDoc){
+  var doc=makeDoc?makeDoc():new window.jspdf.jsPDF({unit:"pt",format:"a4",compress:true});
   var W=doc.internal.pageSize.getWidth(), H=doc.internal.pageSize.getHeight();
   var M=34, CW=W-2*M, LIMIT=H-44;
   var C={bar:[87,184,115],navy:[23,59,80],navy2:[37,83,111],green:[63,156,89],ink:[27,42,40],soft:[98,113,105],faint:[165,176,170],
@@ -1138,7 +1148,7 @@ function getDownloads(){
   }
   return dlP;
 }
-getDownloads().then(function(d){ if(!d){ $("btnPdf").hidden=true; $("btnText").classList.add("btn-primary"); } });
+getDownloads().then(function(d){ if(!d){ $("btnPdf").hidden=true; $("btnImg").hidden=true; $("btnText").classList.add("btn-primary"); } });
 
 async function doPDF(){
   if(!(window.jspdf&&window.jspdf.jsPDF)){ toast("O gerador de PDF não carregou. Recarregue a página."); return; }
@@ -1153,6 +1163,148 @@ async function doPDF(){
     if(c==="declined") return;
     if(c==="rate_limited") toast("Já existe um download aguardando confirmação.");
     else toast("Não foi possível gerar o PDF. Tente de novo.");
+  }finally{ btn.disabled=false; }
+}
+
+/* ---------- image (PNG) for WhatsApp: same layout as the PDF, drawn on a canvas ---------- */
+var logoP=null;
+function logoImage(){
+  if(!logoP) logoP=new Promise(function(res,rej){ var im=new Image(); im.onload=function(){ res(im); }; im.onerror=rej; im.src=LOGO; });
+  return logoP;
+}
+function makeCanvasDoc(logo,SC){
+  var PW=595.28, PH=841.89, pages=[], ctx=null;
+  var st={style:"normal",size:10,fill:"#000",stroke:"#000",text:"#000",lw:0.2};
+  var hasLS=false;
+  try{ hasLS="letterSpacing" in document.createElement("canvas").getContext("2d"); }catch(e){}
+  function rgb(r,g,b){ return "rgb("+r+","+g+","+b+")"; }
+  function newPage(){
+    var c=document.createElement("canvas"); c.width=Math.round(PW*SC); c.height=Math.round(PH*SC);
+    var x=c.getContext("2d"); x.setTransform(SC,0,0,SC,0,0);
+    x.fillStyle="#FFFFFF"; x.fillRect(0,0,PW,PH); x.textBaseline="alphabetic";
+    pages.push(c); ctx=x;
+  }
+  function applyFont(){
+    var s=st.style||"normal";
+    ctx.font=(s.indexOf("italic")>-1?"italic ":"")+(s.indexOf("bold")>-1?"bold ":"")+st.size+'px Helvetica, Arial, "Liberation Sans", sans-serif';
+    if(hasLS) ctx.letterSpacing="0px";
+  }
+  function width(t){ applyFont(); return ctx.measureText(String(t)).width; }
+  function roundPath(x,y,w,h,r){
+    r=Math.max(0,Math.min(r,w/2,h/2));
+    ctx.beginPath(); ctx.moveTo(x+r,y);
+    ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r);
+    ctx.closePath();
+  }
+  function paint(style){
+    style=style||"S";
+    if(style.indexOf("F")>-1){ ctx.fillStyle=st.fill; ctx.fill(); }
+    if(style.indexOf("D")>-1||style==="S"){ ctx.strokeStyle=st.stroke; ctx.lineWidth=st.lw; ctx.stroke(); }
+  }
+  function drawLine(t,x,y,align,cs){
+    applyFont(); ctx.fillStyle=st.text;
+    if(cs>0 && !hasLS){
+      var cx=align==="right"?x-(width(t)+cs*(t.length-1)):x;
+      applyFont(); ctx.textAlign="left";
+      for(var i=0;i<t.length;i++){ ctx.fillText(t[i],cx,y); cx+=ctx.measureText(t[i]).width+cs; }
+      return;
+    }
+    if(hasLS && cs>0) ctx.letterSpacing=cs+"px";
+    ctx.textAlign=align==="right"?"right":"left";
+    ctx.fillText(t,x,y);
+    if(hasLS) ctx.letterSpacing="0px";
+  }
+  function breakWord(wd,w,out){
+    var piece="";
+    for(var i=0;i<wd.length;i++){ if(piece && width(piece+wd[i])>w){ out.push(piece); piece=wd[i]; } else piece+=wd[i]; }
+    return piece;
+  }
+  newPage();
+  var doc={
+    internal:{pageSize:{getWidth:function(){ return PW; },getHeight:function(){ return PH; }}},
+    pages:pages,
+    setFont:function(f,s){ st.style=s||"normal"; return doc; },
+    setFontSize:function(s){ st.size=s; return doc; },
+    setTextColor:function(r,g,b){ st.text=rgb(r,g,b); return doc; },
+    setDrawColor:function(r,g,b){ st.stroke=rgb(r,g,b); return doc; },
+    setFillColor:function(r,g,b){ st.fill=rgb(r,g,b); return doc; },
+    setLineWidth:function(w){ st.lw=w; return doc; },
+    rect:function(x,y,w,h,style){ ctx.beginPath(); ctx.rect(x,y,w,h); paint(style); return doc; },
+    roundedRect:function(x,y,w,h,rx,ry,style){ roundPath(x,y,w,h,rx); paint(style); return doc; },
+    line:function(a,b,c,d){ ctx.beginPath(); ctx.moveTo(a,b); ctx.lineTo(c,d); ctx.strokeStyle=st.stroke; ctx.lineWidth=st.lw; ctx.stroke(); return doc; },
+    addImage:function(data,fmt,x,y,w,h){ ctx.drawImage(logo,x,y,w,h); return doc; },
+    text:function(t,x,y,o){
+      o=o||{}; var lh=st.size*(o.lineHeightFactor||1.15);
+      [].concat(t).forEach(function(l,i){ drawLine(String(l),x,y+i*lh,o.align,o.charSpace||0); });
+      return doc;
+    },
+    textWithLink:function(t,x,y){ doc.text(t,x,y); return 0; },
+    getTextWidth:function(t){ return width(t); },
+    splitTextToSize:function(t,w){
+      var out=[];
+      String(t==null?"":t).split(/\r?\n/).forEach(function(par){
+        var cur="";
+        par.split(" ").forEach(function(wd){
+          var trial=cur?cur+" "+wd:wd;
+          if(width(trial)<=w){ cur=trial; return; }
+          if(cur) out.push(cur);
+          cur=width(wd)>w?breakWord(wd,w,out):wd;
+        });
+        out.push(cur);
+      });
+      return out;
+    },
+    addPage:function(){ newPage(); return doc; },
+    getNumberOfPages:function(){ return pages.length; },
+    setPage:function(n){ ctx=pages[n-1].getContext("2d"); return doc; }
+  };
+  return doc;
+}
+/* all pages in one image, one below the other (normally there is only one) */
+function pagesToBlob(pages){
+  var GAP=pages.length>1?Math.round(pages[0].width*0.025):0;
+  var W0=pages[0].width, H0=pages.reduce(function(a,c){ return a+c.height; },0)+GAP*(pages.length-1);
+  var k=Math.min(1,Math.sqrt(16e6/(W0*H0)));
+  var out=document.createElement("canvas"); out.width=Math.round(W0*k); out.height=Math.round(H0*k);
+  var x=out.getContext("2d"); x.fillStyle="#DDE4DF"; x.fillRect(0,0,out.width,out.height);
+  var yy=0;
+  pages.forEach(function(c){ x.drawImage(c,0,yy*k,c.width*k,c.height*k); yy+=c.height+GAP; });
+  return new Promise(function(res,rej){ out.toBlob(function(b){ b?res(b):rej(new Error("toBlob")); },"image/png"); });
+}
+function saveBlobLocally(blob,name){
+  var url=URL.createObjectURL(blob), a=document.createElement("a");
+  a.href=url; a.download=name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function(){ URL.revokeObjectURL(url); },8000);
+}
+async function doImage(){
+  var btn=$("btnImg"); btn.disabled=true;
+  var OK="Imagem salva. É só mandar no WhatsApp.";
+  try{
+    var logo=await logoImage();
+    var doc=buildPDF(function(){ return makeCanvasDoc(logo,3); });
+    var blob=await pagesToBlob(doc.pages);
+    var name=fileBase()+".png";
+    if(IN_CLAUDE){
+      var dl=await getDownloads();
+      if(!dl){ toast("Download indisponível aqui. Use Copiar texto."); return; }
+      var res=await dl.save({filename:name,data:blob});
+      if(res&&res.status==="saved") toast(OK);
+      return;
+    }
+    // phone: open the share sheet straight away (WhatsApp, Salvar imagem...); computer: normal download
+    var touch=window.matchMedia&&window.matchMedia("(pointer: coarse)").matches, file=null;
+    try{ file=new File([blob],name,{type:"image/png"}); }catch(e){}
+    if(touch && file && navigator.canShare && navigator.canShare({files:[file]})){
+      try{ await navigator.share({files:[file],title:docTitle()}); return; }
+      catch(e){ if(e&&e.name==="AbortError") return; }
+    }
+    saveBlobLocally(blob,name);
+    toast(OK);
+  }catch(err){
+    var c=err&&err.code;
+    if(c==="declined") return;
+    if(c==="rate_limited") toast("Já existe um download aguardando confirmação.");
+    else toast("Não foi possível gerar a imagem. Tente de novo.");
   }finally{ btn.disabled=false; }
 }
 
@@ -1229,6 +1381,7 @@ function newRequest(){
 }
 
 $("btnPdf").addEventListener("click",function(){ withGate("Baixar PDF",doPDF); });
+$("btnImg").addEventListener("click",function(){ withGate("Baixar imagem",doImage); });
 $("btnText").addEventListener("click",function(){ withGate("Gerar texto",showText); });
 $("btnNew").addEventListener("click",newRequest);
 
