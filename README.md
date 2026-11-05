@@ -52,3 +52,23 @@ As ferramentas que abrem no Claude são links privados: só funcionam para quem 
 - `manifest.webmanifest`, `sw.js`, `icon-*.png`, `apple-touch-icon.png` — para instalar como app
 
 Para trocar o link de uma ferramenta, edite o `href` do card dela no `index.html`.
+
+## Senha (cadeado)
+
+O HUB e todas as ferramentas deste repositório abrem só com a senha do Tomás. A única página aberta de propósito é `cotacao/` (Peça sua cotação), feita para os clientes.
+
+- Cada página publicada é uma tela de senha com o conteúdo original **criptografado** (AES-256-GCM, chave derivada da senha com PBKDF2-SHA256, 600 mil iterações). Sem a senha, o que está no GitHub é ilegível.
+- A senha **não fica gravada em lugar nenhum** do repositório. No aparelho, "Lembrar neste aparelho" guarda só a chave derivada no navegador; abrir qualquer página com `?sair` no fim do endereço faz o aparelho esquecer.
+- Os sites separados (Despesas, Proposta TTD, Foto de grupo, Dados da proposta) ficam em outros repositórios e **não** têm senha.
+
+Para editar uma página (precisa da senha):
+
+```
+python3 _cadeado/cadeado.py abrir      # devolve o conteúdo original no seu computador
+# ... editar ...
+python3 _cadeado/cadeado.py trancar    # criptografa de novo (inclui páginas novas)
+python3 _cadeado/cadeado.py verificar  # confere que nada ficou sem senha — rode antes de todo commit
+```
+
+Para trocar a senha: `abrir` com a senha antiga, `nova-senha`, `trancar` com a senha nova.
+

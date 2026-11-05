@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+{{MARCA}}
+<meta name="robots" content="noindex, nofollow">
+<title>{{TITULO}}</title>
+{{CABECA}}
+<style>
+:root{--navy:#02488F;--navy-deep:#012F5E;--ink:#12244A;--muted:#55658A;--line:#DCE3EF;--erro:#B42318;
+  --sans:"Manrope","Segoe UI",system-ui,-apple-system,sans-serif}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font:500 16px/1.5 var(--sans);color:var(--ink);
+  background:radial-gradient(120% 90% at 50% 0%,#0A5BB0 0%,var(--navy) 38%,var(--navy-deep) 100%);
+  display:flex;align-items:center;justify-content:center;
+  padding:calc(24px + env(safe-area-inset-top,0px)) 20px calc(24px + env(safe-area-inset-bottom,0px))}
+html:not(.pronto) .caixa{visibility:hidden}
+.caixa{width:100%;max-width:380px;text-align:center}
+.logo{height:44px;width:auto;margin:0 auto 26px;display:block}
+form{background:#fff;border-radius:18px;padding:28px 24px 24px;text-align:left;box-shadow:0 24px 60px rgba(1,20,50,.35)}
+h1{margin:0 0 4px;font-size:21px;font-weight:800;letter-spacing:-.01em}
+.sub{margin:0 0 20px;color:var(--muted);font-size:15px}
+label.campo{display:block;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:6px}
+.senha{position:relative}
+input[type=password],input[type=text]{width:100%;font:600 17px/1 var(--sans);color:var(--ink);padding:14px 52px 14px 14px;border:1.5px solid var(--line);border-radius:12px;background:#F7F9FC;outline:none}
+input:focus{border-color:var(--navy);background:#fff}
+.olho{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:none;padding:10px;cursor:pointer;color:var(--muted);font:700 12px var(--sans)}
+.lembrar{display:flex;align-items:center;gap:8px;margin:14px 0 18px;font-size:14px;color:var(--muted);cursor:pointer}
+.lembrar input{width:18px;height:18px;accent-color:var(--navy)}
+button.entrar{width:100%;border:0;border-radius:12px;background:var(--navy);color:#fff;font:800 16px/1 var(--sans);padding:16px;cursor:pointer}
+button.entrar:disabled{opacity:.7;cursor:wait}
+.erro{min-height:20px;margin:10px 0 0;color:var(--erro);font-size:14px;font-weight:700}
+.rodape{margin-top:18px;color:rgba(255,255,255,.7);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+</style>
+</head>
+<body>
+<div class="caixa">
+  <img class="logo" src="{{PRE}}assets/syndex-logo-branco.png" alt="Syndex">
+  <form id="f" autocomplete="on">
+    <h1>Acesso restrito</h1>
+    <p class="sub">Digite a senha para abrir o HUB.</p>
+    <label class="campo" for="s">Senha</label>
+    <div class="senha">
+      <input id="s" name="password" type="password" autocomplete="current-password" required>
+      <button class="olho" type="button" id="olho" aria-label="Mostrar senha">VER</button>
+    </div>
+    <label class="lembrar"><input type="checkbox" id="l" checked> Lembrar neste aparelho</label>
+    <button class="entrar" id="b" type="submit">Entrar</button>
+    <p class="erro" id="e" role="alert"></p>
+  </form>
+  <div class="rodape">HUB | SYNDEX</div>
+</div>
+<noscript><p style="color:#fff;text-align:center">Ative o JavaScript para abrir o HUB.</p></noscript>
+<script>
+(function () {
+  var D = {sal:"{{SAL}}", it:{{ITER}}, iv:"{{IV}}", ct:"{{CT}}"};
+  var CHAVE = "{{CHAVE_LOCAL}}";
+  var $ = function (id) { return document.getElementById(id); };
+  function bytes(s) { var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
+  function texto64(buf) { var u = new Uint8Array(buf), s = ""; for (var i = 0; i < u.length; i++) s += String.fromCharCode(u[i]); return btoa(s); }
+  function lerGuardada() { try { var g = JSON.parse(localStorage.getItem(CHAVE) || "null"); return g && g.sal === D.sal ? g.k : null; } catch (e) { return null; } }
+  function esquecer() { try { localStorage.removeItem(CHAVE); } catch (e) {} }
+  function mostrar() { document.documentElement.className = "pronto"; try { $("s").focus(); } catch (e) {} }
+
+  async function decifrar(raw) {
+    var k = await crypto.subtle.importKey("raw", raw, {name: "AES-GCM"}, false, ["decrypt"]);
+    var pt = await crypto.subtle.decrypt({name: "AES-GCM", iv: bytes(D.iv)}, k, bytes(D.ct));
+    return new TextDecoder().decode(pt);
+  }
+  // só troca a página depois que a tela de senha terminou de carregar; antes disso o
+  // navegador misturaria as duas páginas
+  function exibir(html) {
+    var trocar = function () { document.open(); document.write(html); document.close(); };
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", trocar, {once: true});
+    else trocar();
+  }
+  async function derivar(senha) {
+    var base = await crypto.subtle.importKey("raw", new TextEncoder().encode(senha), "PBKDF2", false, ["deriveBits"]);
+    return crypto.subtle.deriveBits({name: "PBKDF2", hash: "SHA-256", salt: bytes(D.sal), iterations: D.it}, base, 256);
+  }
+
+  if (!window.crypto || !crypto.subtle) { mostrar(); $("e").textContent = "Este navegador não consegue abrir o HUB. Atualize o navegador."; $("b").disabled = true; return; }
+  if (/[?&]sair\b/.test(location.search)) esquecer();
+
+  var g = lerGuardada();
+  if (g) decifrar(bytes(g)).then(exibir, function () { esquecer(); mostrar(); });
+  else mostrar();
+
+  $("olho").addEventListener("click", function () {
+    var i = $("s"), ver = i.type === "password"; i.type = ver ? "text" : "password";
+    this.textContent = ver ? "OCULTAR" : "VER"; i.focus();
+  });
+  $("f").addEventListener("submit", async function (ev) {
+    ev.preventDefault();
+    var senha = $("s").value; if (!senha) return;
+    $("b").disabled = true; $("b").textContent = "Abrindo…"; $("e").textContent = "";
+    try {
+      var raw = await derivar(senha);
+      var html = await decifrar(raw);
+      if ($("l").checked) { try { localStorage.setItem(CHAVE, JSON.stringify({sal: D.sal, k: texto64(raw)})); } catch (e) {} }
+      else esquecer();
+      exibir(html);
+    } catch (e) {
+      $("b").disabled = false; $("b").textContent = "Entrar";
+      $("e").textContent = "Senha incorreta."; $("s").select();
+    }
+  });
+})();
+</script>
+</body>
+</html>
