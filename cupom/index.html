@@ -111,6 +111,7 @@ details.vendedor > summary:focus-visible { outline: 2px solid var(--green); outl
 .btn.ghost { background: transparent; color: var(--navy); border-color: var(--line); }
 .btn:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
 .actions { display: grid; gap: 10px; }
+.row2 .wide { grid-column: 1 / -1; }
 .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 @media (max-width: 380px) { .row2 { grid-template-columns: 1fr; } }
 
@@ -227,8 +228,9 @@ kbd { font: 600 12px ui-monospace, "SFMono-Regular", Menlo, monospace; backgroun
         <div class="progress" id="progress" hidden><i id="bar"></i></div>
         <p class="status" id="status" role="status" aria-live="polite"></p>
         <div class="row2">
-          <button type="button" class="btn ghost" id="baixar-gif" disabled>Baixar GIF</button>
-          <button type="button" class="btn ghost" id="baixar-png">Baixar imagem (PNG)</button>
+          <button type="button" class="btn ghost" id="baixar-gif" disabled>GIF para e-mail</button>
+          <button type="button" class="btn ghost" id="baixar-whats" disabled>GIF para WhatsApp</button>
+          <button type="button" class="btn ghost wide" id="baixar-png">Baixar imagem (PNG)</button>
         </div>
       </div>
 
@@ -260,7 +262,7 @@ kbd { font: 600 12px ui-monospace, "SFMono-Regular", Menlo, monospace; backgroun
       <p>O link não fica dentro do arquivo: ele é preso ao cupom no próprio e-mail. Faça pelo computador, no Outlook.</p>
     </div>
     <ol class="passos">
-      <li><div><b>Baixe o GIF do cupom</b><span>Preencha os dados acima, toque em "Gerar GIF animado" e depois em "Baixar GIF".</span></div></li>
+      <li><div><b>Baixe o GIF do cupom</b><span>Preencha os dados acima, toque em "Gerar GIF animado" e depois em "GIF para e-mail".</span></div></li>
       <li><div><b>Copie o link do WhatsApp</b><span>Use o botão "Copiar link" desta página.</span></div></li>
       <li><div><b>Coloque o cupom no corpo do e-mail</b><span>Num e-mail novo, vá em Inserir → Imagens → Este dispositivo e escolha o GIF. Não mande como anexo: ele precisa aparecer dentro do e-mail.</span></div></li>
       <li><div><b>Selecione o cupom e abra o link</b><span>Clique uma vez no cupom, até aparecerem as alças em volta, e aperte <kbd>Ctrl</kbd> + <kbd>K</kbd> (no Mac, <kbd>Cmd</kbd> + <kbd>K</kbd>).</span></div></li>
@@ -278,7 +280,7 @@ kbd { font: 600 12px ui-monospace, "SFMono-Regular", Menlo, monospace; backgroun
       </div>
       <div class="outro">
         <h3>Pelo WhatsApp</h3>
-        <p>No WhatsApp não dá para esconder o link na imagem. Mande o PNG ou o GIF e, na mesma mensagem, o link copiado.</p>
+        <p>Use o "GIF para WhatsApp": ele tem fundo branco, porque o WhatsApp não aceita fundo transparente. O link não fica escondido: mande o link copiado na mesma mensagem.</p>
       </div>
     </div>
     <p class="hint">No Outlook instalado no computador, o cupom gira 3 vezes e aparece um botão de play: é do Outlook. Clicando fora do botão, o link abre normalmente.</p>
@@ -352,9 +354,9 @@ kbd { font: 600 12px ui-monospace, "SFMono-Regular", Menlo, monospace; backgroun
 
   var $ = function (id) { return document.getElementById(id); };
   var inp = $("nome"), hint = $("nome-hint"), statusEl = $("status"), bar = $("bar"), prog = $("progress");
-  var btnGerar = $("gerar"), btnGif = $("baixar-gif"), btnPng = $("baixar-png"), linkEl = $("link"), btnCopiar = $("copiar");
+  var btnGerar = $("gerar"), btnGif = $("baixar-gif"), btnWhats = $("baixar-whats"), btnPng = $("baixar-png"), linkEl = $("link"), btnCopiar = $("copiar");
   var cvFrente = $("previa-frente"), cvVerso = $("previa-verso"), imgGif = $("previa-gif"), faces = $("faces");
-  var gifBlob = null, nomeDoGif = "", chaveDoGif = "", temaDoGif = "padrao";
+  var whatsBlob = null, gifBlob = null, nomeDoGif = "", chaveDoGif = "", temaDoGif = "padrao";
   var SUFIXO = { padrao: "", black: "_Black", gold: "_Dourado" };
   var downloadsP = (window.claude && typeof window.claude.use === "function")
     ? window.claude.use("downloads").catch(function () { return null; }) : Promise.resolve(null);
@@ -504,7 +506,7 @@ kbd { font: 600 12px ui-monospace, "SFMono-Regular", Menlo, monospace; backgroun
     $("vendedor-resumo").textContent = faltando().length ? "Preencha uma vez" : (d.nome + " · " + d.fone);
     if (!faltando().length && statusEl.textContent.indexOf("Preencha") === 0) setStatus("");
     if (gifBlob && chave() !== chaveDoGif) {   // o GIF gerado não corresponde mais aos dados digitados
-      gifBlob = null; btnGif.disabled = true; imgGif.hidden = true; faces.hidden = false;
+      gifBlob = null; whatsBlob = null; btnGif.disabled = true; btnWhats.disabled = true; imgGif.hidden = true; faces.hidden = false;
       $("stage-info").textContent = "Frente e verso · fundo transparente";
       setStatus("Os dados mudaram. Gere o GIF de novo.");
     }
@@ -592,9 +594,11 @@ kbd { font: 600 12px ui-monospace, "SFMono-Regular", Menlo, monospace; backgroun
     if (!T.lutArr) T.lutArr = Uint8Array.from(atob(T.lut), function (ch) { return ch.charCodeAt(0); });
     PAL = T.palette; LUT = T.lutArr;
   }
-  function indexa(px) {
+  var FUNDO = [255, 255, 255];   // fundo do GIF para WhatsApp (usa a cor 127 da tabela)
+  function indexa(px, opaco) {
     // px: RGBA (não pré-multiplicado). Retorna índices + caixa do conteúdo.
-    var n = OUT_W * OUT_H, idx = new Uint8Array(n).fill(TRANS);
+    // opaco: fundo branco no lugar do transparente e quadro inteiro (o WhatsApp não aceita transparência)
+    var n = OUT_W * OUT_H, idx = new Uint8Array(n).fill(TRANS), M2 = opaco ? FUNDO : MATTE;
     var e0 = new Float32Array((OUT_W + 2) * 3), e1 = new Float32Array((OUT_W + 2) * 3);
     var x0 = OUT_W, y0 = OUT_H, x1 = -1, y1 = -1;
     for (var y = 0; y < OUT_H; y++) {
@@ -604,7 +608,7 @@ kbd { font: 600 12px ui-monospace, "SFMono-Regular", Menlo, monospace; backgroun
         if (a < 128) continue;
         if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
         var al = a / 255, k = (x + 1) * 3;
-        var r = px[p] * al + MATTE[0] * (1 - al) + e0[k], g = px[p + 1] * al + MATTE[1] * (1 - al) + e0[k + 1], b = px[p + 2] * al + MATTE[2] * (1 - al) + e0[k + 2];
+        var r = px[p] * al + M2[0] * (1 - al) + e0[k], g = px[p + 1] * al + M2[1] * (1 - al) + e0[k + 1], b = px[p + 2] * al + M2[2] * (1 - al) + e0[k + 2];
         r = r < 0 ? 0 : r > 255 ? 255 : r; g = g < 0 ? 0 : g > 255 ? 255 : g; b = b < 0 ? 0 : b > 255 ? 255 : b;
         var ci = LUT[((r >> 3) << 10) | ((g >> 3) << 5) | (b >> 3)], pc = PAL[ci];
         idx[i] = ci;
@@ -616,6 +620,7 @@ kbd { font: 600 12px ui-monospace, "SFMono-Regular", Menlo, monospace; backgroun
       }
       var tmp = e0; e0 = e1; e1 = tmp;
     }
+    if (opaco) return { idx: idx, box: [0, 0, OUT_W, OUT_H] };
     return { idx: idx, box: x1 < 0 ? null : [x0, y0, x1 - x0 + 1, y1 - y0 + 1] };
   }
 
@@ -638,12 +643,12 @@ kbd { font: 600 12px ui-monospace, "SFMono-Regular", Menlo, monospace; backgroun
     if (bits > 0) out.push(cur & 255);
     return out;
   }
-  function GifWriter(w, h) {
+  function GifWriter(w, h, opaco) {
     var parts = [];
     var u16 = function (n) { return [n & 255, (n >> 8) & 255]; };
     var hd = [71, 73, 70, 56, 57, 97].concat(u16(w), u16(h), [0x80 | 0x70 | 6, TRANS, 0]);
     var ct = [];
-    for (var i = 0; i < 128; i++) { var c = PAL[i] || [0, 0, 0]; ct.push(c[0], c[1], c[2]); }
+    for (var i = 0; i < 128; i++) { var c = (opaco && i === TRANS) ? FUNDO : (PAL[i] || [0, 0, 0]); ct.push(c[0], c[1], c[2]); }
     var loop = [0x21, 0xFF, 0x0B, 78, 69, 84, 83, 67, 65, 80, 69, 50, 46, 48, 3, 1, 0, 0, 0];
     parts.push(new Uint8Array(hd.concat(ct, loop)));
     this.frame = function (idx, box, delayMs) {
@@ -653,7 +658,7 @@ kbd { font: 600 12px ui-monospace, "SFMono-Regular", Menlo, monospace; backgroun
         for (var r = 0; r < fh; r++) data.set(idx.subarray((y + r) * w + x, (y + r) * w + x + fw), r * fw);
       } else data = new Uint8Array([TRANS]);
       var cs = Math.max(2, Math.round(delayMs / 10));
-      var head = [0x21, 0xF9, 4, (2 << 2) | 1].concat(u16(cs), [TRANS, 0, 0x2C], u16(x), u16(y), u16(fw), u16(fh), [0, 7]);
+      var head = [0x21, 0xF9, 4, opaco ? (1 << 2) : ((2 << 2) | 1)].concat(u16(cs), [TRANS, 0, 0x2C], u16(x), u16(y), u16(fw), u16(fh), [0, 7]);
       var bytes = lzw(data, 7), blocks = [];
       for (var o = 0; o < bytes.length; o += 255) { var len = Math.min(255, bytes.length - o); blocks.push(len); for (var j = 0; j < len; j++) blocks.push(bytes[o + j]); }
       blocks.push(0);
@@ -666,8 +671,8 @@ kbd { font: 600 12px ui-monospace, "SFMono-Regular", Menlo, monospace; backgroun
   function pausa() { return new Promise(function (ok) { setTimeout(ok, 0); }); }
   async function gerarGif() {
     if (ocupado || !confere()) return;
-    ocupado = true; btnGerar.disabled = true; btnGif.disabled = true; prog.hidden = false; bar.style.width = "0%";
-    setStatus("Gerando o GIF…");
+    ocupado = true; btnGerar.disabled = true; btnGif.disabled = true; btnWhats.disabled = true; prog.hidden = false; bar.style.width = "0%";
+    setStatus("Gerando os GIFs para e-mail e WhatsApp…");
     try {
       var nome = nomeAtual();
       var face = document.createElement("canvas"); face.width = TW; face.height = TH; desenhaFrente(face, nome);
@@ -678,21 +683,22 @@ kbd { font: 600 12px ui-monospace, "SFMono-Regular", Menlo, monospace; backgroun
       var out = document.createElement("canvas"); out.width = OUT_W; out.height = OUT_H;
       var c2 = out.getContext("2d", { willReadFrequently: true }); c2.imageSmoothingEnabled = true; c2.imageSmoothingQuality = "high";
       usaPaleta(tema());
-      var quadros = linhaDoTempo(), gw = new GifWriter(OUT_W, OUT_H);
+      var quadros = linhaDoTempo(), gw = new GifWriter(OUT_W, OUT_H), gww = new GifWriter(OUT_W, OUT_H, true);
       for (var i = 0; i < quadros.length; i++) {
         desenhaGL(G, texF, texV, quadros[i].ang);
         c2.clearRect(0, 0, OUT_W, OUT_H); c2.drawImage(G.cv, 0, 0, OUT_W, OUT_H);
-        var r = indexa(c2.getImageData(0, 0, OUT_W, OUT_H).data);
-        gw.frame(r.idx, r.box, quadros[i].dur);
+        var px = c2.getImageData(0, 0, OUT_W, OUT_H).data;
+        var r = indexa(px); gw.frame(r.idx, r.box, quadros[i].dur);
+        var rw = indexa(px, true); gww.frame(rw.idx, rw.box, quadros[i].dur);
         bar.style.width = Math.round((i + 1) / quadros.length * 100) + "%";
         if (i % 3 === 0) await pausa();
       }
-      gifBlob = gw.blob(); nomeDoGif = nome; temaDoGif = tema(); chaveDoGif = chave(); window.__gifBlob = gifBlob;
+      gifBlob = gw.blob(); whatsBlob = gww.blob(); window.__whatsBlob = whatsBlob; nomeDoGif = nome; temaDoGif = tema(); chaveDoGif = chave(); window.__gifBlob = gifBlob;
       if (imgGif.src) URL.revokeObjectURL(imgGif.src);
       imgGif.src = URL.createObjectURL(gifBlob); imgGif.hidden = false; faces.hidden = true;
       $("stage-info").textContent = "GIF animado · " + (gifBlob.size / 1048576).toFixed(1).replace(".", ",") + " MB";
-      btnGif.disabled = false;
-      setStatus("GIF pronto. Toque em \"Baixar GIF\".", "ok");
+      btnGif.disabled = false; btnWhats.disabled = false;
+      setStatus("GIFs prontos: um para o e-mail e um para o WhatsApp.", "ok");
     } catch (e) {
       setStatus(e && e.message === "webgl" ? "Este navegador não conseguiu gerar a animação. Tente pelo computador." : "Não consegui gerar o GIF. Tente de novo.", "warn");
     } finally {
@@ -720,6 +726,11 @@ kbd { font: 600 12px ui-monospace, "SFMono-Regular", Menlo, monospace; backgroun
     if (!gifBlob) return;
     var n = "Cupom_Syndex_" + slug(nomeDoGif) + SUFIXO[temaDoGif] + ".gif";
     salvar(n, gifBlob).then(function () { setStatus("Arquivo salvo: " + n, "ok"); }, erroSalvar);
+  });
+  btnWhats.addEventListener("click", function () {
+    if (!whatsBlob) return;
+    var n = "Cupom_Syndex_" + slug(nomeDoGif) + SUFIXO[temaDoGif] + "_WhatsApp.gif";
+    salvar(n, whatsBlob).then(function () { setStatus("Arquivo salvo: " + n, "ok"); }, erroSalvar);
   });
   btnPng.addEventListener("click", function () {
     if (!confere()) return;
