@@ -92,6 +92,7 @@ def trancar_pagina(texto, rel, chave, cfg):
             .replace('{{ITER}}', str(cfg['iteracoes']))
             .replace('{{IV}}', b64(iv))
             .replace('{{CT}}', b64(ct))
+            .replace('{{SEMPRE}}', 'true' if rel in cfg.get('tela_sempre', []) else 'false')
             .replace('{{CHAVE_LOCAL}}', CHAVE_LOCAL))
 
 
@@ -119,6 +120,7 @@ def nova_moldura(texto, rel, cfg):
             .replace('{{ITER}}', str(cfg['iteracoes']))
             .replace('{{IV}}', iv)
             .replace('{{CT}}', ct)
+            .replace('{{SEMPRE}}', 'true' if rel in cfg.get('tela_sempre', []) else 'false')
             .replace('{{CHAVE_LOCAL}}', CHAVE_LOCAL))
 
 

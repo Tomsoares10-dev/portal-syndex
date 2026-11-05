@@ -3,5 +3,8 @@
   "iteracoes": 600000,
   "abertas": [
     "cotacao/index.html"
+  ],
+  "tela_sempre": [
+    "index.html"
   ]
 }

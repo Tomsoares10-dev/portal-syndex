@@ -115,6 +115,19 @@ button.entrar::after{content:"";position:absolute;top:0;bottom:0;width:60%;left:
   background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.28),rgba(255,255,255,0));animation:brilho 3.6s ease-in-out 2.4s infinite}
 @keyframes brilho{0%{left:-70%}35%,100%{left:130%}}
 button.entrar:disabled{cursor:wait;filter:saturate(.8)}
+.status{display:none;position:absolute;right:12px;top:50%;transform:translateY(-50%);align-items:center;gap:6px;
+  padding:6px 10px;border-radius:999px;background:#163A2A;border:1px solid rgba(93,182,93,.5);
+  color:#BFE6BF;font:800 11px var(--sans);letter-spacing:.1em}
+.status svg{width:12px;height:12px}
+.conectado .status{display:inline-flex}
+.conectado .olho{display:none}
+.conectado .senha input{cursor:default;padding-right:140px;border-color:rgba(93,182,93,.55);background:rgba(93,182,93,.08)}
+.conectado .erro:empty{display:none}
+button.entrar:focus{outline:none}
+button.entrar:focus-visible{outline:2px solid rgba(191,230,191,.75);outline-offset:3px}
+.trocar{display:none;margin:14px 0 0;text-align:center;font-size:13px;color:var(--suave)}
+.trocar button{border:0;background:none;padding:0;color:#fff;font:700 13px var(--sans);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.conectado .trocar{display:block}
 .erro{min-height:20px;margin:12px 0 0;color:var(--erro);font-size:14px;font-weight:700;text-align:center}
 .treme{animation:treme .45s cubic-bezier(.36,.07,.19,.97) both !important}
 @keyframes treme{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-8px)}40%,60%{transform:translateX(8px)}}
@@ -171,21 +184,23 @@ button.entrar:disabled{cursor:wait;filter:saturate(.8)}
     <section class="texto">
       <span class="selo"><i></i>Área restrita</span>
       <h1>HUB<span class="sep"></span>SYNDEX</h1>
-      <p>As ferramentas da Syndex em um só lugar. Digite a sua senha para entrar.</p>
+      <p id="tp">As ferramentas da Syndex em um só lugar. Digite a sua senha para entrar.</p>
     </section>
     <form id="f" class="vidro" autocomplete="on">
       <div class="vidro-topo">
         <div class="cad"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.2" fill="#fff" stroke="none"/></svg></div>
-        <div><b>Entrar no HUB</b><span>Use a sua senha de acesso</span></div>
+        <div><b id="vt">Entrar no HUB</b><span id="vs">Use a sua senha de acesso</span></div>
       </div>
       <label class="campo" for="s">Senha</label>
       <div class="senha">
         <input id="s" name="password" type="password" autocomplete="current-password" placeholder="••••••••" required>
         <button class="olho" type="button" id="olho" aria-label="Mostrar senha">VER</button>
+        <span class="status" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>CONECTADO</span>
       </div>
-      <label class="lembrar"><input type="checkbox" id="l" checked><span class="chave"></span>Lembrar neste aparelho</label>
+      <label class="lembrar"><input type="checkbox" id="l" checked><span class="chave"></span>Me manter conectado</label>
       <button class="entrar" id="b" type="submit"><span id="bt">Entrar</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       <p class="erro" id="e" role="alert"></p>
+      <p class="trocar">Não é você? <button type="button" id="sairBtn">Sair deste aparelho</button></p>
     </form>
   </div>
   <div class="rodape">Syndex Logística e Gestão Aduaneira</div>
@@ -196,6 +211,8 @@ button.entrar:disabled{cursor:wait;filter:saturate(.8)}
 (function () {
   var D = {sal:"{{SAL}}", it:{{ITER}}, iv:"{{IV}}", ct:"{{CT}}"};
   var CHAVE = "{{CHAVE_LOCAL}}";
+  var SEMPRE = {{SEMPRE}};   // true na entrada do HUB: a tela aparece toda vez, mesmo conectado
+  var conectada = null;      // chave guardada neste aparelho (modo "Me manter conectado")
   var $ = function (id) { return document.getElementById(id); };
   var calmo = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   function bytes(s) { var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
@@ -213,7 +230,7 @@ button.entrar:disabled{cursor:wait;filter:saturate(.8)}
     }
     c.innerHTML = h;
   }
-  function mostrar() { estrelas(); document.documentElement.className = "pronto"; setTimeout(function () { try { $("s").focus({preventScroll: true}); } catch (e) {} }, calmo ? 0 : 1300); }
+  function mostrar() { estrelas(); document.documentElement.className = "pronto"; setTimeout(function () { try { (conectada ? $("b") : $("s")).focus({preventScroll: true}); } catch (e) {} }, calmo ? 0 : 1300); }
 
   async function decifrar(raw) {
     var k = await crypto.subtle.importKey("raw", raw, {name: "AES-GCM"}, false, ["decrypt"]);
@@ -235,9 +252,26 @@ button.entrar:disabled{cursor:wait;filter:saturate(.8)}
   if (!window.crypto || !crypto.subtle) { mostrar(); $("e").textContent = "Este navegador não consegue abrir o HUB. Atualize o navegador."; $("b").disabled = true; return; }
   if (/[?&]sair\b/.test(location.search)) esquecer();
 
+  function modoConectado(k) {
+    conectada = k; $("f").classList.add("conectado");
+    $("s").type = "password"; $("s").value = "conectado1"; $("s").readOnly = true;
+    $("vt").textContent = "Bem-vindo de volta"; $("vs").textContent = "Você está conectado neste aparelho";
+    $("tp").textContent = "As ferramentas da Syndex em um só lugar. " + (window.matchMedia && matchMedia("(pointer: coarse)").matches ? "Toque" : "Clique") + " em Entrar para abrir.";
+  }
+  function modoNormal() {
+    conectada = null; $("f").classList.remove("conectado");
+    $("s").value = ""; $("s").readOnly = false;
+    $("vt").textContent = "Entrar no HUB"; $("vs").textContent = "Use a sua senha de acesso";
+    $("tp").textContent = "As ferramentas da Syndex em um só lugar. Digite a sua senha para entrar.";
+    try { $("s").focus(); } catch (e) {}
+  }
+
   var g = lerGuardada();
-  if (g) decifrar(bytes(g)).then(exibir, function () { esquecer(); mostrar(); });
+  if (g && SEMPRE) { modoConectado(g); mostrar(); }
+  else if (g) decifrar(bytes(g)).then(exibir, function () { esquecer(); mostrar(); });
   else mostrar();
+
+  $("sairBtn").addEventListener("click", function () { esquecer(); modoNormal(); });
 
   $("olho").addEventListener("click", function () {
     var i = $("s"), ver = i.type === "password"; i.type = ver ? "text" : "password";
@@ -246,12 +280,19 @@ button.entrar:disabled{cursor:wait;filter:saturate(.8)}
   $("s").addEventListener("input", function () { $("f").classList.remove("erro-on"); $("e").textContent = ""; });
   $("f").addEventListener("submit", async function (ev) {
     ev.preventDefault();
-    var senha = $("s").value; if (!senha) return;
+    var senha = $("s").value; if (!senha && !conectada) return;
     var f = $("f");
     $("b").disabled = true; $("bt").textContent = "Verificando…"; $("e").textContent = ""; f.classList.remove("erro-on");
     try {
-      var raw = await derivar(senha);
-      var html = await decifrar(raw);
+      var raw, html;
+      if (conectada) {
+        raw = bytes(conectada);
+        try { html = await decifrar(raw); }
+        catch (e) { esquecer(); modoNormal(); throw e; }  // chave antiga (senha trocada): pede a senha de novo
+      } else {
+        raw = await derivar(senha);
+        html = await decifrar(raw);
+      }
       if ($("l").checked) { try { localStorage.setItem(CHAVE, JSON.stringify({sal: D.sal, k: texto64(raw)})); } catch (e) {} }
       else esquecer();
       $("bt").textContent = "Liberado";
