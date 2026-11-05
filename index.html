@@ -308,6 +308,61 @@ body { background: #040A17; }
   .bottomnav { transition: none; }
 }
 
+/* ---------- Abertura (só na primeira visita no aparelho) ----------
+   O foguete passa rente à câmera e mergulha na Terra; um clarão marca o pouso e a capa assenta no lugar.
+   Botões discretos no pé: som (a trilha só toca se a pessoa tocar) e pular. */
+.abertura { display: none; }
+html.abrindo, html.abrindo body { overflow: hidden; }
+html.abrindo .abertura, .abertura.revela { display: block; position: fixed; inset: 0; z-index: 200; background: #000; color: #FFFFFF; }
+.abertura video {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 45% 50%;
+  background: #000; transition: opacity .2s linear, filter .3s ease;
+}
+.abertura.parado video { filter: brightness(.55); }
+.abertura-flash {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0;
+  background: radial-gradient(75% 75% at 60% 58%, #FFFFFF 0%, #F3F9FF 48%, #CFE5FF 100%);
+  transition: opacity .2s ease-in;
+}
+.abertura.fim .abertura-flash { opacity: 1; }
+html.abrindo .abertura.revela, .abertura.revela { background: transparent; pointer-events: none; }
+.abertura.revela video { opacity: 0; transition: none; }
+.abertura.revela .abertura-flash { opacity: 0; transition: opacity 1.4s cubic-bezier(.3, 0, .2, 1); }
+.abertura-ctl {
+  position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 48px max(20px, 4vw, env(safe-area-inset-right, 0px)) calc(22px + env(safe-area-inset-bottom, 0px)) max(20px, 4vw, env(safe-area-inset-left, 0px));
+  background: linear-gradient(0deg, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0)); transition: opacity .2s ease;
+}
+.abertura-ctl button {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border-radius: 999px; cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, .34); background: rgba(8, 14, 28, .42); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  color: #FFFFFF; font: 700 14px var(--sans);
+}
+.abertura-ctl button:hover { background: rgba(255, 255, 255, .14); }
+.abertura-ctl button:focus-visible { outline: 2px solid #71BC6F; outline-offset: 3px; }
+.abertura-ctl svg { width: 18px; height: 18px; }
+.abertura-som .mudo, .abertura-som[aria-pressed="true"] .ligado { display: inline; }
+.abertura-som .ligado, .abertura-som[aria-pressed="true"] .mudo { display: none; }
+.abertura-som[aria-pressed="true"] { border-color: #71BC6F; }
+.abertura-progresso { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255, 255, 255, .12); }
+.abertura-progresso i { display: block; height: 100%; background: linear-gradient(90deg, #02488F, #71BC6F); transform-origin: 0 50%; transform: scaleX(0); }
+.abertura.fim .abertura-ctl, .abertura.fim .abertura-progresso, .abertura.fim .abertura-iniciar { opacity: 0; pointer-events: none; }
+.abertura-iniciar {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  display: inline-flex; align-items: center; gap: 10px; min-height: 54px; padding: 0 26px; border-radius: 999px; border: 0; cursor: pointer;
+  background: #FFFFFF; color: #02488F; font: 800 16px var(--sans); box-shadow: 0 12px 40px rgba(0, 0, 0, .45);
+}
+.abertura-iniciar svg { width: 20px; height: 20px; fill: currentColor; stroke: none; }
+/* a capa "pousa": a cena chega um pouco mais perto e assenta; logo e textos aparecem logo depois */
+html.pousando .capa-cena { animation: pouso 2.6s cubic-bezier(.16, .8, .24, 1) both; }
+html.pousando .capa-topo, html.pousando .capa-texto, html.pousando .capa-dica { animation: surgir 1s .7s ease both; }
+@keyframes pouso { from { transform: scale(1.16); } to { transform: scale(1); } }
+@keyframes surgir { from { opacity: 0; } to { opacity: 1; } }
+/* Configuração: rever a abertura */
+.config-abertura { display: flex; align-items: center; gap: 12px; padding: 12px 22px; border-top: 1px solid rgba(255, 255, 255, .08); }
+.config-abertura span { flex: 1; min-width: 0; font-size: 14px; color: #A9BAD6; }
+.config-abertura .btn { border-radius: 12px; background: transparent; color: #DCE6F5; border-color: rgba(255, 255, 255, .22); flex: none; }
+
 /* ---------- Telas médias e celular ---------- */
 @media (max-width: 1100px) {
   .barra-nav a { padding: 8px 9px; font-size: 13.5px; }
@@ -370,6 +425,23 @@ body { background: #040A17; }
   .config[open] { animation: none; }
 }
 </style>
+<script>
+/* Abertura: decide antes da primeira pintura, para a capa não piscar antes do vídeo.
+   Só na primeira visita neste aparelho (ou com ?abertura no endereço). Pula se a pessoa pediu menos animação,
+   se o aparelho está em economia de dados ou se o link já aponta para uma parte do HUB (#cotacoes etc.). */
+(function () {
+  try {
+    var forcar = /[?&]abertura(=|&|$)/.test(location.search);
+    if (!forcar) {
+      if (location.hash && location.hash !== '#capa') return;
+      if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (navigator.connection && navigator.connection.saveData) return;
+      if (localStorage.getItem('hubsyndex.abertura.v1')) return;
+    }
+    document.documentElement.classList.add('abrindo');
+  } catch (e) {}
+})();
+</script>
 </head>
 <body>
 
@@ -403,8 +475,93 @@ body { background: #040A17; }
   <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
   <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></symbol>
+  <symbol id="i-som" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></symbol>
+  <symbol id="i-mudo" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="m22 9-6 6"/><path d="m16 9 6 6"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></symbol>
 </svg>
 
+<!-- Abertura: vídeo do foguete chegando à Terra (só na primeira visita no aparelho) -->
+<div class="abertura" id="abertura" role="region" aria-label="Abertura do HUB Syndex">
+  <video id="abertura-video" muted playsinline preload="auto" poster="assets/abertura-poster.jpg" data-clarao="5.5" aria-hidden="true"></video>
+  <div class="abertura-flash"></div>
+  <button type="button" class="abertura-iniciar" id="abertura-iniciar" hidden><svg class="i"><use href="#i-play"/></svg>Ver a abertura</button>
+  <div class="abertura-ctl">
+    <button type="button" class="abertura-som" id="abertura-som" aria-pressed="false">
+      <svg class="i mudo"><use href="#i-mudo"/></svg><svg class="i ligado"><use href="#i-som"/></svg><span>Ativar som</span>
+    </button>
+    <button type="button" id="abertura-pular">Pular abertura</button>
+  </div>
+  <div class="abertura-progresso" aria-hidden="true"><i id="abertura-barra"></i></div>
+</div>
+<script>
+(function () {
+  var raiz = document.documentElement, ab = document.getElementById('abertura');
+  if (!raiz.classList.contains('abrindo')) { ab.parentNode.removeChild(ab); return; }
+  var v = document.getElementById('abertura-video'), som = document.getElementById('abertura-som');
+  var iniciar = document.getElementById('abertura-iniciar'), barra = document.getElementById('abertura-barra');
+  var acabou = false, guarda = null;
+
+  function visto() { try { localStorage.setItem('hubsyndex.abertura.v1', String(Date.now())); } catch (e) {} }
+  function atualizarSom() {
+    som.setAttribute('aria-pressed', v.muted ? 'false' : 'true');
+    som.querySelector('span').textContent = v.muted ? 'Ativar som' : 'Som ligado';
+  }
+  // O vídeo tem a cena e, depois dela, uns 2 s de "cauda" só para a trilha (impacto e acorde do pouso).
+  // data-clarao = segundo em que a cena acaba: ali entra o clarão; o som segue por baixo da capa até o fim do arquivo.
+  var CLARAO = parseFloat(v.getAttribute('data-clarao')) || 0;
+  function remover() {
+    if (!ab.parentNode) return;
+    ab.parentNode.removeChild(ab);
+    v.removeAttribute('src'); try { v.load(); } catch (e) {}
+  }
+  // fim (ou pular): clarão, o vídeo some por trás dele e a capa assenta enquanto o clarão se abre
+  function terminar(natural) {
+    if (acabou) return;
+    acabou = true; visto(); clearTimeout(guarda);
+    ab.classList.add('fim');
+    setTimeout(function () {
+      ab.classList.add('revela'); raiz.classList.add('pousando');
+      if (natural !== true || v.muted) { try { v.pause(); } catch (e) {} }
+      setTimeout(function () { raiz.classList.remove('pousando'); }, 2700);
+      setTimeout(function () {
+        raiz.classList.remove('abrindo');
+        if (/[?&]abertura/.test(location.search) && history.replaceState) history.replaceState(null, '', location.pathname + location.hash);
+        if (v.paused || v.ended) remover();
+        else { v.addEventListener('ended', remover); setTimeout(remover, 4000); }
+      }, 1900);
+    }, 220);
+  }
+  function laco() {
+    if (acabou) return;
+    var fim = CLARAO || v.duration;
+    if (fim && isFinite(fim)) {
+      barra.style.transform = 'scaleX(' + Math.min(1, v.currentTime / fim).toFixed(4) + ')';
+      if (v.currentTime >= fim - 0.15) { terminar(true); return; }
+    }
+    if (!v.paused) requestAnimationFrame(laco);
+  }
+  function tocar() {
+    var p = v.play();
+    if (p && p.catch) p.catch(function () {
+      // o aparelho não deixou tocar sozinho (ex.: modo economia do iPhone): a pessoa escolhe
+      if (acabou) return;
+      clearTimeout(guarda); ab.classList.add('parado'); iniciar.hidden = false; iniciar.focus();
+    });
+  }
+  iniciar.addEventListener('click', function () {
+    iniciar.hidden = true; ab.classList.remove('parado'); v.muted = false; atualizarSom(); tocar();
+  });
+  som.addEventListener('click', function () { v.muted = !v.muted; atualizarSom(); });
+  document.getElementById('abertura-pular').addEventListener('click', terminar);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !acabou) terminar(); });
+  v.addEventListener('playing', function () { clearTimeout(guarda); requestAnimationFrame(laco); });
+  v.addEventListener('ended', function () { terminar(true); });
+  v.addEventListener('error', terminar);
+  guarda = setTimeout(terminar, 7000);           // internet lenta: se o vídeo não começar, segue para a capa
+  v.src = 'assets/abertura.mp4';
+  tocar();
+})();
+</script>
 
 <!-- Capa: Terra + Yvon com a bandeira. Ao rolar, a cena se aproxima; logo e textos ficam parados. -->
 <section class="capa" id="capa" aria-label="Capa do HUB Syndex">
@@ -553,6 +710,10 @@ body { background: #040A17; }
     <button type="button" class="config-fechar" id="config-fechar" aria-label="Fechar"><svg class="i"><use href="#i-x"/></svg></button>
   </div>
   <div class="config-lista" id="config-lista"></div>
+  <div class="config-abertura">
+    <span>A abertura aparece só na primeira vez neste aparelho.</span>
+    <button type="button" class="btn" id="config-abertura"><svg class="i"><use href="#i-play"/></svg>Ver de novo</button>
+  </div>
   <div class="config-pe">
     <button type="button" class="btn" id="config-padrao">Voltar às cores originais</button>
     <button type="button" class="btn ok" id="config-pronto">Pronto</button>
@@ -607,6 +768,7 @@ body { background: #040A17; }
   document.getElementById('config-fechar').addEventListener('click', fechar);
   document.getElementById('config-pronto').addEventListener('click', fechar);
   painel.addEventListener('click', function (e) { if (e.target === painel) fechar(); });
+  document.getElementById('config-abertura').addEventListener('click', function () { location.href = location.pathname + '?abertura'; });
 })();
 </script>
 

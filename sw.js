@@ -1,6 +1,6 @@
 // Portal Syndex — guarda o portal para abrir rápido e funcionar com internet fraca.
 // Sempre tenta a versão nova primeiro; usa a guardada só se estiver sem conexão.
-const CACHE = 'portal-syndex-v1';
+const CACHE = 'portal-syndex-v2';
 const ARQUIVOS = [
   './',
   './index.html',
@@ -26,6 +26,8 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET' || new URL(req.url).origin !== self.location.origin) return;
+  // vídeo vem em pedaços (Range): deixa o navegador buscar direto, sem guardar
+  if (req.headers.has('range') || /\.(mp4|webm)$/i.test(new URL(req.url).pathname)) return;
   e.respondWith(
     fetch(req)
       .then((res) => {
