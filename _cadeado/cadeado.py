@@ -10,6 +10,7 @@ Uso (a senha vem da variável HUB_SENHA ou é pedida no terminal):
     python3 _cadeado/cadeado.py abrir       # devolve o conteúdo original, para editar
     python3 _cadeado/cadeado.py verificar   # confere que nada ficou aberto sem querer
     python3 _cadeado/cadeado.py nova-senha  # gera sal novo (use ao trocar a senha)
+    python3 _cadeado/cadeado.py nova-tela   # aplica um visual novo da tela de senha (não precisa da senha)
 
 Fluxo para editar: abrir → editar → trancar → verificar → commit.
 Nunca faça commit com páginas abertas: rode "verificar" antes.
@@ -94,6 +95,33 @@ def trancar_pagina(texto, rel, chave, cfg):
             .replace('{{CHAVE_LOCAL}}', CHAVE_LOCAL))
 
 
+def cabeca_da_tela(texto):
+    m = re.search(r'<!--cabeca-->\n(.*?)\n<!--/cabeca-->', texto, re.S)
+    if not m:  # tela antiga, sem marcadores
+        m = re.search(r'<title>[^<]*</title>\n(.*?)\n<style>', texto, re.S)
+    return m.group(1) if m else ''
+
+
+def nova_moldura(texto, rel, cfg):
+    """Troca o visual da tela de senha mantendo o mesmo conteúdo criptografado."""
+    if MARCA not in texto:
+        return None
+    iv = re.search(r'iv:"([A-Za-z0-9+/=]+)"', texto).group(1)
+    ct = re.search(r'ct:"([A-Za-z0-9+/=]+)"', texto).group(1)
+    sal = re.search(r'sal:"([A-Za-z0-9+/=]+)"', texto).group(1)
+    pre = '../' * rel.count('/')
+    return (MODELO
+            .replace('{{MARCA}}', MARCA)
+            .replace('{{TITULO}}', 'HUB | SYNDEX')
+            .replace('{{CABECA}}', cabeca_da_tela(texto))
+            .replace('{{PRE}}', pre)
+            .replace('{{SAL}}', sal)
+            .replace('{{ITER}}', str(cfg['iteracoes']))
+            .replace('{{IV}}', iv)
+            .replace('{{CT}}', ct)
+            .replace('{{CHAVE_LOCAL}}', CHAVE_LOCAL))
+
+
 def abrir_pagina(texto, chave):
     if MARCA not in texto:
         return None
@@ -103,7 +131,7 @@ def abrir_pagina(texto, chave):
 
 
 def main():
-    if len(sys.argv) != 2 or sys.argv[1] not in ('trancar', 'abrir', 'verificar', 'nova-senha'):
+    if len(sys.argv) != 2 or sys.argv[1] not in ('trancar', 'abrir', 'verificar', 'nova-senha', 'nova-tela'):
         sys.exit(__doc__)
     cmd = sys.argv[1]
     cfg = ler_config()
@@ -113,6 +141,16 @@ def main():
         if abertas:
             sys.exit('ATENÇÃO, páginas sem senha: ' + ', '.join(abertas))
         print('ok: todas as páginas estão trancadas (abertas de propósito: ' + ', '.join(cfg['abertas']) + ')')
+        return
+
+    if cmd == 'nova-tela':
+        feitas = 0
+        for p, rel in paginas(cfg):
+            novo = nova_moldura(p.read_text(encoding='utf-8'), rel, cfg)
+            if novo is not None:
+                p.write_text(novo, encoding='utf-8')
+                feitas += 1
+        print(f'nova-tela: {feitas} página(s)')
         return
 
     if cmd == 'nova-senha':

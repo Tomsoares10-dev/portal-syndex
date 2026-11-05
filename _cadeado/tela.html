@@ -6,63 +6,214 @@
 {{MARCA}}
 <meta name="robots" content="noindex, nofollow">
 <title>{{TITULO}}</title>
+<!--cabeca-->
 {{CABECA}}
+<!--/cabeca-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap">
 <style>
-:root{--navy:#02488F;--navy-deep:#012F5E;--ink:#12244A;--muted:#55658A;--line:#DCE3EF;--erro:#B42318;
-  --sans:"Manrope","Segoe UI",system-ui,-apple-system,sans-serif}
+:root{
+  --espaco:#040A17; --navy:#02488F; --azul:#0B5CB5; --verde:#2E9E44; --verde-claro:#5DB65D;
+  --texto:#F4F7FC; --suave:#C9D6EA; --erro:#FF8A80;
+  --sans:"Manrope","Segoe UI",system-ui,-apple-system,sans-serif;
+}
 *{box-sizing:border-box}
-html,body{height:100%}
-body{margin:0;font:500 16px/1.5 var(--sans);color:var(--ink);
-  background:radial-gradient(120% 90% at 50% 0%,#0A5BB0 0%,var(--navy) 38%,var(--navy-deep) 100%);
-  display:flex;align-items:center;justify-content:center;
-  padding:calc(24px + env(safe-area-inset-top,0px)) 20px calc(24px + env(safe-area-inset-bottom,0px))}
-html:not(.pronto) .caixa{visibility:hidden}
-.caixa{width:100%;max-width:380px;text-align:center}
-.logo{height:44px;width:auto;margin:0 auto 26px;display:block}
-form{background:#fff;border-radius:18px;padding:28px 24px 24px;text-align:left;box-shadow:0 24px 60px rgba(1,20,50,.35)}
-h1{margin:0 0 4px;font-size:21px;font-weight:800;letter-spacing:-.01em}
-.sub{margin:0 0 20px;color:var(--muted);font-size:15px}
-label.campo{display:block;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:6px}
+html,body{margin:0;height:100%;background:var(--espaco)}
+body{font:500 16px/1.5 var(--sans);color:var(--texto);overflow:hidden;-webkit-font-smoothing:antialiased}
+html:not(.pronto) body > *{visibility:hidden}
+
+/* ---------- cena: astronauta da Syndex sobre a Terra ---------- */
+.cena{position:fixed;inset:0;z-index:0;overflow:hidden;transform-origin:var(--foco,68% 38%);
+  transition:transform 1.15s cubic-bezier(.65,0,.25,1),filter 1.15s ease}
+.dolly{position:absolute;inset:0;transform-origin:var(--foco,68% 38%);animation:chegada 2.8s cubic-bezier(.16,.84,.24,1) both}
+.cena img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:66% 50%;
+  transform-origin:var(--foco,68% 38%);animation:respira 22s ease-in-out 2.8s infinite alternate}
+@keyframes chegada{from{transform:scale(1.18);filter:brightness(.35) blur(3px)}to{transform:scale(1);filter:none}}
+@keyframes respira{from{transform:scale(1)}to{transform:scale(1.06)}}
+
+.veu{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:
+    linear-gradient(90deg,rgba(4,10,23,.9) 0%,rgba(4,10,23,.6) 30%,rgba(4,10,23,0) 58%),
+    linear-gradient(0deg,rgba(4,10,23,.6) 0%,rgba(4,10,23,0) 26%)}
+
+/* estrelas piscando e uma estrela cadente de vez em quando */
+.estrelas{position:fixed;inset:0;z-index:1;pointer-events:none}
+.estrelas i{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;opacity:0;
+  box-shadow:0 0 6px rgba(255,255,255,.8);animation:pisca var(--d,4s) ease-in-out var(--a,0s) infinite}
+@keyframes pisca{0%,100%{opacity:0}50%{opacity:var(--o,.9)}}
+.cadente{position:fixed;z-index:1;top:12%;left:70%;width:140px;height:2px;pointer-events:none;opacity:0;
+  background:linear-gradient(90deg,rgba(255,255,255,0),#fff);border-radius:2px;transform:rotate(-24deg);
+  animation:cadente 9s ease-in 4s infinite}
+@keyframes cadente{0%{opacity:0;transform:translate(0,0) rotate(-24deg)}2%{opacity:1}9%{opacity:0;transform:translate(-340px,150px) rotate(-24deg)}100%{opacity:0}}
+
+/* escurece no fim, quando a câmera mergulha na cena */
+.cortina{position:fixed;inset:0;z-index:5;background:var(--espaco);opacity:0;pointer-events:none;transition:opacity .5s ease .65s}
+
+/* ---------- conteúdo ---------- */
+.caixa{position:relative;z-index:2;height:100vh;height:100svh;display:flex;flex-direction:column;
+  padding:calc(28px + env(safe-area-inset-top,0px)) max(28px,6vw) calc(28px + env(safe-area-inset-bottom,0px));
+  max-width:calc(520px + 12vw)}
+.logo{width:150px;height:auto;display:block;filter:drop-shadow(0 2px 10px rgba(0,0,0,.45));animation:sobe .8s ease .5s both}
+.meio{margin:auto 0;display:flex;flex-direction:column;gap:26px;width:min(440px,100%)}
+.texto{animation:sobe .9s cubic-bezier(.2,.8,.2,1) .9s both}
+.selo{display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 10px;border-radius:999px;
+  background:rgba(93,182,93,.14);border:1px solid rgba(93,182,93,.35);color:#BFE6BF;
+  font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.selo i{width:7px;height:7px;border-radius:50%;background:var(--verde-claro);box-shadow:0 0 0 0 rgba(93,182,93,.7);animation:pulso 2.2s infinite}
+@keyframes pulso{0%{box-shadow:0 0 0 0 rgba(93,182,93,.6)}70%{box-shadow:0 0 0 9px rgba(93,182,93,0)}100%{box-shadow:0 0 0 0 rgba(93,182,93,0)}}
+h1{margin:16px 0 10px;font-size:clamp(40px,5vw,64px);line-height:1;font-weight:800;letter-spacing:.02em;white-space:nowrap;
+  text-shadow:0 2px 30px rgba(0,0,0,.5)}
+h1 .sep{display:inline-block;width:.09em;height:.8em;margin:0 .22em;background:var(--verde-claro);vertical-align:-.02em;border-radius:2px}
+.texto p{margin:0;color:var(--suave);font-size:16px;max-width:34ch}
+
+/* cartão de vidro */
+.vidro{position:relative;padding:22px;border-radius:22px;
+  background:linear-gradient(160deg,rgba(18,40,82,.62),rgba(6,14,32,.72));
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.08);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);
+  animation:sobe .9s cubic-bezier(.2,.8,.2,1) 1.15s both;
+  transition:opacity .45s ease,transform .45s ease}
+.vidro::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;
+  background:linear-gradient(120deg,rgba(93,182,93,.55),rgba(255,255,255,0) 35%,rgba(255,255,255,0) 65%,rgba(11,92,181,.6));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+@keyframes sobe{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.vidro-topo{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.cad{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none;
+  background:linear-gradient(140deg,var(--azul),var(--verde));box-shadow:0 8px 22px rgba(46,158,68,.35)}
+.cad svg{width:20px;height:20px}
+.vidro-topo b{display:block;font-size:17px;font-weight:800}
+.vidro-topo span{display:block;font-size:13px;color:var(--suave)}
+label.campo{display:block;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--suave);margin:0 0 8px}
 .senha{position:relative}
-input[type=password],input[type=text]{width:100%;font:600 17px/1 var(--sans);color:var(--ink);padding:14px 52px 14px 14px;border:1.5px solid var(--line);border-radius:12px;background:#F7F9FC;outline:none}
-input:focus{border-color:var(--navy);background:#fff}
-.olho{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:none;padding:10px;cursor:pointer;color:var(--muted);font:700 12px var(--sans)}
-.lembrar{display:flex;align-items:center;gap:8px;margin:14px 0 18px;font-size:14px;color:var(--muted);cursor:pointer}
-.lembrar input{width:18px;height:18px;accent-color:var(--navy)}
-button.entrar{width:100%;border:0;border-radius:12px;background:var(--navy);color:#fff;font:800 16px/1 var(--sans);padding:16px;cursor:pointer}
-button.entrar:disabled{opacity:.7;cursor:wait}
-.erro{min-height:20px;margin:10px 0 0;color:var(--erro);font-size:14px;font-weight:700}
-.rodape{margin-top:18px;color:rgba(255,255,255,.7);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+.senha input{width:100%;font:700 18px/1 var(--sans);letter-spacing:.06em;color:#fff;padding:15px 64px 15px 16px;
+  border-radius:14px;border:1.5px solid rgba(255,255,255,.18);background:rgba(255,255,255,.07);outline:none;
+  transition:border-color .2s,box-shadow .2s,background .2s}
+.senha input::placeholder{color:rgba(201,214,234,.45);letter-spacing:.2em}
+.senha input:focus{border-color:var(--verde-claro);background:rgba(255,255,255,.1);box-shadow:0 0 0 4px rgba(93,182,93,.18)}
+.vidro.erro-on .senha input{border-color:var(--erro);box-shadow:0 0 0 4px rgba(255,138,128,.16)}
+.olho{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:none;padding:10px;cursor:pointer;
+  color:var(--suave);font:800 11px var(--sans);letter-spacing:.12em}
+.olho:hover{color:#fff}
+.lembrar{display:flex;align-items:center;gap:10px;margin:16px 0 18px;font-size:14px;color:var(--suave);cursor:pointer;user-select:none}
+.lembrar input{position:absolute;opacity:0;width:1px;height:1px}
+.chave{width:38px;height:22px;border-radius:999px;background:rgba(255,255,255,.18);position:relative;flex:none;transition:background .2s}
+.chave::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .2s}
+.lembrar input:checked + .chave{background:var(--verde)}
+.lembrar input:checked + .chave::after{transform:translateX(16px)}
+.lembrar input:focus-visible + .chave{outline:2px solid var(--verde-claro);outline-offset:2px}
+button.entrar{position:relative;overflow:hidden;width:100%;border:0;border-radius:14px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:10px;padding:16px;
+  background:linear-gradient(95deg,var(--azul) 0%,#0A6AB8 45%,var(--verde) 100%);color:#fff;font:800 16px/1 var(--sans);letter-spacing:.02em;
+  box-shadow:0 12px 30px rgba(11,92,181,.35);transition:transform .15s,box-shadow .2s,filter .2s}
+button.entrar:hover{filter:brightness(1.08);box-shadow:0 14px 36px rgba(46,158,68,.4)}
+button.entrar:active{transform:scale(.985)}
+button.entrar svg{width:18px;height:18px;transition:transform .2s}
+button.entrar:hover svg{transform:translateX(3px)}
+button.entrar::after{content:"";position:absolute;top:0;bottom:0;width:60%;left:-70%;
+  background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.28),rgba(255,255,255,0));animation:brilho 3.6s ease-in-out 2.4s infinite}
+@keyframes brilho{0%{left:-70%}35%,100%{left:130%}}
+button.entrar:disabled{cursor:wait;filter:saturate(.8)}
+.erro{min-height:20px;margin:12px 0 0;color:var(--erro);font-size:14px;font-weight:700;text-align:center}
+.treme{animation:treme .45s cubic-bezier(.36,.07,.19,.97) both !important}
+@keyframes treme{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-8px)}40%,60%{transform:translateX(8px)}}
+.rodape{margin-top:22px;font-size:12px;color:rgba(201,214,234,.6);animation:sobe .8s ease 1.4s both}
+
+/* ---------- entrando: a câmera mergulha no Yvon e a tela escurece ---------- */
+.entrando .cena{transform:scale(1.65);filter:brightness(1.25)}
+.entrando .texto,.entrando .logo,.entrando .rodape{animation:none !important;opacity:0;transition:opacity .35s ease}
+.entrando .vidro{animation:none !important;opacity:0;transform:translateY(-10px) scale(.97)}
+.entrando .cortina{opacity:1}
+
+/* ---------- celular em pé: texto no alto, cena no meio, cartão embaixo ---------- */
+@media (max-width:899px) and (orientation:portrait){
+  .cena{--foco:37% 45%}
+  .cena img{top:auto;bottom:0;height:88%;object-position:81% 50%;
+    -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 16%);mask-image:linear-gradient(180deg,transparent 0%,#000 16%)}
+  .veu{background:
+    linear-gradient(180deg,rgba(4,10,23,.92) 0%,rgba(4,10,23,.55) 26%,rgba(4,10,23,0) 44%),
+    linear-gradient(0deg,rgba(4,10,23,.85) 0%,rgba(4,10,23,.35) 34%,rgba(4,10,23,0) 52%)}
+  .caixa{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));max-width:none}
+  .logo{width:124px}
+  .meio{margin:0;flex:1;justify-content:space-between;width:100%;padding-top:22px}
+  h1{font-size:clamp(34px,10vw,46px);margin:14px 0 8px}
+  .texto p{font-size:15px}
+  .vidro{padding:18px}
+  .rodape{display:none}
+}
+@media (max-height:720px) and (orientation:portrait){ .texto p{display:none} h1{margin-bottom:0} .vidro-topo{margin-bottom:10px} .lembrar{margin:12px 0 14px} }
+@media (max-height:620px){ .texto p,.rodape{display:none} h1{margin-bottom:0} }
+@media (prefers-reduced-motion:reduce){
+  .dolly,.cena img,.estrelas i,.cadente,button.entrar::after,.selo i{animation:none !important}
+  .logo,.texto,.vidro,.rodape{animation-duration:.01s !important;animation-delay:0s !important}
+  .cena{transition:none}.entrando .cena{transform:none}
+}
 </style>
 </head>
 <body>
-<div class="caixa">
+<div class="cena" aria-hidden="true"><div class="dolly">
+  <picture>
+    <source type="image/avif" sizes="(max-width: 899px) and (orientation: portrait) 250vw, max(100vw, 179vh)"
+      srcset="{{PRE}}assets/capa-terra-1280.avif 1280w, {{PRE}}assets/capa-terra-1920.avif 1920w, {{PRE}}assets/capa-terra-2576.avif 2576w">
+    <source type="image/webp" sizes="(max-width: 899px) and (orientation: portrait) 250vw, max(100vw, 179vh)"
+      srcset="{{PRE}}assets/capa-terra-1280.webp 1280w, {{PRE}}assets/capa-terra-1920.webp 1920w, {{PRE}}assets/capa-terra-2576.webp 2576w">
+    <img src="{{PRE}}assets/capa-terra-1920.jpg" alt="" decoding="async" fetchpriority="high">
+  </picture>
+</div></div>
+<div class="veu" aria-hidden="true"></div>
+<div class="estrelas" id="estrelas" aria-hidden="true"></div>
+<div class="cadente" aria-hidden="true"></div>
+
+<main class="caixa">
   <img class="logo" src="{{PRE}}assets/syndex-logo-branco.png" alt="Syndex">
-  <form id="f" autocomplete="on">
-    <h1>Acesso restrito</h1>
-    <p class="sub">Digite a senha para abrir o HUB.</p>
-    <label class="campo" for="s">Senha</label>
-    <div class="senha">
-      <input id="s" name="password" type="password" autocomplete="current-password" required>
-      <button class="olho" type="button" id="olho" aria-label="Mostrar senha">VER</button>
-    </div>
-    <label class="lembrar"><input type="checkbox" id="l" checked> Lembrar neste aparelho</label>
-    <button class="entrar" id="b" type="submit">Entrar</button>
-    <p class="erro" id="e" role="alert"></p>
-  </form>
-  <div class="rodape">HUB | SYNDEX</div>
-</div>
-<noscript><p style="color:#fff;text-align:center">Ative o JavaScript para abrir o HUB.</p></noscript>
+  <div class="meio">
+    <section class="texto">
+      <span class="selo"><i></i>Área restrita</span>
+      <h1>HUB<span class="sep"></span>SYNDEX</h1>
+      <p>As ferramentas da Syndex em um só lugar. Digite a sua senha para entrar.</p>
+    </section>
+    <form id="f" class="vidro" autocomplete="on">
+      <div class="vidro-topo">
+        <div class="cad"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.2" fill="#fff" stroke="none"/></svg></div>
+        <div><b>Entrar no HUB</b><span>Use a sua senha de acesso</span></div>
+      </div>
+      <label class="campo" for="s">Senha</label>
+      <div class="senha">
+        <input id="s" name="password" type="password" autocomplete="current-password" placeholder="••••••••" required>
+        <button class="olho" type="button" id="olho" aria-label="Mostrar senha">VER</button>
+      </div>
+      <label class="lembrar"><input type="checkbox" id="l" checked><span class="chave"></span>Lembrar neste aparelho</label>
+      <button class="entrar" id="b" type="submit"><span id="bt">Entrar</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <p class="erro" id="e" role="alert"></p>
+    </form>
+  </div>
+  <div class="rodape">Syndex Logística e Gestão Aduaneira</div>
+</main>
+<div class="cortina" aria-hidden="true"></div>
+<noscript><p style="position:fixed;inset:auto 0 24px;text-align:center;color:#fff">Ative o JavaScript para abrir o HUB.</p></noscript>
 <script>
 (function () {
   var D = {sal:"{{SAL}}", it:{{ITER}}, iv:"{{IV}}", ct:"{{CT}}"};
   var CHAVE = "{{CHAVE_LOCAL}}";
   var $ = function (id) { return document.getElementById(id); };
+  var calmo = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   function bytes(s) { var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
   function texto64(buf) { var u = new Uint8Array(buf), s = ""; for (var i = 0; i < u.length; i++) s += String.fromCharCode(u[i]); return btoa(s); }
   function lerGuardada() { try { var g = JSON.parse(localStorage.getItem(CHAVE) || "null"); return g && g.sal === D.sal ? g.k : null; } catch (e) { return null; } }
   function esquecer() { try { localStorage.removeItem(CHAVE); } catch (e) {} }
-  function mostrar() { document.documentElement.className = "pronto"; try { $("s").focus(); } catch (e) {} }
+
+  // estrelas no céu escuro da cena
+  function estrelas() {
+    var c = $("estrelas"), n = window.innerWidth < 700 ? 45 : 80, h = "";
+    for (var i = 0; i < n; i++) {
+      var s = Math.random() < .15 ? 3 : 2;
+      h += '<i style="left:' + (Math.random() * 100).toFixed(2) + '%;top:' + (Math.random() * 55).toFixed(2) + '%;width:' + s + 'px;height:' + s +
+        'px;--d:' + (2.5 + Math.random() * 4).toFixed(2) + 's;--a:' + (Math.random() * 5).toFixed(2) + 's;--o:' + (.35 + Math.random() * .6).toFixed(2) + '"></i>';
+    }
+    c.innerHTML = h;
+  }
+  function mostrar() { estrelas(); document.documentElement.className = "pronto"; setTimeout(function () { try { $("s").focus({preventScroll: true}); } catch (e) {} }, calmo ? 0 : 1300); }
 
   async function decifrar(raw) {
     var k = await crypto.subtle.importKey("raw", raw, {name: "AES-GCM"}, false, ["decrypt"]);
@@ -92,19 +243,26 @@ button.entrar:disabled{opacity:.7;cursor:wait}
     var i = $("s"), ver = i.type === "password"; i.type = ver ? "text" : "password";
     this.textContent = ver ? "OCULTAR" : "VER"; i.focus();
   });
+  $("s").addEventListener("input", function () { $("f").classList.remove("erro-on"); $("e").textContent = ""; });
   $("f").addEventListener("submit", async function (ev) {
     ev.preventDefault();
     var senha = $("s").value; if (!senha) return;
-    $("b").disabled = true; $("b").textContent = "Abrindo…"; $("e").textContent = "";
+    var f = $("f");
+    $("b").disabled = true; $("bt").textContent = "Verificando…"; $("e").textContent = ""; f.classList.remove("erro-on");
     try {
       var raw = await derivar(senha);
       var html = await decifrar(raw);
       if ($("l").checked) { try { localStorage.setItem(CHAVE, JSON.stringify({sal: D.sal, k: texto64(raw)})); } catch (e) {} }
       else esquecer();
-      exibir(html);
+      $("bt").textContent = "Liberado";
+      document.documentElement.classList.add("entrando");
+      setTimeout(function () { exibir(html); }, calmo ? 120 : 1150);
     } catch (e) {
-      $("b").disabled = false; $("b").textContent = "Entrar";
-      $("e").textContent = "Senha incorreta."; $("s").select();
+      $("b").disabled = false; $("bt").textContent = "Entrar";
+      $("e").textContent = "Senha incorreta. Tente de novo.";
+      f.classList.add("erro-on");
+      f.classList.remove("treme"); void f.offsetWidth; f.classList.add("treme");
+      $("s").select();
     }
   });
 })();
