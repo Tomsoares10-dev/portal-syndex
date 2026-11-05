@@ -24,6 +24,7 @@ Funciona no computador e no celular. No celular dá para instalar como app:
 | Cotações e propostas | Solicitação para Pricing | Portal (`/pricing`) |
 | Cotações e propostas | Gerador de propostas | Portal (`/propostas`) |
 | Cotações e propostas | Proposta TTD | Site (GitHub, `syndex-proposta-ttd`) |
+| Cotações e propostas | Dados da proposta | Site (GitHub, `syndex-dados-proposta`) |
 | Cotações e propostas | Estimativa de custo | Portal (`/estimativa`) |
 | Cotações e propostas | Mini proposta rodoviária | Portal (`/mini-proposta`) |
 | Cotações e propostas | Cupom Especial | Portal (`/cupom`) |
