@@ -23,6 +23,7 @@ Funciona no computador e no celular. No celular dá para instalar como app:
 | Cotações e propostas | Syndex Cotações | Portal (`/cotacao-frete`, em branco) |
 | Cotações e propostas | Solicitação para Pricing | Portal (`/pricing`) |
 | Cotações e propostas | Gerador de propostas | Portal (`/propostas`) |
+| Cotações e propostas | Propostas Compactas | Portal (`/propostas-compactas`, proposta de serviços aduaneiros em PDF no timbrado) |
 | Cotações e propostas | Proposta TTD | Site (GitHub, `syndex-proposta-ttd`) |
 | Cotações e propostas | Dados da proposta | Site (GitHub, `syndex-dados-proposta`) |
 | Cotações e propostas | Estimativa de custo | Portal (`/estimativa`) |
@@ -44,6 +45,7 @@ As ferramentas que abrem no Claude são links privados: só funcionam para quem 
 - `estimativa/` — Estimativa de custo de importação (gera o PDF)
 - `cotacao-frete/` — Syndex Cotações, cotação de frete marítimo em PDF (modelo em branco)
 - `propostas/` — Gerador de propostas comerciais em PDF (vendedor: Tomás Soares)
+- `propostas-compactas/` — Propostas Compactas: um PDF no timbrado com os serviços escolhidos para o mesmo cliente (desembaraço de importação e de exportação, TTD, Radar Siscomex e registro no MAPA), cada um liga/desliga; rascunho salvo no aparelho
 - `visitas/` — Diário de Visitas: agenda, anotações, próximos passos e relatório do mês (dados no aparelho)
 - `chat/` — Syndex Chat, protótipo do WhatsApp comercial (dados de exemplo)
 - `mini-proposta/` — Mini proposta de frete rodoviário em PDF, com rota e mini mapa
