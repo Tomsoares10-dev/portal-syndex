@@ -2,7 +2,8 @@
   "sal": "vOQlSwZFseF0iPht/L9DUQ==",
   "iteracoes": 600000,
   "abertas": [
-    "cotacao/index.html"
+    "cotacao/index.html",
+    "passaporte/index.html"
   ],
   "tela_sempre": [
     "index.html"

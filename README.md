@@ -34,6 +34,7 @@ Funciona no computador e no celular. No celular dá para instalar como app:
 | Rotina | Syndex Reposição | Portal (`/reposicao`, marcações salvas no aparelho) |
 | Rotina | Foto de grupo WhatsApp | Site (GitHub) |
 | Para o cliente | Peça sua cotação | Portal (`/cotacao`) |
+| Para o cliente | Passaporte Syndex | Portal (`/passaporte`, carimbos salvos no aparelho do cliente) |
 
 As ferramentas que abrem no Claude são links privados: só funcionam para quem recebeu acesso.
 
@@ -41,6 +42,7 @@ As ferramentas que abrem no Claude são links privados: só funcionam para quem 
 
 - `index.html` — o portal (menu, busca, cards e links)
 - `cotacao/` — página pública Peça sua cotação: gera a ficha do pedido em foto (ícone e cor por modal, cartão de contato) e envia pelo WhatsApp em 2 passos; `preview.jpg` é a imagem de prévia do link
+- `passaporte/` — página pública Passaporte Syndex: o cliente emite o passaporte, registra todo mês os processos de desembaraço (1 carimbo por processo) e os contêineres de frete (1 carimbo por contêiner) e envia a imagem e a mensagem pelo WhatsApp do Tomás; com 10 carimbos abre a página secreta com o prêmio; `preview.jpg` é a imagem de prévia do link
 - `pricing/` — Solicitação para Pricing (gera o PDF ou a imagem para mandar no WhatsApp)
 - `estimativa/` — Estimativa de custo de importação (gera o PDF)
 - `cotacao-frete/` — Syndex Cotações, cotação de frete marítimo em PDF (modelo em branco)
@@ -57,7 +59,7 @@ Para trocar o link de uma ferramenta, edite o `href` do card dela no `index.html
 
 ## Senha (cadeado)
 
-O HUB e todas as ferramentas deste repositório abrem só com a senha do Tomás. A única página aberta de propósito é `cotacao/` (Peça sua cotação), feita para os clientes.
+O HUB e todas as ferramentas deste repositório abrem só com a senha do Tomás. As únicas páginas abertas de propósito são `cotacao/` (Peça sua cotação) e `passaporte/` (Passaporte Syndex), feitas para os clientes.
 
 - Cada página publicada é uma tela de senha com o conteúdo original **criptografado** (AES-256-GCM, chave derivada da senha com PBKDF2-SHA256, 600 mil iterações). Sem a senha, o que está no GitHub é ilegível.
 - A senha **não fica gravada em lugar nenhum** do repositório. No aparelho, "Lembrar neste aparelho" guarda só a chave derivada no navegador; abrir qualquer página com `?sair` no fim do endereço faz o aparelho esquecer.
