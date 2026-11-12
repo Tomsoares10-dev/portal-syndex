@@ -28,14 +28,14 @@ Funciona no computador e no celular. No celular dá para instalar como app:
 | Cotações e propostas | Dados da proposta | Site (GitHub, `syndex-dados-proposta`) |
 | Cotações e propostas | Estimativa de custo | Portal (`/estimativa`) |
 | Cotações e propostas | Mini proposta rodoviária | Portal (`/mini-proposta`) |
-| Cotações e propostas | Cupom Especial | Portal (`/cupom`) |
-| Cotações e propostas | Programa de Indicação | Portal (`/indicacao`, proposta one-page com botão de imprimir/PDF) |
-| Cotações e propostas | Carta de Benefício | Portal (`/carta-beneficio`, carta animada por link + imagem e PDF de 1 página) |
+| Fidelização | Cupom Especial | Portal (`/cupom`) |
+| Fidelização | Programa de Indicação | Portal (`/indicacao`, proposta one-page com botão de imprimir/PDF) |
+| Fidelização | Carta de Benefício | Portal (`/carta-beneficio`, carta animada por link + imagem e PDF de 1 página) |
 | Rotina | Despesas de viagem | Site (GitHub) |
 | Rotina | Syndex Reposição | Portal (`/reposicao`, marcações salvas no aparelho) |
 | Rotina | Foto de grupo WhatsApp | Site (GitHub) |
 | Para o cliente | Peça sua cotação | Portal (`/cotacao`) |
-| Para o cliente | Passaporte Syndex | Portal (`/passaporte`, carimbos salvos no aparelho do cliente) |
+| Fidelização (página pública) | Passaporte Syndex | Portal (`/passaporte`, carimbos salvos no aparelho do cliente) |
 
 As ferramentas que abrem no Claude são links privados: só funcionam para quem recebeu acesso.
 
