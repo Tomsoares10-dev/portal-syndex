@@ -30,6 +30,7 @@ Funciona no computador e no celular. No celular dá para instalar como app:
 | Cotações e propostas | Mini proposta rodoviária | Portal (`/mini-proposta`) |
 | Cotações e propostas | Cupom Especial | Portal (`/cupom`) |
 | Cotações e propostas | Programa de Indicação | Portal (`/indicacao`, proposta one-page com botão de imprimir/PDF) |
+| Cotações e propostas | Carta de Benefício | Portal (`/carta-beneficio`, carta animada por link + imagem e PDF de 1 página) |
 | Rotina | Despesas de viagem | Site (GitHub) |
 | Rotina | Syndex Reposição | Portal (`/reposicao`, marcações salvas no aparelho) |
 | Rotina | Foto de grupo WhatsApp | Site (GitHub) |
@@ -52,6 +53,7 @@ As ferramentas que abrem no Claude são links privados: só funcionam para quem 
 - `chat/` — Syndex Chat, protótipo do WhatsApp comercial (dados de exemplo)
 - `mini-proposta/` — Mini proposta de frete rodoviário em PDF, com rota e mini mapa
 - `cupom/` — Cupom Especial (honorário zero, código CUSTOMS-FREE): nome da empresa na frente; nome, cargo, WhatsApp e e-mail de quem envia no verso (salvos no aparelho); quantidade de processos com honorário zero e estilo do cartão (Azul e verde, Black ou Dourado), livres para qualquer quantidade; GIF animado sem fundo para o e-mail e GIF com fundo branco para o WhatsApp, PNG com frente e verso e link do WhatsApp de quem envia
+- `carta-beneficio/` — Carta de Benefício: campos personalizáveis (contato, empresa, logo do cliente, modelo câmbio PTAX ou livre, destaque, serviços, regra, selo da Diretoria liga/desliga, textos e assinatura); baixa a página de 1 folha em imagem (PNG) e PDF e gera o link da carta animada. Os dados da carta vão dentro do próprio link (nada fica salvo); a carta abre no site `syndex-beneficios.github.io/carta/` (repositório `syndex-beneficios/carta`). Rascunho salvo no aparelho
 - `assets/` — logo, símbolo e fundo da marca Syndex
 - `manifest.webmanifest`, `sw.js`, `icon-*.png`, `apple-touch-icon.png` — para instalar como app
 
