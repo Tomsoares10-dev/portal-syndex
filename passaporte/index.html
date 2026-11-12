@@ -261,6 +261,11 @@ button,input,select,textarea{font:inherit}
 .addbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .addbtns .btn{white-space:normal;line-height:1.2;padding:8px 10px;font-size:14px;border-style:dashed;border-color:#B9C7BE}
 .dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none}
+.qty{display:flex;align-items:center;justify-content:space-between;gap:10px;font:500 14px/1.3 var(--body);color:var(--ink-soft)}
+.stepper{display:flex;align-items:center;border:1px solid #E1DBC9;border-radius:10px;overflow:hidden;background:#FBF9F3;flex:none}
+.stepper button{width:44px;height:42px;border:0;background:transparent;font:600 20px/1 var(--body);color:var(--ink);cursor:pointer}
+.stepper button:disabled{opacity:.35;cursor:default}
+.stepper output{min-width:38px;text-align:center;font:600 16px/1 var(--mono);color:var(--ink)}
 .dot.d{background:#1F4E79}.dot.f{background:#A8322A}
 .count{font:600 12px/1 var(--mono);letter-spacing:.06em;color:var(--green-deep);text-transform:uppercase;margin:0 0 6px}
 .done-btns{display:grid;gap:10px;margin-top:4px}
@@ -370,7 +375,7 @@ button,input,select,textarea{font:inherit}
           <ol class="obs">
             <li><span>Emita o passaporte com os dados da sua empresa.</span></li>
             <li><span>Todo mês, toque em <b>Registrar mês</b>.</span></li>
-            <li><span>Informe cada <b>processo de desembaraço</b> e cada <b>contêiner de frete</b> feito com a Syndex.</span></li>
+            <li><span>Informe a <b>referência da proposta</b> e quantos <b>processos de desembaraço</b> ou <b>contêineres de frete</b> foram feitos.</span></li>
             <li><span>Cada um vira um carimbo no seu passaporte.</span></li>
             <li><span>Toque em <b>Enviar à Syndex</b>: salve a imagem e mande no WhatsApp com a mensagem pronta.</span></li>
           </ol>
@@ -535,6 +540,17 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function fmtMes(m){ const [y,mm] = m.split("-"); return MESES[+mm-1] + "/" + y; }
 function fmtCont(r){ const c = r.replace(/[^A-Z0-9]/g,""); return /^[A-Z]{4}\d{7}$/.test(c) ? c.slice(0,4)+" "+c.slice(4,10)+"-"+c.slice(10) : r; }
+function refLabel(r){ return /^[A-Z]{4}\d{7}$/.test(r) ? fmtCont(r) : (/^REF\b/.test(r) ? r : "REF " + r); }
+function itemLine(t, ref, n){ return t==="d" ? "Desembaraço · ref. " + ref + " · " + n + (n===1 ? " processo" : " processos") : "Frete · ref. " + ref + " · " + n + (n===1 ? " contêiner" : " contêineres"); }
+function groupLines(regs, withMonth){
+  const out = [], idx = new Map();
+  regs.forEach(r => r.items.forEach(it => {
+    const k = it.t + "|" + it.ref + (withMonth ? "|" + r.mes : "");
+    if(!idx.has(k)){ idx.set(k, out.length); out.push({t:it.t, ref:it.ref, mes:r.mes, n:0}); }
+    out[idx.get(k)].n++;
+  }));
+  return out.map(g => itemLine(g.t, g.ref, g.n) + (withMonth ? " (" + fmtMes(g.mes) + ")" : ""));
+}
 function fmtDate(iso){ const d = iso ? new Date(iso) : new Date(); return String(d.getDate()).padStart(2,"0")+" "+MESES[d.getMonth()]+" "+d.getFullYear(); }
 function noAccent(s){ return s.normalize("NFD").replace(/[̀-ͯ]/g,""); }
 function passNum(){ if(!S.holder) return "—"; return S.holder.num + (S.cycle>0 ? " · " + (S.cycle+1) + "º" : ""); }
@@ -636,7 +652,7 @@ function drawStamp(ctx, S, st){
       fit(ctx, "LIBERADO", 700, S*.105, S*.46); ctx.fillText("LIBERADO", 0, -S*.085);
       ctx.lineWidth = S*.008; ctx.beginPath(); ctx.moveTo(-S*.24,-S*.025); ctx.lineTo(S*.24,-S*.025); ctx.moveTo(-S*.24,S*.085); ctx.lineTo(S*.24,S*.085); ctx.stroke();
       ctx.font = font(700, S*.07); ctx.fillText(mes, 0, S*.032);
-      const ref = /^[A-Z]{2,}/.test(st.ref) ? st.ref : "PROC " + st.ref; fit(ctx, ref, 600, S*.052, S*.42); ctx.fillText(ref, 0, S*.15);
+      const ref = /^(REF|PROC|DI|DUIMP)\b/.test(st.ref) ? st.ref : "REF " + st.ref; fit(ctx, ref, 600, S*.052, S*.42); ctx.fillText(ref, 0, S*.15);
     } else if(st.t==="e"){
       check(ctx, 0, -S*.1, S*.13, S*.022);
       ctx.font = font(700, S*.068); ctx.fillText(st.date || "", 0, S*.035);
@@ -657,7 +673,7 @@ function drawStamp(ctx, S, st){
     container(ctx, -S*.27, S*.055, S*.15, S*.105, S*.011);
     ctx.textAlign="left";
     fit(ctx, "EMBARCADO", 700, S*.085, S*.5); ctx.fillText("EMBARCADO", -S*.165, -S*.025);
-    const ref = fmtCont(st.ref); fit(ctx, ref, 600, S*.056, S*.5); ctx.fillText(ref, -S*.165, S*.06);
+    const ref = refLabel(st.ref); fit(ctx, ref, 600, S*.056, S*.5); ctx.fillText(ref, -S*.165, S*.06);
     ctx.font = font(600, S*.05); ctx.fillText(mes, -S*.165, S*.14);
   } else {
     const rx = S*.44, ry = S*.32;
@@ -670,7 +686,7 @@ function drawStamp(ctx, S, st){
     ctx.textAlign="center"; ctx.textBaseline="middle";
     ship(ctx, 0, -S*.115, S*.15);
     fit(ctx, "EMBARCADO", 700, S*.072, S*.42); ctx.fillText("EMBARCADO", 0, -S*.03);
-    const ref = fmtCont(st.ref); fit(ctx, ref, 600, S*.05, S*.44); ctx.fillText(ref, 0, S*.04);
+    const ref = refLabel(st.ref); fit(ctx, ref, 600, S*.05, S*.44); ctx.fillText(ref, 0, S*.04);
     ctx.font = font(600, S*.046); ctx.fillText(mes, 0, S*.105);
   }
   ctx.restore();
@@ -797,7 +813,7 @@ function renderVisas(){
       el.className = "slot s"+i; el.dataset.slot = slotIdx;
       if(g < shown && all[g]){
         const c = stampCanvas(all[g], px); c.setAttribute("role","img");
-        c.setAttribute("aria-label", "Visto "+(slotIdx+1)+": "+(all[g].t==="d" ? "desembaraço, processo "+all[g].ref : "frete, contêiner "+fmtCont(all[g].ref))+", "+fmtMes(all[g].mes));
+        c.setAttribute("aria-label", "Visto "+(slotIdx+1)+": "+(all[g].t==="d" ? "desembaraço" : "frete")+", referência "+all[g].ref+", "+fmtMes(all[g].mes));
         el.appendChild(c);
       } else {
         el.innerHTML = '<div class="empty" aria-label="Visto '+(slotIdx+1)+' em branco">'+String(slotIdx+1).padStart(2,"0")+'</div>';
@@ -909,15 +925,15 @@ function monthOptions(){
 }
 function addRow(t){
   const last = draft[draft.length-1];
-  if(last && !last.ref.trim()){ last.t = t; } else { draft.push({t, ref:""}); }
+  if(last && !last.ref.trim()){ last.t = t; } else { draft.push({t, ref:"", q:1}); }
   renderItems();
   const ins = document.querySelectorAll("#items .item input"); const el = ins[ins.length-1];
   if(el){ el.focus(); el.scrollIntoView({block:"center", behavior: RM ? "auto" : "smooth"}); }
 }
 function openRegister(mes){
-  draft = [{t:"d", ref:""}];
+  draft = [{t:"d", ref:"", q:1}];
   openSheet("Registrar mês",
-    '<p class="lead">Lance de uma vez tudo o que a sua empresa fez com a Syndex no mês. Cada processo ou contêiner vira um carimbo.</p>' +
+    '<p class="lead">Lance de uma vez tudo o que a sua empresa fez com a Syndex no mês: a referência da proposta e a quantidade. Cada processo ou contêiner vira um carimbo.</p>' +
     '<div class="fieldset"><label for="mes">Mês de referência</label><select id="mes">'+monthOptions()+'</select></div>' +
     '<div class="lbl" style="margin-bottom:6px">Processos e contêineres</div>' +
     '<div class="items" id="items"></div>' +
@@ -941,11 +957,13 @@ function renderItems(){
         '<button type="button" data-t="d" aria-pressed="'+(it.t==="d")+'">Desembaraço</button>' +
         '<button type="button" data-t="f" aria-pressed="'+(it.t==="f")+'">Frete · contêiner</button>' +
       '</div>' +
-      '<div class="refrow"><label class="sr" for="ref'+i+'">'+(it.t==="d"?"Número do processo":"Número do contêiner")+'</label>' +
-        '<input id="ref'+i+'" enterkeyhint="next" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="'+(it.t==="d"?30:14)+'" placeholder="'+(it.t==="d"?"Nº do processo, DI ou DUIMP":"Ex.: MSCU1234567")+'" value="'+esc(it.ref)+'">' +
+      '<div class="refrow"><label class="sr" for="ref'+i+'">Referência da proposta</label>' +
+        '<input id="ref'+i+'" enterkeyhint="next" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="30" placeholder="Referência da proposta" value="'+esc(it.ref)+'">' +
         (draft.length>1 ? '<button type="button" class="x" aria-label="Remover item '+(i+1)+'">×</button>' : '<span></span>') +
       '</div>' +
-      '<div class="ihint">'+(it.t==="d" ? "1 carimbo para este processo" : "4 letras + 7 números · 1 carimbo para este contêiner")+'</div>' +
+      '<div class="qty"><span id="ql'+i+'">'+(it.t==="d" ? "Quantos processos?" : "Quantos contêineres?")+'</span>' +
+        '<div class="stepper" role="group" aria-labelledby="ql'+i+'"><button type="button" data-q="-1" aria-label="Menos um"'+((it.q||1)<=1?" disabled":"")+'>−</button><output id="q'+i+'" aria-live="polite">'+(it.q||1)+'</output><button type="button" data-q="1" aria-label="Mais um">+</button></div>' +
+      '</div>' +
     '</div>').join("");
   box.querySelectorAll(".item").forEach(row => {
     const i = +row.dataset.i;
@@ -954,27 +972,26 @@ function renderItems(){
     inp.addEventListener("input", () => { draft[i].ref = inp.value.toUpperCase(); inp.removeAttribute("aria-invalid"); updateStampBtn(); });
     inp.addEventListener("keydown", e => { if(e.key === "Enter"){ e.preventDefault(); if(inp.value.trim()) addRow(draft[i].t); } });
     const x = row.querySelector(".x"); x && x.addEventListener("click", () => { draft.splice(i,1); renderItems(); updateStampBtn(); });
+    row.querySelectorAll("[data-q]").forEach(b => b.addEventListener("click", () => {
+      draft[i].q = Math.max(1, Math.min(30, (draft[i].q||1) + (+b.dataset.q)));
+      row.querySelector("output").textContent = draft[i].q;
+      row.querySelector('[data-q="-1"]').disabled = draft[i].q <= 1;
+      row.querySelector('[data-q="1"]').disabled = draft[i].q >= 30;
+      updateStampBtn();
+    }));
   });
   updateStampBtn();
 }
-function updateStampBtn(){ const b = $("#doStamp"); if(!b) return; const n = Math.max(1, draft.filter(d => d.ref.trim()).length); b.textContent = "Carimbar " + n + (n===1 ? " visto" : " vistos"); }
-function normRef(it){ return it.t==="f" ? it.ref.toUpperCase().replace(/[^A-Z0-9]/g,"") : it.ref.toUpperCase().trim().replace(/\s+/g," "); }
+function updateStampBtn(){ const b = $("#doStamp"); if(!b) return; const f = draft.filter(d => d.ref.trim()); const n = Math.max(1, f.reduce((a,d) => a + (d.q||1), 0)); b.textContent = "Carimbar " + n + (n===1 ? " visto" : " vistos"); }
+function normRef(it){ return it.ref.toUpperCase().trim().replace(/\s+/g," "); }
 async function doStamp(){
   const er = $("#regErr"); er.textContent = "";
-  const seen = new Set(stamps().map(s => s.t+"|"+(s.t==="f" ? s.ref.replace(/[^A-Z0-9]/g,"") : s.ref)));
-  let bad = -1, msg = "";
-  const filled = draft.map((it,i) => ({t:it.t, ref:normRef(it), i})).filter(it => it.ref.length);
-  const items = filled.length ? filled : [{t:draft[0].t, ref:"", i:0}];
-  for(let i=0;i<items.length;i++){
-    const it = items[i];
-    if(it.t==="d" && it.ref.length < 3){ bad=i; msg = "Informe o número do processo (DI, DUIMP ou referência)."; break; }
-    if(it.t==="f" && !/^[A-Z]{4}\d{7}$/.test(it.ref)){ bad=i; msg = "Contêiner no formato 4 letras + 7 números, por exemplo MSCU1234567."; break; }
-    const k = it.t+"|"+it.ref;
-    if(seen.has(k)){ bad=i; msg = (it.t==="d" ? "Este processo" : "Este contêiner") + " já foi carimbado."; break; }
-    seen.add(k);
-  }
-  if(bad >= 0){ er.textContent = msg; const inp = $("#ref"+items[bad].i); inp.setAttribute("aria-invalid","true"); inp.focus(); return; }
-  const reg = {id:uid(), mes:$("#mes").value, at:new Date().toISOString(), sent:false, items:items.map(it => ({t:it.t, ref:it.ref}))};
+  const filled = draft.map((it,i) => ({t:it.t, ref:normRef(it), q:it.q||1, i})).filter(it => it.ref.length);
+  const rows = filled.length ? filled : [{t:draft[0].t, ref:"", q:1, i:0}];
+  const bad = rows.find(r => r.ref.length < 2);
+  if(bad){ er.textContent = "Informe a referência da proposta."; const inp = $("#ref"+bad.i); inp.setAttribute("aria-invalid","true"); inp.focus(); return; }
+  const items = []; rows.forEach(r => { for(let k=0;k<r.q;k++) items.push({t:r.t, ref:r.ref}); });
+  const reg = {id:uid(), mes:$("#mes").value, at:new Date().toISOString(), sent:false, items};
   const before = total();
   S.regs.push(reg); save();
   closeSheet();
@@ -1116,10 +1133,10 @@ async function makeImage(regs){
   if(reg){
     x.fillStyle = "#7B887F"; x.font = '500 22px "IBM Plex Mono", monospace'; x.fillText("CARIMBOS DESTE ENVIO", 70, 1128);
     const multi = regs.length > 1 && new Set(regs.map(r => r.mes)).size > 1;
-    const lines = []; regs.forEach(r => r.items.forEach(it => lines.push((it.t==="d" ? "Desembaraço · processo " + it.ref : "Frete · contêiner " + fmtCont(it.ref)) + (multi ? " (" + fmtMes(r.mes) + ")" : ""))));
+    const lines = groupLines(regs, multi);
     const maxL = 4; x.fillStyle = "#182722";
     lines.slice(0, lines.length > maxL ? maxL-1 : maxL).forEach((l,k) => { fitFont(x, "• " + l, '500 {px}px "IBM Plex Sans", Arial, sans-serif', 27, 940); x.fillText("• " + l, 70, 1168 + k*38); });
-    if(lines.length > maxL){ x.font = '500 27px "IBM Plex Sans", Arial, sans-serif'; x.fillText("• e mais " + (lines.length - (maxL-1)) + " itens", 70, 1168 + (maxL-1)*38); }
+    if(lines.length > maxL){ x.font = '500 27px "IBM Plex Sans", Arial, sans-serif'; x.fillText("• e mais " + (lines.length - (maxL-1)) + " referências", 70, 1168 + (maxL-1)*38); }
   }
   x.fillStyle = "#173B50"; x.fillRect(0, H-56, W, 56);
   x.fillStyle = "#AFC7D6"; x.font = '500 21px "IBM Plex Sans", Arial, sans-serif';
@@ -1136,7 +1153,7 @@ function buildMsg(regs){
     "Carimbos deste envio (" + qtd + "):"];
   meses.forEach(m => {
     if(meses.length > 1) L.push("_" + fmtMes(m) + "_");
-    regs.filter(r => r.mes === m).forEach(r => r.items.forEach(it => L.push(it.t==="d" ? "• Desembaraço · processo " + it.ref : "• Frete · contêiner " + fmtCont(it.ref))));
+    groupLines(regs.filter(r => r.mes === m), false).forEach(l => L.push("• " + l));
   });
   L.push("");
   L.push(done ? "🎉 Passaporte completo: " + META + " de " + META + " vistos. Página secreta desbloqueada!" : "Progresso: " + n + " de " + META + " vistos.");
@@ -1233,7 +1250,7 @@ function openHistory(){
         '<div class="reg-h"><b>'+esc(fmtMes(r.mes))+' · '+r.items.length+(r.items.length===1?" carimbo":" carimbos")+'</b>' +
           '<span class="pill '+(r.sent?"ok":"no")+'">'+(r.sent?"Enviado":"Não enviado")+'</span></div>' +
         '<ul>' + r.items.map((it,k) =>
-          '<li data-k="'+k+'"><span><span class="k">'+(it.t==="d"?"Desemb.":"Frete")+'</span><span class="r">'+esc(it.t==="d"?it.ref:fmtCont(it.ref))+'</span></span>' +
+          '<li data-k="'+k+'"><span><span class="k">'+(it.t==="d"?"Desemb.":"Frete")+'</span><span class="r">'+esc(it.ref)+'</span></span>' +
           '<button type="button" class="x" aria-label="Remover '+esc(it.ref)+'">×</button></li>').join("") + '</ul>' +
         '<button class="btn ghost small" type="button" data-send style="margin-top:8px;width:100%">'+(r.sent?"Enviar de novo":"Enviar à Syndex")+'</button>' +
       '</div>').join("") + '</div>'

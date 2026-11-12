@@ -42,7 +42,7 @@ As ferramentas que abrem no Claude são links privados: só funcionam para quem 
 
 - `index.html` — o portal (menu, busca, cards e links)
 - `cotacao/` — página pública Peça sua cotação: gera a ficha do pedido em foto (ícone e cor por modal, cartão de contato) e envia pelo WhatsApp em 2 passos; `preview.jpg` é a imagem de prévia do link
-- `passaporte/` — página pública Passaporte Syndex: o cliente emite o passaporte, registra todo mês os processos de desembaraço (1 carimbo por processo) e os contêineres de frete (1 carimbo por contêiner) e envia a imagem e a mensagem pelo WhatsApp do Tomás; com 10 carimbos abre a página secreta com o prêmio; `preview.jpg` é a imagem de prévia do link
+- `passaporte/` — página pública Passaporte Syndex: o cliente emite o passaporte e registra todo mês, pela referência da proposta, quantos processos de desembaraço (1 carimbo por processo) e contêineres de frete (1 carimbo por contêiner) fez; pode carimbar várias vezes e enviar tudo junto e envia a imagem e a mensagem pelo WhatsApp do Tomás; com 10 carimbos abre a página secreta com o prêmio; `preview.jpg` é a imagem de prévia do link
 - `pricing/` — Solicitação para Pricing (gera o PDF ou a imagem para mandar no WhatsApp)
 - `estimativa/` — Estimativa de custo de importação (gera o PDF)
 - `cotacao-frete/` — Syndex Cotações, cotação de frete marítimo em PDF (modelo em branco)
