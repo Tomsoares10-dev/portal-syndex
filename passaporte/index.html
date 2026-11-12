@@ -258,6 +258,14 @@ button,input,select,textarea{font:inherit}
 .refrow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
 .x{width:40px;height:40px;border-radius:10px;border:1px solid #E1DBC9;background:#FBF9F3;color:var(--ink-soft);font-size:20px;cursor:pointer}
 .ihint{font:400 12px/1.3 var(--body);color:var(--ink-faint)}
+.addbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.addbtns .btn{white-space:normal;line-height:1.2;padding:8px 10px;font-size:14px;border-style:dashed;border-color:#B9C7BE}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none}
+.dot.d{background:#1F4E79}.dot.f{background:#A8322A}
+.count{font:600 12px/1 var(--mono);letter-spacing:.06em;color:var(--green-deep);text-transform:uppercase;margin:0 0 6px}
+.done-btns{display:grid;gap:10px;margin-top:4px}
+.done-btns .btn{min-height:54px;font-size:16px}
+.more-link{display:block;width:100%;margin:0 0 14px}
 .rule{display:flex;flex-wrap:wrap;gap:6px 14px;font:500 13px/1.4 var(--body);color:var(--ink-soft);margin:12px 0}
 .rule span{display:inline-flex;align-items:center;gap:6px}
 .rule i{width:10px;height:10px;border-radius:50%;display:inline-block}
@@ -899,20 +907,29 @@ function monthOptions(){
   for(let i=0;i<12;i++){ const x = new Date(d.getFullYear(), d.getMonth()-i, 1); const v = x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0"); out.push('<option value="'+v+'">'+MESES_LONGO[x.getMonth()].replace(/^./,c=>c.toUpperCase())+" de "+x.getFullYear()+'</option>'); }
   return out.join("");
 }
-function openRegister(){
+function addRow(t){
+  const last = draft[draft.length-1];
+  if(last && !last.ref.trim()){ last.t = t; } else { draft.push({t, ref:""}); }
+  renderItems();
+  const ins = document.querySelectorAll("#items .item input"); const el = ins[ins.length-1];
+  if(el){ el.focus(); el.scrollIntoView({block:"center", behavior: RM ? "auto" : "smooth"}); }
+}
+function openRegister(mes){
   draft = [{t:"d", ref:""}];
   openSheet("Registrar mês",
-    '<p class="lead">Informe o que a sua empresa fez com a Syndex no mês. Cada item vira um carimbo.</p>' +
+    '<p class="lead">Lance de uma vez tudo o que a sua empresa fez com a Syndex no mês. Cada processo ou contêiner vira um carimbo.</p>' +
     '<div class="fieldset"><label for="mes">Mês de referência</label><select id="mes">'+monthOptions()+'</select></div>' +
     '<div class="lbl" style="margin-bottom:6px">Processos e contêineres</div>' +
     '<div class="items" id="items"></div>' +
-    '<button class="btn ghost small" type="button" id="addRow" style="width:100%">+ Adicionar processo ou contêiner</button>' +
+    '<div class="lbl" style="margin:4px 0 6px">Adicionar mais um</div>' +
+    '<div class="addbtns"><button class="btn ghost" type="button" data-add="d"><i class="dot d"></i>+ Processo de desembaraço</button><button class="btn ghost" type="button" data-add="f"><i class="dot f"></i>+ Contêiner de frete</button></div>' +
     '<div class="rule"><span><i style="background:#1F4E79"></i>Desembaraço: 1 carimbo por processo</span><span><i style="background:#A8322A"></i>Frete: 1 carimbo por contêiner</span></div>' +
     '<p class="err" id="regErr" role="alert"></p>' +
     '<div class="row-actions"><button class="btn ghost" type="button" data-close>Cancelar</button><button class="btn primary" type="button" id="doStamp"></button></div>',
     body => {
+      if(mes){ const sel = body.querySelector("#mes"); if([...sel.options].some(o => o.value === mes)) sel.value = mes; }
       renderItems();
-      body.querySelector("#addRow").addEventListener("click", () => { draft.push({t: draft.length ? draft[draft.length-1].t : "d", ref:""}); renderItems(); const ins = body.querySelectorAll(".item input"); ins[ins.length-1].focus(); });
+      body.querySelectorAll("[data-add]").forEach(b => b.addEventListener("click", () => addRow(b.dataset.add)));
       body.querySelector("#doStamp").addEventListener("click", doStamp);
     });
 }
@@ -925,7 +942,7 @@ function renderItems(){
         '<button type="button" data-t="f" aria-pressed="'+(it.t==="f")+'">Frete · contêiner</button>' +
       '</div>' +
       '<div class="refrow"><label class="sr" for="ref'+i+'">'+(it.t==="d"?"Número do processo":"Número do contêiner")+'</label>' +
-        '<input id="ref'+i+'" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="'+(it.t==="d"?30:14)+'" placeholder="'+(it.t==="d"?"Nº do processo, DI ou DUIMP":"Ex.: MSCU1234567")+'" value="'+esc(it.ref)+'">' +
+        '<input id="ref'+i+'" enterkeyhint="next" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="'+(it.t==="d"?30:14)+'" placeholder="'+(it.t==="d"?"Nº do processo, DI ou DUIMP":"Ex.: MSCU1234567")+'" value="'+esc(it.ref)+'">' +
         (draft.length>1 ? '<button type="button" class="x" aria-label="Remover item '+(i+1)+'">×</button>' : '<span></span>') +
       '</div>' +
       '<div class="ihint">'+(it.t==="d" ? "1 carimbo para este processo" : "4 letras + 7 números · 1 carimbo para este contêiner")+'</div>' +
@@ -934,18 +951,20 @@ function renderItems(){
     const i = +row.dataset.i;
     row.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => { draft[i].t = b.dataset.t; renderItems(); }));
     const inp = row.querySelector("input");
-    inp.addEventListener("input", () => { draft[i].ref = inp.value.toUpperCase(); inp.removeAttribute("aria-invalid"); });
+    inp.addEventListener("input", () => { draft[i].ref = inp.value.toUpperCase(); inp.removeAttribute("aria-invalid"); updateStampBtn(); });
+    inp.addEventListener("keydown", e => { if(e.key === "Enter"){ e.preventDefault(); if(inp.value.trim()) addRow(draft[i].t); } });
     const x = row.querySelector(".x"); x && x.addEventListener("click", () => { draft.splice(i,1); renderItems(); updateStampBtn(); });
   });
   updateStampBtn();
 }
-function updateStampBtn(){ const b = $("#doStamp"); if(b) b.textContent = "Carimbar " + draft.length + (draft.length===1 ? " visto" : " vistos"); }
+function updateStampBtn(){ const b = $("#doStamp"); if(!b) return; const n = Math.max(1, draft.filter(d => d.ref.trim()).length); b.textContent = "Carimbar " + n + (n===1 ? " visto" : " vistos"); }
 function normRef(it){ return it.t==="f" ? it.ref.toUpperCase().replace(/[^A-Z0-9]/g,"") : it.ref.toUpperCase().trim().replace(/\s+/g," "); }
 async function doStamp(){
   const er = $("#regErr"); er.textContent = "";
   const seen = new Set(stamps().map(s => s.t+"|"+(s.t==="f" ? s.ref.replace(/[^A-Z0-9]/g,"") : s.ref)));
   let bad = -1, msg = "";
-  const items = draft.map(it => ({t:it.t, ref:normRef(it)}));
+  const filled = draft.map((it,i) => ({t:it.t, ref:normRef(it), i})).filter(it => it.ref.length);
+  const items = filled.length ? filled : [{t:draft[0].t, ref:"", i:0}];
   for(let i=0;i<items.length;i++){
     const it = items[i];
     if(it.t==="d" && it.ref.length < 3){ bad=i; msg = "Informe o número do processo (DI, DUIMP ou referência)."; break; }
@@ -954,13 +973,25 @@ async function doStamp(){
     if(seen.has(k)){ bad=i; msg = (it.t==="d" ? "Este processo" : "Este contêiner") + " já foi carimbado."; break; }
     seen.add(k);
   }
-  if(bad >= 0){ er.textContent = msg; const inp = $("#ref"+bad); inp.setAttribute("aria-invalid","true"); inp.focus(); return; }
-  const reg = {id:uid(), mes:$("#mes").value, at:new Date().toISOString(), sent:false, items};
+  if(bad >= 0){ er.textContent = msg; const inp = $("#ref"+items[bad].i); inp.setAttribute("aria-invalid","true"); inp.focus(); return; }
+  const reg = {id:uid(), mes:$("#mes").value, at:new Date().toISOString(), sent:false, items:items.map(it => ({t:it.t, ref:it.ref}))};
   const before = total();
   S.regs.push(reg); save();
   closeSheet();
   await animateNew(before, total());
-  openSend(reg.id);
+  openDone(reg);
+}
+function pendingRegs(){ return S.regs.filter(r => !r.sent); }
+function openDone(reg){
+  const n = reg.items.length, pend = pendingRegs().reduce((a,r) => a + r.items.length, 0);
+  openSheet(n === 1 ? "1 visto carimbado" : n + " vistos carimbados",
+    '<p class="lead">Tem mais processos ou contêineres? Carimbe tudo e envie uma vez só para a Syndex.</p>' +
+    '<p class="count">'+pend+(pend===1 ? " carimbo ainda não enviado" : " carimbos ainda não enviados")+'</p>' +
+    '<div class="done-btns"><button class="btn ghost" type="button" id="more">+ Carimbar mais</button><button class="btn wpp" type="button" id="goSend">Terminei, enviar à Syndex</button></div>',
+    body => {
+      body.querySelector("#more").addEventListener("click", () => { closeSheet(); openRegister(reg.mes); });
+      body.querySelector("#goSend").addEventListener("click", () => { closeSheet(); openSend(); });
+    });
 }
 function slotEl(slotIdx){ return document.querySelector('.slot[data-slot="'+slotIdx+'"]'); }
 async function stampOne(g, st){
@@ -1036,7 +1067,10 @@ function confetti(){
 /* ---------- imagem para enviar ---------- */
 function goldFill(ctx, y0, y1){ const g = ctx.createLinearGradient(0,y0,0,y1); g.addColorStop(0,"#F6E2A0"); g.addColorStop(.55,"#D6B25E"); g.addColorStop(1,"#A0762A"); return g; }
 function fitFont(ctx, text, spec, px, maxW){ ctx.font = spec.replace("{px}", px); while(ctx.measureText(text).width > maxW && px > 10){ px -= 1; ctx.font = spec.replace("{px}", px); } return px; }
-async function makeImage(reg){
+async function makeImage(regs){
+  const reg = regs && regs.length ? regs[0] : null;
+  const ridSet = new Set((regs||[]).map(r => r.id));
+  const mesesTxt = [...new Set((regs||[]).map(r => fmtMes(r.mes)))].join(" · ");
   await fontsReady; await imgReady;
   const W = 1080, H = 1350, c = document.createElement("canvas"); c.width = W; c.height = H;
   const x = c.getContext("2d"), h = S.holder, all = stamps();
@@ -1054,11 +1088,11 @@ async function makeImage(reg){
   x.fillStyle = "#182722"; fitFont(x, h.empresa, '700 {px}px "IBM Plex Sans", Arial, sans-serif', 46, 940); x.fillText(h.empresa, 70, 364);
   const sub = "CNPJ " + h.cnpj + "   ·   " + h.resp;
   x.fillStyle = "#56675D"; fitFont(x, sub, '500 {px}px "IBM Plex Sans", Arial, sans-serif', 28, 940); x.fillText(sub, 70, 410);
-  const pill = reg ? "REGISTRO DE " + fmtMes(reg.mes) : "RESUMO DO PASSAPORTE";
+  const pill = reg ? "REGISTRO DE " + mesesTxt : "RESUMO DO PASSAPORTE";
   x.font = '600 24px "IBM Plex Mono", monospace'; const pw = x.measureText(pill).width + 40;
   x.fillStyle = "#2C7A43"; rrect(x, 70, 438, pw, 46, 23); x.fill();
   x.fillStyle = "#fff"; x.fillText(pill, 90, 469);
-  const newIdx = new Set(); all.forEach((s,g) => { if(reg && s.rid === reg.id) newIdx.add(g); });
+  const newIdx = new Set(); all.forEach((s,g) => { if(ridSet.has(s.rid)) newIdx.add(g); });
   for(let i=0;i<META;i++){
     const col = i%5, row = Math.floor(i/5), cx = 70 + 94 + col*188, cy = 625 + row*235, g = S.cycle*META + i;
     x.fillStyle = "#9A9F92"; x.font = '500 20px "IBM Plex Mono", monospace'; x.textAlign = "center";
@@ -1080,8 +1114,9 @@ async function makeImage(reg){
   x.fillText(done ? "Passaporte completo · " + META + " de " + META + " vistos" : n + " de " + META + " vistos", 70, py + 62);
   if(!done){ x.textAlign = "right"; x.fillStyle = "#56675D"; x.font = '500 26px "IBM Plex Sans", Arial, sans-serif'; x.fillText("faltam " + (META-n), 1010, py + 62); x.textAlign = "left"; }
   if(reg){
-    x.fillStyle = "#7B887F"; x.font = '500 22px "IBM Plex Mono", monospace'; x.fillText("CARIMBOS DESTE REGISTRO", 70, 1128);
-    const lines = reg.items.map(it => (it.t==="d" ? "Desembaraço · processo " + it.ref : "Frete · contêiner " + fmtCont(it.ref)));
+    x.fillStyle = "#7B887F"; x.font = '500 22px "IBM Plex Mono", monospace'; x.fillText("CARIMBOS DESTE ENVIO", 70, 1128);
+    const multi = regs.length > 1 && new Set(regs.map(r => r.mes)).size > 1;
+    const lines = []; regs.forEach(r => r.items.forEach(it => lines.push((it.t==="d" ? "Desembaraço · processo " + it.ref : "Frete · contêiner " + fmtCont(it.ref)) + (multi ? " (" + fmtMes(r.mes) + ")" : ""))));
     const maxL = 4; x.fillStyle = "#182722";
     lines.slice(0, lines.length > maxL ? maxL-1 : maxL).forEach((l,k) => { fitFont(x, "• " + l, '500 {px}px "IBM Plex Sans", Arial, sans-serif', 27, 940); x.fillText("• " + l, 70, 1168 + k*38); });
     if(lines.length > maxL){ x.font = '500 27px "IBM Plex Sans", Arial, sans-serif'; x.fillText("• e mais " + (lines.length - (maxL-1)) + " itens", 70, 1168 + (maxL-1)*38); }
@@ -1092,12 +1127,17 @@ async function makeImage(reg){
   x.textAlign = "right"; x.fillText("Consultor: Tomás Soares", 1010, H-21);
   return c;
 }
-function buildMsg(reg){
+function buildMsg(regs){
   const h = S.holder, n = inCycle(total()), done = n >= META;
-  const L = ["*PASSAPORTE SYNDEX* · Registro de " + fmtMes(reg.mes), "",
+  const meses = [...new Set(regs.map(r => r.mes))];
+  const qtd = regs.reduce((a,r) => a + r.items.length, 0);
+  const L = ["*PASSAPORTE SYNDEX* · Registro de " + meses.map(fmtMes).join(", "), "",
     "Empresa: " + h.empresa, "CNPJ: " + h.cnpj, "Responsável: " + h.resp, "Passaporte: " + passNum(), "",
-    "Carimbos deste registro (" + reg.items.length + "):"];
-  reg.items.forEach(it => L.push(it.t==="d" ? "• Desembaraço · processo " + it.ref : "• Frete · contêiner " + fmtCont(it.ref)));
+    "Carimbos deste envio (" + qtd + "):"];
+  meses.forEach(m => {
+    if(meses.length > 1) L.push("_" + fmtMes(m) + "_");
+    regs.filter(r => r.mes === m).forEach(r => r.items.forEach(it => L.push(it.t==="d" ? "• Desembaraço · processo " + it.ref : "• Frete · contêiner " + fmtCont(it.ref))));
+  });
   L.push("");
   L.push(done ? "🎉 Passaporte completo: " + META + " de " + META + " vistos. Página secreta desbloqueada!" : "Progresso: " + n + " de " + META + " vistos.");
   L.push("", "Segue a imagem do passaporte em anexo.");
@@ -1109,12 +1149,17 @@ const inFrame = (() => { try{ return window.self !== window.top; }catch(e){ retu
 let shotURL = null;
 async function openSend(rid){
   if(!S.holder){ toast("Emita o passaporte primeiro."); return; }
-  const reg = rid ? S.regs.find(r => r.id === rid) : S.regs[S.regs.length-1];
-  if(!reg){ toast("Registre o mês primeiro. Toque em Registrar mês."); return; }
-  const msg = buildMsg(reg);
+  let regs = rid ? S.regs.filter(r => r.id === rid) : pendingRegs();
+  if(!regs.length && S.regs.length) regs = [S.regs[S.regs.length-1]];
+  if(!regs.length){ toast("Registre o mês primeiro. Toque em Registrar mês."); return; }
+  const reg = regs[0];
+  const qtd = regs.reduce((a,r) => a + r.items.length, 0);
+  const mesesTxt = [...new Set(regs.map(r => fmtMes(r.mes)))].join(", ");
+  const msg = buildMsg(regs);
   const href = "https://wa.me/" + WPP + "?text=" + encodeURIComponent(msg);
   openSheet("Enviar à Syndex",
-    '<p class="lead">Registro de '+esc(fmtMes(reg.mes))+' · '+reg.items.length+(reg.items.length===1?" carimbo":" carimbos")+'</p>' +
+    '<p class="lead">'+qtd+(qtd===1?" carimbo":" carimbos")+' para enviar · '+esc(mesesTxt)+'</p>' +
+    '<button class="btn ghost small more-link" type="button" id="moreFirst">+ Carimbar mais antes de enviar</button>' +
     '<figure class="preview"><img id="shot" alt="Imagem do passaporte com os carimbos, para enviar no WhatsApp"></figure>' +
     '<ol class="steps">' +
       '<li><div><h3>Salve a imagem do passaporte</h3><div class="btns"><button class="btn ghost" type="button" id="saveImg">Salvar imagem</button>' +
@@ -1128,13 +1173,14 @@ async function openSend(rid){
       let blob = null;
       const img = body.querySelector("#shot");
       try{
-        const c = await makeImage(reg);
+        const c = await makeImage(regs);
         blob = await new Promise(res => c.toBlob(res, "image/png"));
         if(shotURL) URL.revokeObjectURL(shotURL);
         shotURL = URL.createObjectURL(blob);
         img.src = shotURL;
       }catch(e){ img.alt = "Não foi possível gerar a imagem neste navegador."; }
-      const fname = "passaporte-syndex-" + reg.mes + ".png";
+      const fname = "passaporte-syndex-" + regs[regs.length-1].mes + ".png";
+      body.querySelector("#moreFirst").addEventListener("click", () => { closeSheet(); openRegister(regs[regs.length-1].mes); });
       body.querySelector("#saveImg").addEventListener("click", async () => {
         if(!blob){ toast("A imagem ainda está sendo gerada."); return; }
         if(downloadsNS){
@@ -1158,7 +1204,7 @@ async function openSend(rid){
         try{ await navigator.clipboard.writeText(msg); toast("Mensagem copiada."); }
         catch(e){ toast("Não foi possível copiar. Use o botão do WhatsApp."); }
       });
-      body.querySelector("#waLink").addEventListener("click", () => { reg.sent = true; save(); updateBar(); });
+      body.querySelector("#waLink").addEventListener("click", () => { regs.forEach(r => r.sent = true); save(); updateBar(); });
     });
 }
 
