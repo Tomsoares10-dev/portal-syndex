@@ -148,6 +148,9 @@ fieldset.is-missing>.erro{display:block}
 .valor{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px}
 
 .aviso{margin-top:12px;font-size:14px;color:var(--ink-soft)}
+.aviso-exw{margin:0;padding:11px 14px;border-radius:var(--r-md);background:var(--amber-soft);border:1px solid var(--amber-line);color:var(--ink);font-size:14px;line-height:1.5}
+.aviso-exw b{color:var(--amber)}
+textarea.end{min-height:86px}
 
 .enviar{margin-top:22px;display:flex;flex-direction:column;align-items:flex-start;gap:10px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:9px 18px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--surface);color:var(--ink);font-size:15px;font-weight:600;cursor:pointer;text-decoration:none;transition:background .15s,border-color .15s}
@@ -428,6 +431,19 @@ fieldset.is-missing>.erro{display:block}
             <input type="number" id="valor" name="valor" min="0" step="any" inputmode="decimal" placeholder="Ex.: 25000">
           </div>
         </div>
+        <div class="sub" id="b-exw" hidden>
+          <p class="aviso-exw field full"><b>EXW:</b> a retirada é feita no endereço do fornecedor. Informe os endereços completos de origem e de destino: rua, número, bairro, cidade, estado ou província, CEP ou código postal e país.</p>
+          <div class="field" style="--span:3" data-req>
+            <label class="lbl" for="end_origem">Endereço completo de origem *</label>
+            <textarea id="end_origem" name="end_origem" class="end" rows="3" placeholder="Rua, número, bairro, cidade, CEP e país do local de retirada"></textarea>
+            <span class="erro">Informe o endereço completo de origem (rua, número, cidade, CEP e país).</span>
+          </div>
+          <div class="field" style="--span:3" data-req>
+            <label class="lbl" for="end_destino">Endereço completo de destino *</label>
+            <textarea id="end_destino" name="end_destino" class="end" rows="3" placeholder="Rua, número, bairro, cidade, CEP e país do local de entrega"></textarea>
+            <span class="erro">Informe o endereço completo de destino (rua, número, cidade, CEP e país).</span>
+          </div>
+        </div>
         <div class="field half" style="--span:3">
           <label class="lbl" for="previsao">Previsão de embarque</label>
           <input type="month" id="previsao" name="previsao">
@@ -673,7 +689,10 @@ fieldset.is-missing>.erro{display:block}
     $("w-medidas").hidden = modal !== "Aéreo";
     definirOpcional("w-m3", "m3-op", modal !== "Aéreo");
     definirOpcional("w-vols", "vols-op", modal === "Aéreo");
+    $("b-exw").hidden = !exw();
   }
+  function exw() { return val("incoterm") === "EXW"; }
+  function umaLinha(v) { return String(v || "").replace(/\s*\n+\s*/g, ", ").trim(); }
   form.addEventListener("change", atualizar);
   atualizar();
 
@@ -700,6 +719,7 @@ fieldset.is-missing>.erro{display:block}
     var v = (el.value || "").trim();
     if (el.id === "email") return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
     if (el.id === "whats") return soDigitos(v).length >= 10;
+    if (el.id === "end_origem" || el.id === "end_destino") return umaLinha(v).length >= 12;
     if (el.type === "number") return v !== "" && parseFloat(v) > 0;
     return v !== "";
   }
@@ -779,6 +799,10 @@ fieldset.is-missing>.erro{display:block}
     }
     var det = [];
     if (val("incoterm")) det.push("Incoterm: " + val("incoterm"));
+    if (exw()) {
+      det.push("Endereço de origem: " + umaLinha(val("end_origem")));
+      det.push("Endereço de destino: " + umaLinha(val("end_destino")));
+    }
     if (val("valor")) det.push("Valor aproximado: " + val("moeda") + " " + num(val("valor")));
     if (val("previsao")) det.push("Previsão de embarque: " + mesAno(val("previsao")));
     if (val("frequencia")) det.push("Frequência: " + val("frequencia"));
@@ -824,6 +848,10 @@ fieldset.is-missing>.erro{display:block}
     add(s4, "Serviços", servs.join("\n"));
     var s5 = { titulo: "Detalhes", linhas: [] };
     add(s5, "Incoterm", val("incoterm"));
+    if (exw()) {
+      add(s5, "Endereço de origem", umaLinha(val("end_origem")));
+      add(s5, "Endereço de destino", umaLinha(val("end_destino")));
+    }
     if (val("valor")) add(s5, "Valor aproximado", val("moeda") + " " + num(val("valor")));
     add(s5, "Previsão de embarque", mesAno(val("previsao")));
     add(s5, "Frequência", val("frequencia"));
