@@ -3,7 +3,8 @@
   "iteracoes": 600000,
   "abertas": [
     "cotacao/index.html",
-    "passaporte/index.html"
+    "passaporte/index.html",
+    "invoice-cotacao/index.html"
   ],
   "tela_sempre": [
     "index.html"

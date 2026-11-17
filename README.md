@@ -80,3 +80,7 @@ python3 _cadeado/cadeado.py verificar  # confere que nada ficou sem senha — ro
 
 Para trocar a senha: `abrir` com a senha antiga, `nova-senha`, `trancar` com a senha nova.
 
+
+## Invoice para Cotação — link do time
+
+`invoice-cotacao/` é a versão do Invoice para Cotação para quem não tem o Claude. Ela tem **senha própria do time**, diferente da senha do HUB, por isso está em `abertas` no `_cadeado/config.json` (o `trancar` do HUB não mexe nela). O sal fica em `_cadeado/time-invoice.json`; a senha não fica gravada em lugar nenhum. Para atualizar a página, ela é trancada de novo com a senha do time.
