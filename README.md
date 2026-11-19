@@ -37,6 +37,7 @@ Funciona no computador e no celular. No celular dá para instalar como app:
 | Rotina | Foto de grupo WhatsApp | Site (GitHub) |
 | Para o cliente | Peça sua cotação | Portal (`/cotacao`) |
 | Fidelização (página pública) | Passaporte Syndex | Portal (`/passaporte`, carimbos salvos no aparelho do cliente) |
+| Para o cliente | Ficha de cotação | Portal (`/ficha-cotacao`, página pública: o cliente responde só o que vale para a carga e envia o resumo por WhatsApp ou e-mail) |
 
 As ferramentas que abrem no Claude são links privados: só funcionam para quem recebeu acesso.
 
@@ -44,6 +45,7 @@ As ferramentas que abrem no Claude são links privados: só funcionam para quem 
 
 - `index.html` — o portal (menu, busca, cards e links)
 - `cotacao/` — página pública Peça sua cotação: gera a ficha do pedido em foto (ícone e cor por modal, cartão de contato) e envia pelo WhatsApp em 2 passos; `preview.jpg` é a imagem de prévia do link
+- `ficha-cotacao/` — página pública Ficha de cotação: o cliente informa a empresa (CNPJ consultado na Receita), escolhe importar ou exportar, o Incoterm, o modal e o tipo de carga (com "Ainda não sei"), responde só as perguntas daquela combinação (medidas com cubagem calculada) e envia o resumo para o WhatsApp do Tomás ou para sales8@syndex.com.br; rascunho salvo no aparelho do cliente; `preview.jpg` é a imagem de prévia do link
 - `passaporte/` — página pública Passaporte Syndex: o cliente emite o passaporte e registra todo mês, pela referência da proposta, quantos processos de desembaraço (1 carimbo por processo) e contêineres de frete (1 carimbo por contêiner) fez; pode carimbar várias vezes e enviar tudo junto e envia a imagem e a mensagem pelo WhatsApp do Tomás; com 10 carimbos abre a página secreta com o prêmio; `preview.jpg` é a imagem de prévia do link
 - `pricing/` — Solicitação para Pricing (gera o PDF ou a imagem para mandar no WhatsApp)
 - `estimativa/` — Estimativa de custo de importação (gera o PDF)
@@ -63,7 +65,7 @@ Para trocar o link de uma ferramenta, edite o `href` do card dela no `index.html
 
 ## Senha (cadeado)
 
-O HUB e todas as ferramentas deste repositório abrem só com a senha do Tomás. As únicas páginas abertas de propósito são `cotacao/` (Peça sua cotação) e `passaporte/` (Passaporte Syndex), feitas para os clientes.
+O HUB e todas as ferramentas deste repositório abrem só com a senha do Tomás. As únicas páginas abertas de propósito são `cotacao/` (Peça sua cotação), `passaporte/` (Passaporte Syndex) e `ficha-cotacao/` (Ficha de cotação), feitas para os clientes.
 
 - Cada página publicada é uma tela de senha com o conteúdo original **criptografado** (AES-256-GCM, chave derivada da senha com PBKDF2-SHA256, 600 mil iterações). Sem a senha, o que está no GitHub é ilegível.
 - A senha **não fica gravada em lugar nenhum** do repositório. No aparelho, "Lembrar neste aparelho" guarda só a chave derivada no navegador; abrir qualquer página com `?sair` no fim do endereço faz o aparelho esquecer.

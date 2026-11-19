@@ -4,7 +4,8 @@
   "abertas": [
     "cotacao/index.html",
     "passaporte/index.html",
-    "invoice-cotacao/index.html"
+    "invoice-cotacao/index.html",
+    "ficha-cotacao/index.html"
   ],
   "tela_sempre": [
     "index.html"

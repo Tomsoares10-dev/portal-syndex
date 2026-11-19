@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SYNDEX | Ficha de cotação</title>
+<link rel="icon" type="image/png" href="../icon-192.png">
+<meta name="description" content="Responda só o que vale para a sua carga e envie a ficha de cotação para a Syndex pelo WhatsApp ou por e-mail.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#173B50">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Syndex Logística e Gestão Aduaneira">
+<meta property="og:title" content="Ficha de cotação | Syndex">
+<meta property="og:description" content="Importação ou exportação, marítimo, aéreo ou rodoviário: responda só o que vale para a sua carga e envie para a Syndex.">
+<meta property="og:url" content="https://tomsoares10-dev.github.io/portal-syndex/ficha-cotacao/">
+<meta property="og:image" content="https://tomsoares10-dev.github.io/portal-syndex/ficha-cotacao/preview.jpg?v=1">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: faixa da marca com ilustração no topo e um único cartão de assistente, centralizado: barra de etapas, uma pergunta por tela e navegação Voltar/Próximo; no fim, o resultado em abas */
+:root{--bg:#F3F5F3;--surface:#FFFFFF;--surface-2:#EEF2EF;--border:#DDE5DF;--ink:#14231D;--ink-soft:#5A6A61;--navy:#25536F;--navy-deep:#173B50;--navy-soft:#E5EEF3;--green:#3F9C59;--green-ink:#2E7A45;--green-soft:#E6F4EA;--warn:#9A6B00;--warn-line:#C99A2E;--warn-soft:#FFF5DA;--danger:#B3382C;--danger-soft:#FBEAE7;--on-accent:#FFFFFF;--hero-a:#123246;--hero-b:#25536F;--chat:#ECEFE9;--bubble:#DFF3DC;--shadow:0 1px 2px rgba(20,35,29,.05),0 10px 28px -16px rgba(20,35,29,.22);--radius:16px;--font-display:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--font-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;color-scheme:light}
+html[data-tema="escuro"]{color-scheme:dark;--bg:#0D1411;--surface:#151F1A;--surface-2:#1B2721;--border:#283730;--ink:#E7EEE9;--ink-soft:#9DB0A4;--navy:#86B3CE;--navy-deep:#5C87A3;--navy-soft:#16262F;--green:#5FCB7C;--green-ink:#7BD896;--green-soft:#15301F;--warn:#E8C060;--warn-line:#C99A2E;--warn-soft:#352C13;--danger:#E2776A;--danger-soft:#3A1C18;--on-accent:#0D1411;--hero-a:#0A1C27;--hero-b:#173B50;--chat:#101915;--bubble:#1D3A28;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -16px rgba(0,0,0,.6)}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.5}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+svg{flex:none}
+.wrap{max-width:960px;margin:0 auto;padding:18px}
+
+/* faixa da marca com ilustração */
+.band{position:relative;overflow:hidden;border-radius:16px;padding:20px 24px 22px;background:linear-gradient(115deg,var(--hero-a) 0%,var(--hero-a) 45%,var(--hero-b) 100%);color:#fff;box-shadow:var(--shadow);min-height:168px;display:flex;flex-direction:column;justify-content:space-between;gap:16px}
+.band::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,#3F9C59 0%,#3F9C59 30%,#2E6E8F 100%)}
+.band .art{position:absolute;right:8px;bottom:3px;height:calc(100% - 50px);width:56%;max-width:480px;pointer-events:none}
+.band .top{display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative;z-index:1}
+.band .logo{background:#fff;border-radius:8px;padding:5px 8px;display:flex}
+.band .logo img{height:26px;display:block}
+.band .side{display:flex;gap:8px;align-items:center}
+.band .tt{position:relative;z-index:1;max-width:52%}
+.band .eyebrow{margin:0 0 4px;font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.66);font-weight:600}
+.band h1{margin:0;font-size:26px;line-height:1.15;font-weight:600;letter-spacing:-.015em;text-wrap:balance}
+.band .sub{margin:6px 0 0;font-size:13.5px;color:rgba(255,255,255,.75)}
+.badge{font-family:var(--font-mono);font-size:11.5px;border:1px solid rgba(255,255,255,.28);border-radius:6px;padding:4px 9px;color:rgba(255,255,255,.85);white-space:nowrap;background:rgba(10,28,39,.35)}
+.ghost{background:rgba(10,28,39,.35);border:1px solid rgba(255,255,255,.28);color:#fff;border-radius:8px;padding:5px 11px;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500}
+.ghost:hover{background:rgba(255,255,255,.12)}
+
+/* movimento do topo */
+.art .ship{transform-box:fill-box;transform-origin:50% 100%;animation:balanco 5.5s ease-in-out infinite}
+.art .wave.w1{animation:mar 7s linear infinite}
+.art .wave.w2{animation:mar 10s linear infinite reverse}
+.art .truck{animation:estrada 11s linear infinite}
+.art .plane{animation:voo 13s ease-in-out infinite}
+.art .route{animation:fluxo 2.4s linear infinite}
+@keyframes balanco{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-2.2px) rotate(-.7deg)}}
+@keyframes mar{from{transform:translateX(0)}to{transform:translateX(40px)}}
+@keyframes estrada{0%{transform:translateX(-34px);opacity:0}10%{opacity:1}82%{opacity:1}100%{transform:translateX(34px);opacity:0}}
+@keyframes voo{0%{transform:translate(-40px,12px);opacity:0}12%{opacity:.95}80%{opacity:.95}100%{transform:translate(22px,-8px);opacity:0}}
+@keyframes fluxo{to{stroke-dashoffset:-15}}
+
+/* selo de conclusão */
+.pronto{display:flex;gap:18px;align-items:center;flex-wrap:wrap;padding:16px 18px;border:1px solid var(--green);background:var(--green-soft);border-radius:14px;margin:16px 0 4px;animation:surge .35s ease-out}
+.pronto .selo{color:var(--green-ink);width:96px;height:96px;flex:none;transform:rotate(-10deg);animation:carimbo .6s cubic-bezier(.2,1.5,.4,1) both}
+.pronto div{flex:1;min-width:200px}
+.pronto b{display:block;font-size:16px;margin-bottom:2px}
+.pronto p{margin:0 0 10px;font-size:14px;color:var(--ink-soft)}
+@keyframes carimbo{0%{transform:scale(1.9) rotate(-28deg);opacity:0}55%{opacity:1}100%{transform:scale(1) rotate(-10deg);opacity:1}}
+@keyframes surge{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.ficha .pend.ok b{color:var(--green-ink)}
+
+/* formulário do cliente */
+.fsec + .fsec{margin-top:22px;padding-top:20px;border-top:1px solid var(--border)}
+.fsec > h3{display:flex;align-items:center;gap:8px;margin:0 0 12px;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.fsec > h3 svg{color:var(--navy)}
+.form.c3{grid-template-columns:1fr 1fr 1fr}
+.form.addr{grid-template-columns:150px 2fr 90px 1.2fr 1.3fr 70px}
+.fstat{font-size:12.5px;margin:0;min-height:1.2em;display:flex;align-items:center;gap:6px;flex-wrap:wrap;color:var(--ink-soft)}
+.fstat.ok{color:var(--green-ink)}
+.fstat.err{color:var(--danger)}
+.fstat a{color:var(--navy);font-weight:600}
+.spin{width:13px;height:13px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--navy);animation:gira .7s linear infinite;display:inline-block}
+@keyframes gira{to{transform:rotate(360deg)}}
+.field input.bad{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+.field input.mono{font-family:var(--font-mono);letter-spacing:.02em}
+.envnote{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap;font-size:13.5px;border:1px solid var(--border);border-left:4px solid var(--navy);border-radius:10px;padding:10px 12px;margin:-8px 0 20px;background:color-mix(in srgb,var(--navy-soft) 55%,var(--surface))}
+.envnote.on{border-left-color:var(--green);background:var(--green-soft)}
+.envnote p{margin:0;flex:1;min-width:200px}
+.envnote a{color:var(--navy);font-weight:600;white-space:nowrap}
+.rf{margin-top:14px;border:1px solid var(--border);border-radius:12px;overflow:hidden;animation:surge .3s ease-out}
+.rf-h{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 14px;background:color-mix(in srgb,var(--surface-2) 60%,var(--surface));border-bottom:1px solid var(--border);font-size:13px;font-weight:600}
+.rf-h span:first-child{display:inline-flex;align-items:center;gap:7px}
+.sit{font-family:var(--font-mono);font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:999px}
+.sit.ok{background:var(--green-soft);color:var(--green-ink)}
+.sit.bad{background:var(--danger-soft);color:var(--danger)}
+.rf dl{margin:0;display:grid;grid-template-columns:150px 1fr;gap:6px 14px;padding:12px 14px;font-size:13.5px}
+.rf dt{color:var(--ink-soft);font-size:12px;text-transform:uppercase;letter-spacing:.05em;font-weight:600;padding-top:1px}
+.rf dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.wide{grid-column:1/-1}
+.field label{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft)}
+.field label small{text-transform:none;letter-spacing:0;font-weight:400}
+.field input,.field textarea,.obs-ta{width:100%;border:1px solid var(--border);background:var(--surface);border-radius:10px;padding:11px 13px;font-size:15px;transition:border-color .15s,box-shadow .15s}
+.field textarea,.obs-ta{min-height:96px;resize:vertical;line-height:1.5}
+.field input:focus,.field textarea:focus,.obs-ta:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px var(--green-soft)}
+.field .hint,.obs .hint{font-size:12px;color:var(--ink-soft);margin:0}
+.lock{display:inline-flex;align-items:center;gap:5px}
+.note{display:flex;gap:12px;align-items:flex-start;border:1px dashed var(--border);border-radius:12px;padding:12px 14px;margin-bottom:22px;background:color-mix(in srgb,var(--surface-2) 50%,var(--surface))}
+.note .ni{color:var(--navy);margin-top:2px}
+.note b{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:2px}
+.note p{margin:0;font-size:14px;white-space:pre-wrap}
+.obs{margin-top:24px}
+
+/* assistente */
+.wiz{margin-top:18px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.stepper{list-style:none;margin:0;padding:20px 18px 18px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));border-bottom:1px solid var(--border);background:color-mix(in srgb,var(--surface-2) 55%,var(--surface))}
+.stepper li{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:5px;min-width:0}
+.stepper li + li::before{content:"";position:absolute;top:15px;right:calc(50% + 20px);left:calc(-50% + 20px);height:2px;background:var(--border);border-radius:2px}
+.stepper li.done::before,.stepper li.cur::before{background:var(--green)}
+.stepper button{border:0;background:none;padding:0;display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0;max-width:100%}
+.stepper .c{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-family:var(--font-mono);font-weight:600;font-size:13px;border:2px solid var(--border);background:var(--surface);color:var(--ink-soft);transition:all .2s}
+.stepper .done .c{background:var(--green);border-color:var(--green);color:var(--on-accent)}
+.stepper .cur .c{background:var(--navy-deep);border-color:var(--navy-deep);color:#fff;box-shadow:0 0 0 4px var(--navy-soft)}
+html[data-tema="escuro"] .stepper .cur .c{background:var(--navy);border-color:var(--navy);color:var(--on-accent)}
+.stepper .l{font-size:12.5px;font-weight:600;color:var(--ink-soft)}
+.stepper .cur .l,.stepper .done .l{color:var(--ink)}
+.stepper .v{font-size:12px;color:var(--ink-soft);max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:1.2em}
+.stepper .done .v{color:var(--green-ink);font-weight:500}
+
+.stage{padding:26px 30px 28px;min-height:420px}
+.stage.fwd{animation:daDireita .34s cubic-bezier(.2,.75,.25,1)}
+.stage.back{animation:daEsquerda .34s cubic-bezier(.2,.75,.25,1)}
+@keyframes daDireita{from{opacity:0;transform:translateX(36px)}to{opacity:1;transform:none}}
+@keyframes daEsquerda{from{opacity:0;transform:translateX(-36px)}to{opacity:1;transform:none}}
+.q{font-family:var(--font-display);font-weight:600;font-size:24px;line-height:1.25;letter-spacing:-.015em;margin:0;text-wrap:balance}
+.qs{margin:6px 0 22px;color:var(--ink-soft);font-size:14.5px;max-width:62ch}
+.wnav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 22px;border-top:1px solid var(--border);background:color-mix(in srgb,var(--surface-2) 55%,var(--surface))}
+.wnav .pos{font-size:12.5px;color:var(--ink-soft)}
+.btn{border:1px solid var(--border);background:var(--surface);border-radius:10px;padding:10px 18px;font-weight:600;font-size:14.5px;display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink);transition:filter .15s,border-color .15s,opacity .15s}
+.btn:hover{border-color:var(--navy)}
+.btn.sm{padding:6px 12px;font-size:13px}
+.btn.pri{background:var(--green);border-color:var(--green);color:var(--on-accent)}
+.btn.nav{background:var(--navy-deep);border-color:var(--navy-deep);color:#fff}
+html[data-tema="escuro"] .btn.nav{background:var(--navy);border-color:var(--navy);color:var(--on-accent)}
+.btn.pri:hover,.btn.nav:hover{filter:brightness(1.07)}
+.btn[hidden]{display:none}
+.btn.invis{visibility:hidden}
+
+/* cartões de escolha */
+.choice{position:relative;border:1.5px solid var(--border);background:var(--surface);border-radius:14px;padding:16px;text-align:left;display:flex;gap:14px;align-items:flex-start;transition:border-color .15s,background .15s,box-shadow .15s}
+.choice:hover{border-color:var(--navy)}
+.choice .ico{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:var(--surface-2);color:var(--navy);flex:none;transition:background .15s,color .15s}
+.choice b{display:block;font-size:16px;font-weight:600;margin-bottom:2px}
+.choice small{display:block;font-size:13px;color:var(--ink-soft);line-height:1.4}
+.choice[aria-pressed="true"]{border-color:var(--navy-deep);background:var(--navy-soft);box-shadow:inset 0 0 0 1px var(--navy-deep)}
+html[data-tema="escuro"] .choice[aria-pressed="true"]{border-color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy)}
+.choice[aria-pressed="true"] .ico{background:var(--navy-deep);color:#fff}
+html[data-tema="escuro"] .choice[aria-pressed="true"] .ico{background:var(--navy);color:var(--on-accent)}
+.choice .tick{position:absolute;top:10px;right:10px;width:20px;height:20px;border-radius:50%;background:var(--green);color:var(--on-accent);display:none;place-items:center}
+.choice[aria-pressed="true"] .tick{display:grid}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.gc{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:10px}
+.gc .choice{padding:12px;gap:11px;align-items:center}
+.gc .choice .ico{width:38px;height:38px;border-radius:10px}
+.gc .choice b{font-size:14.5px}
+.gc .choice small{font-size:12px}
+.g3 .choice{flex-direction:column;align-items:flex-start}
+.glabel{display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--ink-soft);margin:0 0 9px;text-transform:uppercase;letter-spacing:.09em;font-weight:600}
+.glabel::after{content:"";flex:1;height:1px;background:var(--border)}
+.incg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:20px}
+.incc{border:1.5px solid var(--border);background:var(--surface);border-radius:12px;padding:10px 12px;text-align:left;display:flex;flex-direction:column;gap:1px;transition:border-color .15s,background .15s}
+.incc:hover{border-color:var(--navy)}
+.incc .k{font-family:var(--font-mono);font-weight:600;font-size:17px;letter-spacing:.05em}
+.incc .n{font-size:12px;color:var(--ink-soft);line-height:1.3}
+.incc[aria-pressed="true"]{background:var(--navy-deep);border-color:var(--navy-deep);color:#fff}
+.incc[aria-pressed="true"] .n{color:rgba(255,255,255,.78)}
+html[data-tema="escuro"] .incc[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:var(--on-accent)}
+html[data-tema="escuro"] .incc[aria-pressed="true"] .n{color:rgba(13,20,17,.75)}
+.detail{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;align-items:baseline;border:1px solid var(--border);border-left:4px solid var(--navy);border-radius:12px;padding:14px 16px;background:color-mix(in srgb,var(--surface-2) 50%,var(--surface));font-size:14px}
+.detail .t{grid-column:1/-1;font-weight:600;font-size:15px;display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.detail dt{color:var(--ink-soft);font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.detail dd{margin:0}
+.code{font-family:var(--font-mono);font-weight:600;letter-spacing:.04em;background:var(--navy-deep);color:#fff;border-radius:7px;padding:2px 8px}
+html[data-tema="escuro"] .code{background:var(--navy);color:var(--on-accent)}
+
+/* alertas */
+.alert{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:12px;border:1px solid var(--border);border-left-width:4px;margin-top:16px}
+.alert .ai{margin-top:1px}
+.alert p{margin:0;flex:1;min-width:200px;font-size:14px}
+.alert.warn{border-left-color:var(--warn-line);background:var(--warn-soft)}
+.alert.warn .ai{color:var(--warn)}
+.alert.info{border-left-color:var(--navy);background:color-mix(in srgb,var(--navy-soft) 60%,var(--surface))}
+.alert.info .ai{color:var(--navy)}
+.alert.stop{border-left-color:var(--danger);background:var(--danger-soft)}
+.alert.stop .ai{color:var(--danger)}
+
+/* resultado */
+.rtop{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.rtop h2{margin:0;font-size:20px;font-weight:600;letter-spacing:-.01em}
+.rtop span{font-size:12.5px;color:var(--ink-soft)}
+.rtop .cli{width:100%;margin:-6px 0 0;font-size:14px;color:var(--ink-soft)}
+.rtop .cli b{color:var(--ink);font-weight:600}
+.ficha{display:grid;grid-template-columns:1fr 1.35fr 1fr 1.35fr 1fr;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.ficha > div{padding:11px 14px;min-width:0}
+.ficha > div + div{border-left:1px solid var(--border)}
+.ficha > div > span:first-child{display:block;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin-bottom:3px}
+.ficha b{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:600;line-height:1.3}
+.ficha b small{font-weight:400;color:var(--ink-soft);font-size:12.5px}
+.ficha .code{font-size:12.5px;padding:1px 6px}
+.ficha .pend b{color:var(--green-ink)}
+.mail{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.mail-h{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:10px 12px 10px 16px;border-bottom:1px solid var(--border);background:color-mix(in srgb,var(--surface-2) 55%,var(--surface))}
+.mail-h .to{font-size:13px;color:var(--ink-soft)}
+.mail-h .to b{color:var(--ink);font-weight:600}
+.seg2{display:inline-flex;border:1px solid var(--border);border-radius:9px;padding:2px;background:var(--surface)}
+.seg2 button{border:0;background:none;border-radius:7px;padding:5px 12px;font-size:13px;font-weight:600;color:var(--ink-soft);display:inline-flex;align-items:center;gap:6px}
+.seg2 button[aria-pressed="true"]{background:var(--navy-deep);color:#fff}
+html[data-tema="escuro"] .seg2 button[aria-pressed="true"]{background:var(--navy);color:var(--on-accent)}
+.mail textarea{display:block;width:100%;border:0;background:var(--surface);resize:none;line-height:1.6;font-size:14px;padding:16px 18px;min-height:200px;overflow:hidden}
+.mail textarea:focus{outline:none}
+.mail:focus-within{border-color:var(--green);box-shadow:0 0 0 1px var(--green)}
+.mail-f{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:12px 16px;border-top:1px solid var(--border);background:color-mix(in srgb,var(--surface-2) 55%,var(--surface))}
+.mail-f .hint{font-size:12.5px;color:var(--ink-soft);margin-left:auto}
+.rhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.rhead h2{margin:0;font-family:var(--font-display);font-weight:600;font-size:25px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;padding:4px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--border)}
+.tag svg{color:var(--ink-soft)}
+.tabs{display:flex;gap:2px;margin:20px -30px 0;padding:0 30px;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{border:0;background:none;padding:11px 14px 12px;font-weight:600;font-size:14px;color:var(--ink-soft);border-bottom:2.5px solid transparent;margin-bottom:-1px;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--green)}
+.tab .n{font-family:var(--font-mono);font-size:11.5px;padding:1px 7px;border-radius:999px;background:var(--surface-2);color:var(--ink-soft);font-weight:600}
+.tab[aria-selected="true"] .n{background:var(--green-soft);color:var(--green-ink)}
+.pane{padding-top:22px}
+.ptitle{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 12px}
+.ptitle h3{margin:0;font-size:15px;font-weight:600}
+.ptitle p{margin:0;font-size:13px;color:var(--ink-soft)}
+
+.matrix{width:100%;border-collapse:separate;border-spacing:0;font-size:14px;margin-bottom:26px}
+.matrix th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;padding:0 12px 8px;text-align:center;width:28%}
+.matrix th:first-child{text-align:left;padding-left:0;width:auto}
+.matrix th.me{color:var(--green-ink)}
+.matrix th.me small{display:block;letter-spacing:.02em;text-transform:none;font-weight:500}
+.matrix td{padding:9px 12px;border-top:1px solid var(--border);text-align:center;vertical-align:middle}
+.matrix td:first-child{text-align:left;padding-left:0;font-weight:500}
+.matrix td.me{background:var(--green-soft)}
+.matrix .dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--navy-deep)}
+html[data-tema="escuro"] .matrix .dot{background:var(--navy)}
+.matrix td.me .dot{background:var(--green)}
+.matrix .note{display:block;font-size:11.5px;color:var(--ink-soft);line-height:1.25;margin-top:2px}
+
+.ends{display:flex;justify-content:space-between;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin-bottom:4px}
+.ends span{display:inline-flex;align-items:center;gap:6px}
+.tb{position:relative;padding-top:34px}
+.rail{position:absolute;left:6.25%;right:6.25%;top:54px;height:2px;background:repeating-linear-gradient(90deg,var(--border) 0 8px,transparent 8px 12px)}
+.nodes{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(8,minmax(0,1fr))}
+.nodes li{display:flex;flex-direction:column;align-items:center;text-align:center;gap:7px;padding:0 3px}
+.nd{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;position:relative;z-index:1;border:2px solid var(--border);background:var(--surface);color:var(--ink-soft)}
+.nodes .nm{font-size:12.5px;font-weight:600;line-height:1.25}
+.st{font-size:11px;font-weight:600;border-radius:999px;padding:2px 8px;white-space:nowrap}
+.nodes .st{margin-top:auto}
+.in .nd{background:var(--green);border-color:var(--green);color:var(--on-accent)}
+.in .st{background:var(--green-soft);color:var(--green-ink)}
+.opt .nd{border:2px dashed var(--navy);color:var(--navy)}
+.opt .st{background:var(--navy-soft);color:var(--navy)}
+.out .nd{background:var(--surface-2)}
+.out .nm{color:var(--ink-soft);font-weight:500}
+.out .st{color:var(--ink-soft);background:var(--surface-2)}
+.risk{position:absolute;top:0;height:82px;left:calc(var(--g) * 12.5%);width:0;border-left:2px dashed var(--warn-line);z-index:2}
+.risk span{position:absolute;top:0;left:0;transform:translateX(-50%);white-space:nowrap;font-size:11px;font-weight:600;background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn-line);border-radius:999px;padding:2px 9px}
+.risk[data-edge="l"] span{transform:translateX(-2px)}
+.risk[data-edge="r"] span{transform:translateX(calc(-100% + 2px))}
+.vt{display:none;list-style:none;margin:0;padding:0;position:relative}
+.vt::before{content:"";position:absolute;left:20px;top:18px;bottom:18px;border-left:2px dashed var(--border)}
+.vt li{display:flex;align-items:center;gap:12px;padding:6px 0;position:relative}
+.vt li .nm{flex:1;font-size:14px;font-weight:600}
+.vt li.out .nm{font-weight:500}
+.vt li.vrisk{padding:4px 0 4px 8px}
+.vt li.vrisk span{font-size:11.5px;font-weight:600;background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn-line);border-radius:999px;padding:2px 10px;position:relative;z-index:1}
+.vt li.vrisk::after{content:"";flex:1;border-top:2px dashed var(--warn-line)}
+.tb.anim .rail{transform-origin:left center;animation:traca .9s ease-out both}
+.tb.anim .nodes li{animation:aparece .4s ease-out both;animation-delay:calc(var(--i) * 95ms + 120ms)}
+.tb.anim .risk{animation:desce .45s ease-out both;animation-delay:.95s}
+.vt.anim li{animation:aparece .35s ease-out both;animation-delay:calc(var(--i) * 70ms + 80ms)}
+@keyframes traca{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes aparece{from{opacity:0;transform:translateY(8px) scale(.92)}to{opacity:1;transform:none}}
+@keyframes desce{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:12px;color:var(--ink-soft);margin-top:16px;padding-top:12px;border-top:1px solid var(--border)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:50%;display:inline-block;border:2px solid var(--border)}
+.legend i.in{background:var(--green);border-color:var(--green)}
+.legend i.opt{border:2px dashed var(--navy)}
+.legend i.out{background:var(--surface-2)}
+.legend i.rk{border-radius:0;border:0;border-left:2px dashed var(--warn-line);width:2px}
+
+.prog-row{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.prog{flex:1;height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.prog i{display:block;height:100%;background:var(--green);border-radius:99px;transition:width .3s}
+.prog-row .mono{font-size:13px;color:var(--ink-soft)}
+.sect{margin-top:18px}
+.sect h4{display:flex;align-items:center;gap:9px;margin:0 0 6px;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.sect h4 .si{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:var(--navy-soft);color:var(--navy);font-family:var(--font-mono);font-size:10.5px;letter-spacing:0}
+.sect[data-k="carga"] h4 .si{background:var(--green-soft);color:var(--green-ink)}
+.sect h4 .c{margin-left:auto;font-family:var(--font-mono);letter-spacing:0;text-transform:none}
+.items{list-style:none;margin:0;padding:0;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.items li + li{border-top:1px solid var(--border)}
+.it{display:flex;gap:12px;align-items:flex-start;padding:10px 14px;cursor:pointer;font-size:14.5px;line-height:1.4;background:var(--surface);transition:background .15s}
+.it:hover{background:var(--surface-2)}
+.it input{appearance:none;-webkit-appearance:none;width:19px;height:19px;margin:1px 0 0;border:1.5px solid color-mix(in srgb,var(--ink-soft) 55%,var(--border));border-radius:6px;background:var(--surface);flex:none;cursor:pointer;transition:background .15s,border-color .15s}
+.it input:checked{background:var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/13px no-repeat;border-color:var(--green)}
+.it input:checked + span{color:var(--ink-soft);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--ink-soft) 50%,transparent)}
+
+.chat{background:var(--chat);border-radius:14px;padding:18px;background-image:radial-gradient(color-mix(in srgb,var(--ink-soft) 14%,transparent) 1px,transparent 1px);background-size:16px 16px}
+.bubble{position:relative;margin-left:auto;max-width:600px;background:var(--bubble);border-radius:14px 4px 14px 14px;padding:12px 14px 22px;box-shadow:0 1px 1px rgba(0,0,0,.08)}
+.bubble textarea{display:block;width:100%;border:0;background:transparent;resize:none;line-height:1.5;font-size:14px;padding:0;min-height:120px;overflow:hidden}
+.bubble textarea:focus{outline:none}
+.bubble:focus-within{box-shadow:0 0 0 2px var(--green)}
+.bubble .tm{position:absolute;right:12px;bottom:5px;font-size:11px;color:var(--ink-soft)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.ok{font-size:13px;color:var(--green-ink);font-weight:600}
+footer.foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--ink-soft);margin:18px 2px 8px}
+
+@media (max-width:760px){.tb{display:none}.vt{display:block}.ends{display:none}.g3{grid-template-columns:1fr}.g3 .choice{flex-direction:row;align-items:center}}
+@media (max-width:860px){.ficha{grid-template-columns:1fr 1fr}.ficha > div + div{border-left:0}.ficha > div{border-top:1px solid var(--border)}.ficha > div:nth-child(-n+2){border-top:0}.ficha > div:nth-child(even){border-left:1px solid var(--border)}.ficha > div:last-child{grid-column:1/-1;border-left:0}}
+@media (max-width:860px){.form.c3{grid-template-columns:1fr 1fr}.form.addr{grid-template-columns:1fr 1fr}.form.addr .f-end{grid-column:1/-1}}
+@media (max-width:760px){.band .tt{max-width:100%}.band .art{width:100%;opacity:.22}}
+@media (max-width:600px){.wrap{padding:12px}.form,.form.c3{grid-template-columns:1fr}.form.addr{grid-template-columns:1fr 1fr}.rf dl{grid-template-columns:1fr}.band{padding:16px;min-height:0}.band h1{font-size:22px}.band .sub{display:none}.badge{display:none}.mail-f .hint{margin-left:0;width:100%}.stage{padding:20px 16px 22px}.tabs{margin:18px -16px 0;padding:0 16px}.q{font-size:23px}.g2{grid-template-columns:1fr}.stepper{padding:16px 6px 14px}.stepper .v{display:none}.stepper .l{font-size:11px}.wnav{padding:12px 14px}.wnav .pos{display:none}.matrix{font-size:13px}.matrix th{padding:0 6px 8px}.matrix td{padding:8px 6px}}
+@media (max-width:600px){.incg{grid-template-columns:1fr 1fr}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;border-bottom:0;margin:18px 0 0;padding:0;overflow:visible}.tab{justify-content:center;border:1px solid var(--border);border-radius:10px;margin:0;padding:9px 8px;font-size:13.5px}.tab[aria-selected="true"]{border-color:var(--green);background:var(--green-soft)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ficha do cliente */
+.stepper{grid-template-columns:repeat(7,minmax(0,1fr))}
+.stepper button:disabled{cursor:default}
+.stepper button:disabled .c{opacity:.6}
+.req{font-style:normal;text-transform:none;letter-spacing:0;font-weight:500;color:var(--green-ink);font-size:11px;margin-left:4px}
+.ferr{margin:0;font-size:12.5px;color:var(--danger);min-height:0}
+.ferr:empty{display:none}
+.ferr.big{margin-top:14px;font-size:14px;font-weight:600}
+.field input.bad{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
+.choice.ns{width:100%}
+.gc2{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.inc-c{padding:13px 14px}
+.inc-c b{display:flex;align-items:center;gap:8px;font-size:14.5px}
+.inc-c .k{font-family:var(--font-mono);font-weight:600;font-size:12.5px;letter-spacing:.04em;background:var(--navy-deep);color:#fff;border-radius:6px;padding:1px 7px}
+html[data-tema="escuro"] .inc-c .k{background:var(--navy);color:var(--on-accent)}
+.inc-c small{margin-top:4px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.g4 .choice{flex-direction:column;align-items:flex-start}
+.qsec{margin-top:26px}
+.qsec > h3{display:flex;align-items:center;gap:10px;margin:0 0 12px;font-size:16px;font-weight:600;letter-spacing:-.01em}
+.qsec .si{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;background:var(--navy-soft);color:var(--navy);font-family:var(--font-mono);font-size:11.5px;font-weight:600;flex:none}
+.q-item{border:1px solid var(--border);border-radius:12px;padding:14px 16px;background:var(--surface);transition:border-color .2s,background .2s}
+.q-item + .q-item{margin-top:10px}
+.q-item.feito{border-color:color-mix(in srgb,var(--green) 55%,var(--border));background:color-mix(in srgb,var(--green-soft) 35%,var(--surface))}
+.q-t{display:flex;align-items:flex-start;gap:9px;margin:0 0 10px;font-size:14.5px;font-weight:600;line-height:1.4}
+.q-dot{width:16px;height:16px;border-radius:50%;border:1.5px solid color-mix(in srgb,var(--ink-soft) 50%,var(--border));flex:none;margin-top:2px;transition:all .2s}
+.q-item.feito .q-dot{background:var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/11px no-repeat;border-color:var(--green)}
+.in{width:100%;border:1px solid var(--border);background:var(--surface);border-radius:10px;padding:10px 12px;font-size:15px;transition:border-color .15s,box-shadow .15s;color:var(--ink)}
+textarea.in{min-height:84px;resize:vertical;line-height:1.5}
+select.in{appearance:auto}
+.in:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px var(--green-soft)}
+.in.mono{font-family:var(--font-mono)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px}
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 12px}
+textarea.in + .row2{margin-top:10px}
+.sub{display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--ink-soft);font-weight:500}
+.sub small{font-weight:400}
+.lbl2{margin:12px 0 6px;font-size:12.5px;color:var(--ink-soft);font-weight:500}
+.rcs{display:flex;flex-wrap:wrap;gap:8px}
+.rc{position:relative;display:inline-flex}
+.rc input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.rc span{border:1.5px solid var(--border);border-radius:999px;padding:7px 14px;font-size:14px;font-weight:500;background:var(--surface);transition:all .15s;cursor:pointer}
+.rc:hover span{border-color:var(--navy)}
+.rc input:checked + span{background:var(--navy-deep);border-color:var(--navy-deep);color:#fff}
+html[data-tema="escuro"] .rc input:checked + span{background:var(--navy);border-color:var(--navy);color:var(--on-accent)}
+.rc input:focus-visible + span{outline:2px solid var(--green);outline-offset:2px}
+.calc{margin:10px 0 0;font-size:13.5px;color:var(--ink-soft)}
+.calc b{color:var(--green-ink)}
+.hint{font-size:12.5px;color:var(--ink-soft);margin:6px 0 0}
+.prog-row.sticky{position:sticky;top:0;z-index:3;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:10px 0;margin:0 0 -8px}
+.mail .btn.pri{color:var(--on-accent)}
+.foot a{color:inherit}
+@media (max-width:860px){.g4{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.row3{grid-template-columns:1fr 1fr 1fr}.row2{grid-template-columns:1fr}.gc2{grid-template-columns:1fr}.stepper .l{display:none}.stepper .cur .l{display:none}.wnav .pos{display:block;font-size:11.5px;text-align:center}.g4 .choice{flex-direction:row;align-items:center}}
+@media (max-width:420px){.g4{grid-template-columns:1fr}.row3{grid-template-columns:1fr}}
+</style>
+<script>
+(function(){
+  var h=document.documentElement, host=h.getAttribute("data-theme"), t;
+  try{t=localStorage.getItem("syndex-guia-tema")}catch(e){}
+  if(!t){t=host==="dark"?"escuro":host==="light"?"claro":(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"escuro":"claro")}
+  h.setAttribute("data-tema",t);
+})();
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header class="band">
+    <svg class="art" viewBox="0 0 480 170" preserveAspectRatio="xMaxYMax meet" aria-hidden="true">
+      <defs><clipPath id="clip-art"><rect x="0" y="0" width="480" height="170"/></clipPath></defs>
+      <g clip-path="url(#clip-art)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+        <path class="route" d="M118 62 C 190 6, 300 0, 372 40" stroke-width="1.4" stroke-dasharray="1.5 6" opacity=".55"/>
+        <path class="route" d="M262 132 C 300 104, 330 96, 360 100" stroke-width="1.4" stroke-dasharray="1.5 6" opacity=".45"/>
+        <g class="plane" stroke-width="1.6" opacity=".9">
+          <path d="M378 42 L438 30 Q452 27 457 32 Q455 38 444 40 L386 52 Z"/>
+          <path d="M410 37 L396 60 L405 60 L428 34"/>
+          <path d="M383 44 L374 30 L382 30 L394 41"/>
+          <path d="M412 41 l6 -1 M422 39 l6 -1 M432 37 l6 -1" opacity=".7"/>
+        </g>
+        <path class="wave w1" d="M-40 152 q10 -5 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0" stroke-width="1.3" opacity=".45"/>
+        <path class="wave w2" d="M-10 162 q10 -5 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0 t20 0" stroke-width="1.2" opacity=".25"/>
+        <g class="ship">
+          <g stroke-width="1.6" opacity=".95">
+            <path d="M18 120 H248 L232 142 H40 Q28 133 18 120 Z"/>
+            <path d="M30 127 H238" opacity=".5"/>
+            <rect x="28" y="84" width="24" height="36" rx="1.5"/>
+            <path d="M33 93 H47" opacity=".7"/>
+            <rect x="35" y="72" width="10" height="12"/>
+          </g>
+          <g stroke="none">
+            <rect x="60" y="106" width="20" height="13" fill="#5FCB7C" opacity=".55"/><rect x="82" y="106" width="20" height="13" fill="#fff" opacity=".22"/>
+            <rect x="104" y="106" width="20" height="13" fill="#5FCB7C" opacity=".4"/><rect x="126" y="106" width="20" height="13" fill="#fff" opacity=".3"/>
+            <rect x="148" y="106" width="20" height="13" fill="#5FCB7C" opacity=".55"/><rect x="170" y="106" width="20" height="13" fill="#fff" opacity=".22"/>
+            <rect x="192" y="106" width="20" height="13" fill="#7FADC9" opacity=".5"/>
+            <rect x="60" y="92" width="20" height="13" fill="#fff" opacity=".3"/><rect x="82" y="92" width="20" height="13" fill="#7FADC9" opacity=".5"/>
+            <rect x="104" y="92" width="20" height="13" fill="#5FCB7C" opacity=".55"/><rect x="126" y="92" width="20" height="13" fill="#fff" opacity=".22"/>
+            <rect x="148" y="92" width="20" height="13" fill="#7FADC9" opacity=".45"/><rect x="170" y="92" width="20" height="13" fill="#5FCB7C" opacity=".4"/>
+            <rect x="82" y="78" width="20" height="13" fill="#5FCB7C" opacity=".45"/><rect x="104" y="78" width="20" height="13" fill="#fff" opacity=".25"/>
+            <rect x="126" y="78" width="20" height="13" fill="#7FADC9" opacity=".5"/><rect x="148" y="78" width="20" height="13" fill="#fff" opacity=".2"/>
+          </g>
+        </g>
+        <path d="M262 142 H480" stroke-width="1.4" opacity=".6"/>
+        <g class="truck">
+          <rect x="301" y="109" width="94" height="24" fill="#5FCB7C" stroke="none" opacity=".28"/>
+          <g stroke-width="1.6" opacity=".95">
+            <rect x="300" y="108" width="96" height="26" rx="1.5"/>
+            <path d="M312 112 V130 M324 112 V130 M336 112 V130 M348 112 V130 M360 112 V130 M372 112 V130 M384 112 V130" opacity=".45"/>
+            <path d="M396 134 V114 H418 L432 126 V134 Z"/>
+            <path d="M402 114 V124 H426" opacity=".7"/>
+            <path d="M296 134 H434"/>
+            <circle cx="316" cy="137" r="5"/><circle cx="332" cy="137" r="5"/><circle cx="414" cy="137" r="5"/>
+          </g>
+        </g>
+        <circle cx="118" cy="62" r="3" fill="#fff" stroke="none" opacity=".8"/>
+      </g>
+    </svg>
+    <div class="top"><span class="logo"><img src="../assets/syndex-logo.png" alt="Syndex"></span><div class="side"><span class="badge">Leva uns 5 minutos</span><button class="ghost" id="tema" type="button"></button></div></div>
+    <div class="tt"><p class="eyebrow">Syndex Logística e Gestão Aduaneira</p><h1>Ficha de cotação</h1><p class="sub">Responda só o que vale para a sua carga e envie para a Syndex pelo WhatsApp ou por e-mail.</p></div>
+  </header>
+
+  <main class="wiz">
+    <ol class="stepper" id="stepper" aria-label="Etapas"></ol>
+    <section class="stage" id="stage" aria-live="polite"></section>
+    <nav class="wnav">
+      <button class="btn" id="voltar" type="button"></button>
+      <span class="pos mono" id="pos"></span>
+      <button class="btn pri" id="prox" type="button"></button>
+    </nav>
+  </main>
+  <footer class="foot"><span>Syndex Logística e Gestão Aduaneira · <a href="https://syndex.com.br/" target="_blank" rel="noopener">syndex.com.br</a></span><span>Seu rascunho fica salvo só neste aparelho até você enviar.</span></footer>
+</div>
+
+<script>
+/* ---------- DADOS ---------- */
+const SEGS=["coleta","despExp","origem","frete","seguro","destino","despImp","entrega"];
+function segNome(k,m){
+  const t={coleta:"Coleta",despExp:"Despacho de exportação",seguro:"Seguro da carga",despImp:"Despacho de importação e tributos",entrega:"Entrega",
+    origem:{maritimo:"Taxas no porto de origem",aereo:"Taxas no aeroporto de origem",rodoviario:"Taxas de origem"}[m],
+    frete:{maritimo:"Frete marítimo",aereo:"Frete aéreo",rodoviario:"Frete rodoviário"}[m],
+    destino:{maritimo:"Taxas no porto de destino",aereo:"Taxas no aeroporto de destino",rodoviario:"Taxas de destino"}[m]};
+  return t[k];
+}
+const OPS={imp:{nome:"Importação",hint:"Cliente é o comprador no Brasil",outro:"fornecedor"},exp:{nome:"Exportação",hint:"Cliente é o vendedor no Brasil",outro:"comprador"}};
+const MODAIS={maritimo:{nome:"Marítimo",via:"por via marítima"},aereo:{nome:"Aéreo",via:"por via aérea"},rodoviario:{nome:"Rodoviário",via:"por via rodoviária"}};
+const MAR_EQUIV={FAS:"FCA",FOB:"FCA",CFR:"CPT",CIF:"CIP"};
+
+const INC={
+EXW:{nome:"Ex Works",mar:false,risco:"No estabelecimento do vendedor, sem carregar",frete:"Comprador",seguro:"Comprador, se quiser",dexp:"Comprador",dimp:"Comprador",
+ imp:{seg:{coleta:"in",despExp:"in",origem:"in",frete:"in",seguro:"opt",destino:"in",despImp:"in",entrega:"in"},
+  pedir:["Endereço completo da coleta no fornecedor (com zip code)","Horário de coleta e se o fornecedor ajuda a carregar o veículo"],
+  conferir:["Se o país de origem aceita que o comprador estrangeiro faça o despacho de exportação; se não aceitar, propor FCA","Custo do agente de origem para coleta e despacho"]},
+ exp:{seg:{despExp:"opt"},
+  pedir:["Quem vai registrar a DU-E: vocês ou o comprador","Endereço e horário em que a carga fica disponível para coleta","Agente ou transportador indicado pelo comprador"],
+  conferir:["Oferecer o despacho de exportação: na prática, quase sempre fica com o exportador"],
+  alerta:{tipo:"warn",t:"No EXW o comprador faz tudo, mas a DU-E só pode ser registrada por exportador brasileiro. Cote o despacho de exportação ou sugira FCA."}}},
+FCA:{nome:"Free Carrier",mar:false,risco:"Na entrega ao transportador do comprador, no local combinado",frete:"Comprador",seguro:"Comprador, se quiser",dexp:"Vendedor",dimp:"Comprador",
+ imp:{seg:{coleta:"opt",origem:"in",frete:"in",seguro:"opt",destino:"in",despImp:"in",entrega:"in"},
+  pedir:["Local exato da entrega: fábrica do fornecedor, terminal ou aeroporto","Se o fornecedor precisa de BL com anotação de embarque (on board) para a carta de crédito"],
+  conferir:["Se o local for a fábrica do fornecedor, incluir a coleta; o fornecedor carrega o veículo","A carga sai desembaraçada para exportação pelo fornecedor"]},
+ exp:{seg:{coleta:"opt",despExp:"in"},
+  pedir:["Local de entrega combinado: fábrica, porto seco, terminal ou aeroporto","Agente ou transportador indicado pelo comprador"],
+  conferir:["Se o local não for a fábrica do cliente, incluir a coleta","Deadline de entrega da carga ao transportador do comprador"]}},
+CPT:{nome:"Carriage Paid To",mar:false,risco:"Na entrega ao primeiro transportador, na origem",frete:"Vendedor",seguro:"Comprador, se quiser",dexp:"Vendedor",dimp:"Comprador",
+ imp:{seg:{seguro:"opt",destino:"in",despImp:"in",entrega:"in"},
+  pedir:["Valor do frete pago pelo fornecedor","Transportador, cia aérea ou agente contratado pelo fornecedor","Local de destino combinado e freetime contratado"],
+  conferir:["O frete entra no valor aduaneiro: usar no cálculo dos tributos","O risco já é do cliente desde a entrega ao primeiro transportador: oferecer seguro"]},
+ exp:{seg:{coleta:"in",despExp:"in",origem:"in",frete:"in"},
+  pedir:["Local de destino combinado com o comprador","Previsão de embarque"],
+  conferir:["Preferência ou restrição de transportador no destino"]}},
+CIP:{nome:"Carriage and Insurance Paid To",mar:false,risco:"Na entrega ao primeiro transportador, na origem",frete:"Vendedor",seguro:"Vendedor, cláusula A (ampla)",dexp:"Vendedor",dimp:"Comprador",
+ imp:{seg:{destino:"in",despImp:"in",entrega:"in"},
+  pedir:["Valor do frete e do seguro pagos pelo fornecedor","Certificado de seguro do fornecedor","Transportador, cia aérea ou agente contratado pelo fornecedor","Local de destino combinado e freetime contratado"],
+  conferir:["Frete e seguro entram no valor aduaneiro: usar no cálculo dos tributos"]},
+ exp:{seg:{coleta:"in",despExp:"in",origem:"in",frete:"in",seguro:"in"},
+  pedir:["Local de destino combinado com o comprador","Valor e moeda a segurar"],
+  conferir:["Seguro com cláusula A e no mínimo 110% do valor do contrato"]}},
+DAP:{nome:"Delivered at Place",mar:false,risco:"No destino, sobre o veículo, sem descarregar",frete:"Vendedor",seguro:"Vendedor, se quiser",dexp:"Vendedor",dimp:"Comprador",
+ imp:{seg:{destino:"opt",despImp:"in",entrega:"opt"},
+  pedir:["Local de entrega combinado no Brasil"],
+  conferir:["Quem paga as taxas no porto ou aeroporto de destino: precisa estar no contrato","Se a carga segue em trânsito aduaneiro para porto seco","A descarga no local fica com o cliente"]},
+ exp:{seg:{coleta:"in",despExp:"in",origem:"in",frete:"in",seguro:"opt",destino:"in",entrega:"in"},
+  pedir:["Endereço completo de entrega no exterior, horário e restrições","Quem paga a sobre-estadia se o comprador demorar para nacionalizar"],
+  conferir:["Agente parceiro no destino para taxas e entrega","Descarga e despacho de importação ficam com o comprador"]}},
+DPU:{nome:"Delivered at Place Unloaded",mar:false,risco:"No destino, já descarregada",frete:"Vendedor",seguro:"Vendedor, se quiser",dexp:"Vendedor",dimp:"Comprador",
+ imp:{seg:{destino:"opt",despImp:"in"},
+  pedir:["Local de entrega combinado no Brasil"],
+  conferir:["A descarga fica com o fornecedor: confirmar o equipamento no local","Quem paga as taxas no porto ou aeroporto de destino: precisa estar no contrato"]},
+ exp:{seg:{coleta:"in",despExp:"in",origem:"in",frete:"in",seguro:"opt",destino:"in",entrega:"in"},
+  pedir:["Endereço completo de entrega no exterior, horário e restrições","Equipamento disponível para descarregar no destino"],
+  conferir:["Agente parceiro no destino para taxas, entrega e descarga"]}},
+DDP:{nome:"Delivered Duty Paid",mar:false,risco:"No destino, sem descarregar, já nacionalizada",frete:"Vendedor",seguro:"Vendedor, se quiser",dexp:"Vendedor",dimp:"Vendedor",
+ imp:{seg:{},
+  pedir:["Quem será o importador no Brasil (CNPJ com Radar)"],
+  conferir:["Cotar para quem vai importar de fato: trading ou importação por conta e ordem"],
+  alerta:{tipo:"stop",t:"Fornecedor estrangeiro não costuma conseguir ser o importador no Brasil. DDP aqui exige trading ou importação por conta e ordem."}},
+ exp:{seg:{coleta:"in",despExp:"in",origem:"in",frete:"in",seguro:"opt",destino:"in",despImp:"in",entrega:"in"},
+  pedir:["Endereço completo de entrega no exterior","HS code e alíquotas no país de destino","Licenças exigidas no país de destino","Quem será o importador de registro no destino"],
+  conferir:["Agente parceiro confirmado no destino para despacho e tributos"],
+  alerta:{tipo:"warn",t:"DDP na exportação só com agente parceiro confirmado no destino: muitos países exigem empresa local como importador."}}},
+FAS:{nome:"Free Alongside Ship",mar:true,risco:"Ao lado do navio, no porto de embarque",frete:"Comprador",seguro:"Comprador, se quiser",dexp:"Vendedor",dimp:"Comprador",
+ imp:{seg:{origem:"in",frete:"in",seguro:"opt",destino:"in",despImp:"in",entrega:"in"},
+  pedir:["Porto e terminal de embarque"],
+  conferir:["Normalmente é carga solta, projeto ou granel: veja o tipo de carga"]},
+ exp:{seg:{coleta:"in",despExp:"in",origem:"opt"},
+  pedir:["Navio e terminal indicados pelo comprador"],
+  conferir:["Custos do terminal até colocar a carga ao lado do navio"]}},
+FOB:{nome:"Free On Board",mar:true,risco:"A bordo do navio, no porto de embarque",frete:"Comprador",seguro:"Comprador, se quiser",dexp:"Vendedor",dimp:"Comprador",
+ imp:{seg:{frete:"in",seguro:"opt",destino:"in",despImp:"in",entrega:"in"},
+  pedir:["Porto de embarque"],
+  conferir:["Contato do agente de origem para coordenar com o fornecedor","Taxas locais de origem ficam com o fornecedor: evitar cobrança dupla"]},
+ exp:{seg:{coleta:"in",despExp:"in",origem:"in"},
+  pedir:["Porto de embarque e armador indicado pelo comprador"],
+  conferir:["Deadline de carga e de documentos do navio","THC e capatazia de embarque"]}},
+CFR:{nome:"Cost and Freight",mar:true,risco:"A bordo do navio, no porto de embarque",frete:"Vendedor",seguro:"Comprador, se quiser",dexp:"Vendedor",dimp:"Comprador",
+ imp:{seg:{seguro:"opt",destino:"in",despImp:"in",entrega:"in"},
+  pedir:["Valor do frete pago pelo fornecedor","Armador ou agente contratado pelo fornecedor","Porto de destino e freetime contratado"],
+  conferir:["O frete entra no valor aduaneiro: usar no cálculo dos tributos","O risco já é do cliente desde o embarque: oferecer seguro de importação"]},
+ exp:{seg:{coleta:"in",despExp:"in",origem:"in",frete:"in"},
+  pedir:["Porto de destino","Previsão de embarque e preferência de armador"],
+  conferir:["Restrições do porto de destino"]}},
+CIF:{nome:"Cost, Insurance and Freight",mar:true,risco:"A bordo do navio, no porto de embarque",frete:"Vendedor",seguro:"Vendedor, cláusula C (mínima)",dexp:"Vendedor",dimp:"Comprador",
+ imp:{seg:{destino:"in",despImp:"in",entrega:"in"},
+  pedir:["Valor do frete e do seguro pagos pelo fornecedor","Certificado de seguro do fornecedor","Armador ou agente contratado pelo fornecedor","Porto de destino e freetime contratado"],
+  conferir:["Frete e seguro entram no valor aduaneiro: usar no cálculo dos tributos","A cláusula C cobre o mínimo: oferecer seguro complementar"]},
+ exp:{seg:{coleta:"in",despExp:"in",origem:"in",frete:"in",seguro:"in"},
+  pedir:["Porto de destino","Valor e moeda a segurar","Cobertura de seguro exigida pelo comprador"],
+  conferir:["Seguro de no mínimo 110% do valor do contrato"]}}
+};
+const ORDEM_ANY=["EXW","FCA","CPT","CIP","DAP","DPU","DDP"], ORDEM_MAR=["FAS","FOB","CFR","CIF"];
+
+const BASE={
+ pedir:[
+  {t:"Nome e contato do fornecedor no exterior",op:"imp"},{t:"Nome e contato do comprador no exterior",op:"exp"},
+  "Descrição da mercadoria e NCM (ou HS code)","Se a mercadoria é nova ou usada","Valor da mercadoria e moeda (conforme invoice ou proforma)",
+  "Tipo de embalagem, quantidade de volumes e se são empilháveis","Peso bruto total e por volume (kg)","Medidas de cada volume (C × L × A, em cm)",
+  "Se há embalagem de madeira (precisa estar tratada e carimbada, NIMF 15)","Data em que a carga fica pronta e prazo desejado de chegada",
+  "Se o embarque é pontual ou recorrente (volume por mês)","Prioridade: menor custo ou menor prazo","Se deseja seguro internacional e o valor a segurar",
+  "Proforma ou commercial invoice e packing list, se já tiver"],
+ conferir:["Incoterm escrito com local e versão (ex.: FOB Ningbo Incoterms® 2020)","Cubagem total (m³) calculada a partir das medidas","Faltou dado que muda o preço? Perguntar antes de cotar"]
+};
+
+const MODAL_ITENS={
+ maritimo:{pedir:["Porto de origem e de destino","FCL (contêiner completo) ou LCL (carga consolidada)","Se FCL: tipo e quantidade de contêineres e peso por contêiner","Se aceita transbordo ou prefere navio direto","Freetime necessário no destino (demurrage e detention)"],
+  conferir:["VGM (peso bruto verificado) obrigatório para embarcar","Tipo de BL: original, telex release ou seaway bill; master ou house","LCL: frete pelo maior valor entre t e m³ (1 t = 1 m³); peças acima de cerca de 6 m têm sobretaxa","Carga fica no terminal ou segue para porto seco",{t:"AFRMM sobre o frete marítimo entra no custo",op:"imp"}]},
+ aereo:{pedir:["Aeroporto de origem e de destino","Nível de serviço: expresso, padrão ou econômico","Se há bateria de lítio, líquido, aerossol ou ímã, mesmo dentro de equipamento"],
+  conferir:["Peso taxável: o maior entre peso bruto e cubado (1 m³ = 167 kg)","Volumes acima de cerca de 160 cm de altura só em avião cargueiro","Carga não empilhável pode ser cobrada pela altura da posição","AWB consolidado (master e house) ou direto",{t:"Armazenagem no aeroporto cobrada por período sobre o valor da carga",op:"imp"}]},
+ rodoviario:{pedir:["Endereço completo de origem e de destino","Carga completa (veículo exclusivo) ou fracionada","Número de paletes e se há doca ou empilhadeira","Fronteira de passagem preferida"],
+  conferir:["Tipo de veículo: sider, baú, graneleiro, prancha, refrigerado, tanque ou cegonha","Onde serão os despachos: porto seco, aduana interior ou fronteira","Quem emite CRT e MIC/DTA (normalmente a transportadora)","Transportadora habilitada na ANTT (TRIC) e com licença para o país de destino","Tempo livre, valor da diária e espera na fronteira","Carta Azul e RCTR-VI-C são do transportador: não substituem o seguro da carga"]}
+};
+
+const CARGAS={
+ geral:{nome:"Carga geral",pedir:["Se há peças frágeis ou sensíveis à umidade"],
+  conferir:["Embalagem adequada ao modal (palete com filme, caixas que aguentam empilhamento)","Peso e medidas confirmados: divergência gera recobrança",{t:"Bem usado: licença não automática; bens de consumo usados são proibidos",op:"imp"}],
+  modal:{maritimo:"Em FCL, quantos volumes cabem por contêiner e se a estufagem ou desova é no cliente",aereo:"Volumes altos ou pesados demais para avião de passageiros",rodoviario:"Doca ou empilhadeira na carga e na descarga"}},
+ imo:{nome:"Perigosa (IMO)",pedir:["FDS (ficha com dados de segurança) atualizada","Número ONU, classe, subclasse e grupo de embalagem","Ponto de fulgor e se é poluente marinho","Quantidade líquida por embalagem e total","Se a embalagem é homologada (marcação UN)"],
+  conferir:["Quantidade limitada ou excetuada","Produto controlado pelo Exército ou pela Polícia Federal: licença antes do embarque","Material radioativo (classe 7): autorização da CNEN"],
+  modal:{maritimo:"Código IMDG: aceite do armador e do terminal, declaração de mercadoria perigosa, sobretaxa IMO e pátio próprio",aereo:"IATA DGR: avião de passageiros ou só cargueiro, declaração assinada por pessoa treinada, regras de lítio",rodoviario:"Regulamento da ANTT e acordo do Mercosul: motorista com MOPP, veículo sinalizado, kit de emergência, restrição de horário"}},
+ farma:{nome:"Medicamentos / farma",pedir:["Tipo: medicamento, insumo (IFA), vacina, biológico ou amostra","Faixa de temperatura e tolerância de variação","Embalagem passiva (com autonomia) ou contêiner ativo, e quem fornece","Se exige registrador de temperatura (data logger) e relatório"],
+  conferir:["Boas Práticas de Distribuição e Armazenagem em toda a cadeia","Medicamento controlado (Portaria 344/98): autorizações específicas",{t:"AFE da empresa, registro do produto, LPCO da ANVISA e câmara fria no terminal",op:"imp"},{t:"Registro e licença exigidos no país de destino",op:"exp"}],
+  modal:{maritimo:"Reefer com temperatura programada e tomada na origem, no transbordo e no destino",aereo:"Regras de temperatura da IATA, cias e terminais CEIV Pharma, câmara fria reservada no destino",rodoviario:"Baú refrigerado com termógrafo e rastreamento; transportadora habilitada para medicamentos"}},
+ congelado:{nome:"Congelados",pedir:["Produto e temperatura de transporte (ex.: –18 °C)","Peso líquido e bruto e número de caixas","Câmara fria e janela para carregar e descarregar"],
+  conferir:["Gerador (genset) no trecho terrestre e dias de tomada no terminal",{t:"SIF habilitado para o destino e certificado sanitário do MAPA; Halal, se exigido",op:"exp"},{t:"Estabelecimento estrangeiro habilitado pelo MAPA, LPCO e inspeção do Vigiagro",op:"imp"}],
+  modal:{maritimo:"Reefer de 40' é o padrão; custo de tomada por dia; freetime menor; inspeção pode exigir desova parcial",aereo:"Gelo seco é mercadoria perigosa (UN 1845): informar a quantidade por caixa",rodoviario:"Carreta frigorífica com combustível para todo o trajeto e registro de temperatura"}},
+ resfriado:{nome:"Refrigerada / resfriada",pedir:["Produto e variedade","Temperatura, ventilação e umidade","Vida útil e prazo máximo de trânsito","Se a carga chega pré-resfriada"],
+  conferir:["Atmosfera controlada, se exigida","Tratamento a frio (cold treatment) exigido pelo destino","Certificado fitossanitário ou sanitário do MAPA",{t:"LPCO do MAPA, inspeção do Vigiagro e requisitos fitossanitários para a origem",op:"imp"}],
+  modal:{maritimo:"Reefer com ventilação e umidade programadas; trânsito curto e direto",aereo:"Perecíveis com prioridade, câmara fria no terminal, caixas ventiladas",rodoviario:"Carreta frigorífica; tempo de fronteira crítico; inspeção fitossanitária pode reter a carga"}},
+ projeto:{nome:"Carga projeto",pedir:["Lista de volumes com medidas e peso de cada peça","Desenhos com centro de gravidade e pontos de içamento","Peça mais pesada e maior peça","Cronograma: prontidão por lote e data em que a obra precisa da carga","Equipamento de carga e descarga no local e condições de acesso"],
+  conferir:["Seguro com a cobertura adequada",{t:"Ex-tarifário, drawback ou regime especial; bem usado exige licença do DECEX",op:"imp"}],
+  modal:{maritimo:"Flat rack, open top ou navio de carga solta; guindastes do porto; plano de peação e vistoria",aereo:"Só peças críticas e urgentes; cargueiro com porta frontal ou fretamento",rodoviario:"Prancha, extensível ou linha de eixos; estudo de rota, AET e licenças nos países; escolta"}},
+ granel:{nome:"Granel",pedir:["Produto e quantidade em toneladas, com a tolerância aceita","Fator de estiva (m³/t) ou densidade, se líquido","Janela de carregamento (laycan)","Ritmo de carga e descarga (t/dia)"],
+  conferir:["Calado e restrições dos portos","Sobre-estadia do navio (demurrage) e despatch","Draft survey e fumigação","Código IMSBC para cargas que liquefazem ou são perigosas","Líquido: aquecimento e cargas anteriores aceitas; volume pequeno em tanque ISO ou flexitank"],
+  modal:{maritimo:"Navio fretado ou parte de navio; tamanho conforme o volume; armazéns e equipamentos do porto",aereo:null,rodoviario:"Graneleira, basculante ou tanque; pesagem na origem e na fronteira"}},
+ veiculo:{nome:"Veículos / RoRo",pedir:["Tipo, marca, modelo, ano e número do chassi","Se é novo ou usado","Medidas e peso; implementos ou peças soltas","Se roda sozinho ou precisa ir sobre plataforma"],
+  conferir:["Tanque quase vazio e bateria desconectada; elétricos seguem regras de lítio",{t:"Veículo usado é proibido, salvo exceções (ex.: coleção com mais de 30 anos)",op:"imp"},{t:"LCVM do IBAMA e CAT da SENATRAN",op:"imp"},{t:"Documentos de propriedade e situação do registro",op:"exp"}],
+  modal:{maritimo:"Navio RoRo entre portos com terminal RoRo, ou contêiner de 40' com amarração",aereo:"Raro; tratado como mercadoria perigosa",rodoviario:"Cegonha para carros, prancha para máquinas; documentos de trânsito em cada país"}},
+ valor:{nome:"Alto valor",pedir:["Natureza exata da mercadoria","Valor a segurar e cobertura desejada","Se pode ir consolidado ou precisa de embarque exclusivo"],
+  conferir:["Regras de gerenciamento de risco da seguradora","Embalagem discreta e lacres de alta segurança","A responsabilidade do transportador é limitada por kg: seguro é indispensável"],
+  modal:{maritimo:"FCL com lacre de alta segurança e sem transbordo; evitar LCL",aereo:"Serviço de carga valiosa com sala-cofre no terminal",rodoviario:"Plano de gerenciamento de risco, escolta, rastreamento e paradas definidas"}},
+ animais:{nome:"Animais vivos",pedir:["Espécie, raça, quantidade, idade e peso","Finalidade: pet, reprodução, abate, zoológico ou pesquisa","Medidas e peso da caixa de transporte","Se precisa de acompanhante, alimentação e água"],
+  conferir:[{t:"CZI do MAPA com exames e vacinas do destino; pets com microchip e antirrábica",op:"exp"},{t:"Autorização do MAPA e quarentena, se exigida",op:"imp"},"Espécies silvestres: licença CITES do IBAMA","Restrições de temperatura e de raça das cias aéreas"],
+  modal:{maritimo:"Navio de gado para grandes lotes; contrato específico; inspeção veterinária",aereo:"Regulamento de animais vivos da IATA (LAR); reserva antecipada",rodoviario:"Boiadeiro ou gaiola; tempo máximo de viagem e paradas para descanso, água e alimento"}}
+};
+const ORDEM_CARGAS=["geral","imo","farma","congelado","resfriado","projeto","granel","veiculo","valor","animais"];
+
+const BRASIL={
+ imp:{pedir:["Modalidade do Radar do importador (expressa, limitada ou ilimitada)","Certificado de origem, se houver preferência tarifária (ex.: Mercosul)","Se usa algum benefício: TTD (SC), ex-tarifário, drawback ou regime especial"],
+  conferir:["Catálogo de Produtos da DUIMP com NCM e atributos corretos","Tratamento administrativo do NCM (ANVISA, MAPA, INMETRO, Exército, IBAMA, DECEX, CNEN ou PF); a LPCO pode precisar sair antes do embarque","Tributos: II, IPI, PIS/Cofins, ICMS, AFRMM (marítimo) e Taxa Siscomex; CBS/IBS a partir de 2027","Local do desembaraço (porto, aeroporto ou porto seco) e armazenagem estimada","Custos de despacho: honorários, SDA, armazenagem, capatazia, liberação, ISPS e escaneamento"]},
+ exp:{pedir:["Modalidade do Radar do exportador","Certificado de origem exigido pelo comprador","Se usa drawback ou exportação temporária"],
+  conferir:["Nota fiscal de exportação e DU-E","Tratamento administrativo de exportação (MAPA, Exército, IBAMA ou ANVISA)","Local do despacho: no exportador, porto seco ou porto/aeroporto","Deadlines de carga e de documentos"]}
+};
+
+
+/* ---------- ÍCONES ---------- */
+const ICON={
+ box:'<path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5 12 12l9-4.5M12 12v9"/>',
+ hazard:'<path d="M12 2.5 21.5 12 12 21.5 2.5 12z"/><path d="M12 8v5"/><path d="M12 16.2v.1"/>',
+ pill:'<rect x="2.8" y="8.6" width="18.4" height="6.8" rx="3.4" transform="rotate(-45 12 12)"/><path d="m9.6 9.6 4.8 4.8"/>',
+ snow:'<path d="M12 2.5v19M3.8 7.2l16.4 9.6M20.2 7.2 3.8 16.8"/><path d="m9.5 4 2.5 2 2.5-2M9.5 20l2.5-2 2.5 2"/>',
+ thermo:'<path d="M14 14.6V4.5a2 2 0 0 0-4 0v10.1a4 4 0 1 0 4 0z"/><path d="M12 11v6"/>',
+ expand:'<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/><rect x="8.5" y="8.5" width="7" height="7" rx="1"/>',
+ pile:'<path d="M2.5 19.5h19l-6.5-11-3 4.5-2.5-3z"/>',
+ car:'<path d="M3.5 16.5v-4l2-5h13l2 5v4z"/><path d="M3.5 12.5h17"/><circle cx="7.5" cy="16.5" r="1.8"/><circle cx="16.5" cy="16.5" r="1.8"/>',
+ shield:'<path d="M12 3 19.5 6v5.5c0 4.6-3.2 7.9-7.5 9.5-4.3-1.6-7.5-4.9-7.5-9.5V6z"/><path d="m9 12 2.2 2.2L15.5 10"/>',
+ paw:'<circle cx="6.5" cy="10" r="1.8"/><circle cx="10" cy="6" r="1.8"/><circle cx="14" cy="6" r="1.8"/><circle cx="17.5" cy="10" r="1.8"/><path d="M8 17.5c0-3 1.8-5.5 4-5.5s4 2.5 4 5.5c0 1.8-1.8 2.5-4 2.5s-4-.7-4-2.5z"/>',
+ ship:'<path d="M3 14.5h18l-2.5 5.5h-13z"/><path d="M6 14.5V9.5h12v5"/><path d="M10 9.5V6h4v3.5"/>',
+ plane:'<path d="M10.5 4.5c0-1.1.7-2 1.5-2s1.5.9 1.5 2v5l7.5 4.5v2l-7.5-2.3V18l2.5 2v1.5L12 20.5l-4 1V20l2.5-2v-4.3L3 16v-2l7.5-4.5z"/>',
+ truck:'<path d="M2.5 6.5h11v10h-11z"/><path d="M13.5 9.5h4l4 4v3h-8z"/><circle cx="6.5" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>',
+ doc:'<path d="M6 2.5h8.5l4.5 4.5v14.5H6z"/><path d="M14 2.5V7h5M9 12h6M9 15.5h6"/>',
+ pin:'<path d="M12 21.5s7-6.2 7-11.5a7 7 0 0 0-14 0c0 5.3 7 11.5 7 11.5z"/><circle cx="12" cy="10" r="2.5"/>',
+ dock:'<path d="M3 20.5v-11l9-5 9 5v11"/><path d="M7.5 20.5v-6h9v6M7.5 17.5h9"/>',
+ flag:'<path d="M5 21.5V3.5h12l-2.5 4 2.5 4H5"/>',
+ imp:'<path d="M12 3v11M7.5 9.5 12 14l4.5-4.5"/><path d="M4 15.5v4h16v-4"/>',
+ exp:'<path d="M12 14V3M7.5 7.5 12 3l4.5 4.5"/><path d="M4 15.5v4h16v-4"/>',
+ copy:'<rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15H4.5A1.5 1.5 0 0 1 3 13.5v-9A1.5 1.5 0 0 1 4.5 3h9A1.5 1.5 0 0 1 15 4.5V5"/>',
+ chat:'<path d="M20.5 11.5a8.5 8.5 0 0 1-12.6 7.5L3.5 20.5l1.5-4.2a8.5 8.5 0 1 1 15.5-4.8z"/><path d="M9 9.5c.3 2.3 2.2 4.2 4.5 4.5"/>',
+ alert:'<path d="M12 3.5 21.5 20h-19z"/><path d="M12 10v4.5M12 17.2v.1"/>',
+ info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.1"/>',
+ stop:'<circle cx="12" cy="12" r="9"/><path d="m8.5 8.5 7 7M15.5 8.5l-7 7"/>',
+ moon:'<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>',
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>',
+ br:'<path d="M3 12 12 4.5 21 12 12 19.5z"/><circle cx="12" cy="12" r="3.2"/>',
+ list:'<path d="M9 6h11.5M9 12h11.5M9 18h11.5"/><path d="m3.5 6 1 1 2-2M3.5 12l1 1 2-2M3.5 18l1 1 2-2"/>'
+};
+const ic=(n,s=18,w=1.8)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[n]}</svg>`;
+const CARGA_IC={geral:"box",imo:"hazard",farma:"pill",congelado:"snow",resfriado:"thermo",projeto:"expand",granel:"pile",veiculo:"car",valor:"shield",animais:"paw"};
+const MODAL_IC={maritimo:"ship",aereo:"plane",rodoviario:"truck"};
+const SEG_IC={coleta:"pin",despExp:"doc",origem:"dock",seguro:"shield",destino:"dock",despImp:"doc",entrega:"flag"};
+Object.assign(ICON,{
+ check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+ back:'<path d="M19 12H5M11 6l-6 6 6 6"/>',
+ next:'<path d="M5 12h14M13 6l6 6-6 6"/>',
+ reset:'<path d="M3.5 12a8.5 8.5 0 1 0 2.5-6"/><path d="M3.5 3.5V8H8"/>',
+ mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6 8.5-6"/>'
+});
+
+/* ---------- CNPJ e CEP ---------- */
+const soCnpj=v=>v.toUpperCase().replace(/[^0-9A-Z]/g,"").slice(0,14);
+function fmtCnpj(r){let o=r.slice(0,2);if(r.length>2)o+="."+r.slice(2,5);if(r.length>5)o+="."+r.slice(5,8);if(r.length>8)o+="/"+r.slice(8,12);if(r.length>12)o+="-"+r.slice(12,14);return o;}
+function cnpjValido(r){
+  if(!/^[0-9A-Z]{12}[0-9]{2}$/.test(r)||/^(\d)\1{13}$/.test(r)) return false;
+  const dv=s=>{let w=2,sum=0;for(let i=s.length-1;i>=0;i--){sum+=(s.charCodeAt(i)-48)*w;w=w===9?2:w+1;}const m=sum%11;return m<2?0:11-m;};
+  const d1=dv(r.slice(0,12)), d2=dv(r.slice(0,12)+d1); return r.slice(12)===`${d1}${d2}`;
+}
+const soCep=v=>v.replace(/\D/g,"").slice(0,8);
+const fmtCep=d=>d.length>5?d.slice(0,5)+"-"+d.slice(5):d;
+function fmtTel(d){d=(d||"").replace(/\D/g,"");if(d.length===10)return `(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`;if(d.length===11)return `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`;return d;}
+function tc(s){
+  const keep={LTDA:"Ltda.",SA:"S.A.","S.A":"S.A.","S/A":"S/A",ME:"ME",EPP:"EPP",EIRELI:"EIRELI",MEI:"MEI",SC:"SC",SP:"SP",RJ:"RJ"};
+  const low=["de","da","do","das","dos","e","em","na","no"];
+  return (s||"").toLowerCase().split(/\s+/).filter(Boolean).map((w,i)=>{const u=w.toUpperCase().replace(/\.$/,"");if(keep[u])return keep[u];if(i>0&&low.includes(w))return w;return w.charAt(0).toUpperCase()+w.slice(1);}).join(" ");
+}
+async function tenta(fontes){
+  let bloq=0,nao=0;
+  for(const [url,norm] of fontes){
+    let r; try{r=await fetch(url);}catch(e){bloq++;continue;}
+    if(r.ok){let j;try{j=await r.json();}catch(e){continue;}const out=norm(j);if(out)return out;nao++;continue;}
+    if(r.status===404||r.status===400)nao++;
+  }
+  if(nao) throw "nao"; if(bloq===fontes.length) throw "bloq"; throw "erro";
+}
+function semDup(tipo,lg){tipo=tipo||"";lg=lg||"";return tipo&&!lg.toUpperCase().startsWith(tipo.toUpperCase())?`${tipo} ${lg}`:lg;}
+const normBrasil=d=>d&&d.razao_social?{razao:d.razao_social,fantasia:d.nome_fantasia||"",situacao:d.descricao_situacao_cadastral||"",cnae:d.cnae_fiscal_descricao||"",abertura:d.data_inicio_atividade||"",logradouro:semDup(d.descricao_tipo_de_logradouro,d.logradouro),numero:String(d.numero||""),complemento:d.complemento||"",bairro:d.bairro||"",cidade:d.municipio||"",uf:d.uf||"",cep:String(d.cep||"").replace(/\D/g,""),tel:d.ddd_telefone_1||"",email:d.email||""}:null;
+const normWs=d=>{if(!d||!d.razao_social)return null;const e=d.estabelecimento||{};return {razao:d.razao_social,fantasia:e.nome_fantasia||"",situacao:e.situacao_cadastral||"",cnae:(e.atividade_principal||{}).descricao||"",abertura:e.data_inicio_atividade||"",logradouro:semDup(e.tipo_logradouro,e.logradouro),numero:String(e.numero||""),complemento:e.complemento||"",bairro:e.bairro||"",cidade:(e.cidade||{}).nome||"",uf:(e.estado||{}).sigla||"",cep:String(e.cep||"").replace(/\D/g,""),tel:e.ddd1&&e.telefone1?e.ddd1+e.telefone1:"",email:e.email||""};};
+const normViaCep=d=>d&&!d.erro&&d.localidade?{logradouro:d.logradouro||"",bairro:d.bairro||"",cidade:d.localidade||"",uf:d.uf||""}:null;
+const normBrCep=d=>d&&d.city?{logradouro:d.street||"",bairro:d.neighborhood||"",cidade:d.city||"",uf:d.state||""}:null;
+
+/* ---------- CONTATO DA SYNDEX ---------- */
+const WPP_SYNDEX="5547992668440", WPP_TXT="(47) 99266-8440", EMAIL_SYNDEX="sales8@syndex.com.br";
+const RECEITA_URL="https://solucoes.receita.fazenda.gov.br/Servicos/cnpjreva/Cnpjreva_Solicitacao.asp";
+
+/* ---------- TEXTOS PARA O CLIENTE ---------- */
+const OP_CLI={imp:{nome:"Importar",ic:"imp",d:"Comprar do exterior e trazer a carga para o Brasil."},exp:{nome:"Exportar",ic:"exp",d:"Vender do Brasil para o exterior."}};
+const INC_CLI={
+ imp:{EXW:"Você retira a carga no fornecedor e cuida de todo o resto.",FCA:"O fornecedor entrega a carga, liberada para exportação, ao transportador que você indicar.",CPT:"O fornecedor paga o frete até o destino combinado; o risco é seu desde a entrega ao primeiro transportador.",CIP:"Como o CPT, mas o fornecedor também contrata seguro com cobertura ampla.",DAP:"O fornecedor entrega no local combinado no Brasil; desembaraço e impostos são seus.",DPU:"Como o DAP, mas o fornecedor também descarrega a carga.",DDP:"O fornecedor entrega tudo pago, inclusive os impostos no Brasil.",FAS:"O fornecedor deixa a carga ao lado do navio no porto de origem.",FOB:"O fornecedor coloca a carga a bordo do navio; do porto de origem em diante, é com você.",CFR:"O fornecedor paga o frete marítimo até o porto no Brasil; o risco é seu desde o embarque.",CIF:"Como o CFR, mas o fornecedor também contrata um seguro básico."},
+ exp:{EXW:"O comprador retira a carga no seu estabelecimento e cuida de todo o resto.",FCA:"Você entrega a carga, liberada para exportação, ao transportador indicado pelo comprador.",CPT:"Você paga o frete até o destino combinado com o comprador.",CIP:"Você paga o frete e um seguro com cobertura ampla até o destino.",DAP:"Você entrega no endereço do comprador, sem os impostos do país de destino.",DPU:"Você entrega e descarrega a carga no local combinado.",DDP:"Você entrega tudo pago, inclusive os impostos no país de destino.",FAS:"Você deixa a carga ao lado do navio no porto de embarque.",FOB:"Você coloca a carga a bordo do navio; do porto em diante, é com o comprador.",CFR:"Você paga o frete marítimo até o porto de destino.",CIF:"Você paga o frete marítimo e um seguro básico até o porto de destino."}
+};
+const MODAL_CLI={maritimo:"Contêiner, carga solta, veículos ou granel",aereo:"Cargas urgentes, pequenas ou de alto valor",rodoviario:"Mercosul e América do Sul, porta a porta",ns:"A Syndex sugere o melhor modal para a sua carga"};
+const CARGA_CLI={geral:"Caixas, paletes, máquinas embaladas",imo:"Químicos, inflamáveis, baterias",farma:"Medicamentos, vacinas, insumos",congelado:"Carnes, pescados, sorvetes",resfriado:"Frutas, carnes resfriadas, flores",projeto:"Fora de medida ou muito pesada",granel:"Grãos, fertilizantes, líquidos",veiculo:"Carros, caminhões, máquinas",valor:"Eletrônicos, joias, alto valor",animais:"Pets, gado, zoológico"};
+const NS_INC=["Endereço de coleta, se a Syndex for buscar a carga","Endereço de entrega, se a Syndex for entregar","Quem vai pagar o frete internacional, se já souber"];
+const NS_MOD=["Origem e destino (cidade e país)"];
+const PASSOS=["Empresa","Operação","Incoterm","Modal","Carga","Detalhes","Enviar"];
+
+/* ---------- CAMPOS ---------- */
+const SIMNAO=["Sim","Não","Não sei"];
+const FS={
+ "Nome e contato do fornecedor no exterior":{g:"emb",lbl:"Fornecedor no exterior",t:"text",ph:"Empresa, nome do contato e e-mail"},
+ "Nome e contato do comprador no exterior":{g:"emb",lbl:"Comprador no exterior",t:"text",ph:"Empresa, nome do contato e e-mail"},
+ "Descrição da mercadoria e NCM (ou HS code)":{g:"merc",lbl:"Mercadoria",q:"Qual é a mercadoria?",t:"descncm"},
+ "Se a mercadoria é nova ou usada":{g:"merc",lbl:"Condição",q:"A mercadoria é",t:"radio",opts:["Nova","Usada"]},
+ "Valor da mercadoria e moeda (conforme invoice ou proforma)":{g:"merc",lbl:"Valor da mercadoria",q:"Valor da mercadoria (conforme invoice ou proforma)",t:"money"},
+ "Tipo de embalagem, quantidade de volumes e se são empilháveis":{g:"vol",lbl:"Embalagem",q:"Embalagem e quantidade de volumes",t:"pack"},
+ "Peso bruto total e por volume (kg)":{g:"vol",lbl:"Peso bruto",q:"Peso bruto",t:"peso"},
+ "Medidas de cada volume (C × L × A, em cm)":{g:"vol",lbl:"Medidas por volume",q:"Medidas de cada volume",t:"medidas"},
+ "Se há embalagem de madeira (precisa estar tratada e carimbada, NIMF 15)":{g:"vol",lbl:"Embalagem de madeira",q:"Há embalagem de madeira (palete, engradado)?",t:"radio",opts:["Não","Sim, tratada (NIMF 15)","Sim, não sei se é tratada"]},
+ "Data em que a carga fica pronta e prazo desejado de chegada":{g:"emb",lbl:"Prazos",q:"Prazos",t:"date2"},
+ "Se o embarque é pontual ou recorrente (volume por mês)":{g:"emb",lbl:"Frequência",q:"Esse embarque é",t:"recorr"},
+ "Prioridade: menor custo ou menor prazo":{g:"emb",lbl:"Prioridade",q:"O que é mais importante?",t:"radio",opts:["Menor custo","Menor prazo","Equilíbrio entre os dois"]},
+ "Se deseja seguro internacional e o valor a segurar":{g:"emb",lbl:"Seguro internacional",q:"Quer seguro internacional da carga?",t:"seguro"},
+ "Proforma ou commercial invoice e packing list, se já tiver":{g:"emb",lbl:"Invoice e packing list",q:"Proforma ou commercial invoice e packing list",t:"doc"},
+ "Porto de origem e de destino":{lbl:"Portos",q:"Portos",t:"pair",a:"Porto de origem",b:"Porto de destino",pha:"Ex.: Shanghai",phb:"Ex.: Itajaí"},
+ "FCL (contêiner completo) ou LCL (carga consolidada)":{lbl:"Tipo de embarque",q:"Tipo de embarque marítimo",t:"radio",opts:["FCL (contêiner completo)","LCL (carga consolidada)","Não sei, quero sugestão"]},
+ "Se FCL: tipo e quantidade de contêineres e peso por contêiner":{lbl:"Contêineres",q:"Se for FCL: tipo e quantidade de contêineres e peso por contêiner",t:"text",ph:"Ex.: 2 × 40' HC, 18 t cada"},
+ "Se aceita transbordo ou prefere navio direto":{lbl:"Transbordo",q:"Transbordo",t:"radio",opts:["Aceito transbordo","Prefiro navio direto","Tanto faz"]},
+ "Freetime necessário no destino (demurrage e detention)":{lbl:"Freetime no destino",q:"Dias livres de contêiner no destino (freetime)",t:"text",ph:"Ex.: 14 dias"},
+ "Aeroporto de origem e de destino":{lbl:"Aeroportos",q:"Aeroportos",t:"pair",a:"Aeroporto de origem",b:"Aeroporto de destino",pha:"Ex.: Xangai (PVG)",phb:"Ex.: Viracopos (VCP)"},
+ "Nível de serviço: expresso, padrão ou econômico":{lbl:"Nível de serviço",q:"Nível de serviço",t:"radio",opts:["Expresso","Padrão","Econômico"]},
+ "Se há bateria de lítio, líquido, aerossol ou ímã, mesmo dentro de equipamento":{lbl:"Itens restritos no aéreo",q:"Há bateria de lítio, líquido, aerossol ou ímã, mesmo dentro de algum equipamento?",t:"radio",opts:["Não","Sim","Não sei"]},
+ "Endereço completo de origem e de destino":{lbl:"Endereços",q:"Endereços",t:"pair",a:"Endereço de origem",b:"Endereço de destino",pha:"Rua, número, cidade e país",phb:"Rua, número, cidade e país"},
+ "Carga completa (veículo exclusivo) ou fracionada":{lbl:"Carga no caminhão",q:"A carga ocupa",t:"radio",opts:["Caminhão completo","Parte do caminhão (fracionada)","Não sei"]},
+ "Número de paletes e se há doca ou empilhadeira":{lbl:"Paletes e descarga",q:"Número de paletes e se há doca ou empilhadeira",t:"text",ph:"Ex.: 12 paletes; há empilhadeira na origem e no destino"},
+ "Fronteira de passagem preferida":{lbl:"Fronteira preferida",q:"Fronteira de passagem preferida",t:"text",ph:"Ex.: Uruguaiana, Foz do Iguaçu"},
+ "Origem e destino (cidade e país)":{lbl:"Origem e destino",q:"Origem e destino",t:"pair",a:"Origem (cidade e país)",b:"Destino (cidade e país)",pha:"Ex.: Ningbo, China",phb:"Ex.: Joinville, SC"},
+ "Modalidade do Radar do importador (expressa, limitada ou ilimitada)":{lbl:"Radar Siscomex",q:"Modalidade do Radar Siscomex da empresa",t:"radio",opts:["Expressa","Limitada","Ilimitada","Não tenho ou não sei"]},
+ "Modalidade do Radar do exportador":{lbl:"Radar Siscomex",q:"Modalidade do Radar Siscomex da empresa",t:"radio",opts:["Expressa","Limitada","Ilimitada","Não tenho ou não sei"]},
+ "Certificado de origem, se houver preferência tarifária (ex.: Mercosul)":{lbl:"Certificado de origem",q:"A carga terá certificado de origem (ex.: Mercosul)?",t:"radio",opts:SIMNAO},
+ "Certificado de origem exigido pelo comprador":{lbl:"Certificado de origem",q:"O comprador exige certificado de origem?",t:"radio",opts:SIMNAO},
+ "Se usa algum benefício: TTD (SC), ex-tarifário, drawback ou regime especial":{lbl:"Benefícios fiscais",q:"A empresa usa algum benefício: TTD (SC), ex-tarifário, drawback ou regime especial?",t:"text",ph:"Ex.: TTD em SC, ou nenhum"},
+ "Se usa drawback ou exportação temporária":{lbl:"Drawback ou exportação temporária",q:"Usa drawback ou exportação temporária?",t:"radio",opts:["Não","Drawback","Exportação temporária"]},
+ "Quem vai registrar a DU-E: vocês ou o comprador":{lbl:"Registro da DU-E",q:"Quem vai registrar a DU-E (declaração de exportação)?",t:"radio",opts:["Nós (exportador)","O comprador","Não sei"]},
+ "Se o fornecedor precisa de BL com anotação de embarque (on board) para a carta de crédito":{lbl:"BL on board",q:"O pagamento é por carta de crédito que exige BL com anotação de embarque (on board)?",t:"radio",opts:SIMNAO},
+ "Certificado de seguro do fornecedor":{lbl:"Certificado de seguro do fornecedor",t:"doc"},
+ "FDS (ficha com dados de segurança) atualizada":{lbl:"FDS",q:"FDS (ficha com dados de segurança) atualizada",t:"doc"},
+ "Se a embalagem é homologada (marcação UN)":{lbl:"Embalagem homologada (UN)",q:"A embalagem é homologada (marcação UN)?",t:"radio",opts:SIMNAO},
+ "Se exige registrador de temperatura (data logger) e relatório":{lbl:"Registrador de temperatura",q:"Exige registrador de temperatura (data logger) e relatório?",t:"radio",opts:SIMNAO},
+ "Se a carga chega pré-resfriada":{lbl:"Pré-resfriamento",q:"A carga chega pré-resfriada para o carregamento?",t:"radio",opts:SIMNAO},
+ "Lista de volumes com medidas e peso de cada peça":{lbl:"Lista de volumes",t:"doc"},
+ "Desenhos com centro de gravidade e pontos de içamento":{lbl:"Desenhos técnicos",t:"doc"},
+ "Se é novo ou usado":{lbl:"Condição do veículo",q:"O veículo é",t:"radio",opts:["Novo","Usado"]},
+ "Se roda sozinho ou precisa ir sobre plataforma":{lbl:"Locomoção",q:"O veículo",t:"radio",opts:["Roda sozinho","Precisa de plataforma"]},
+ "Se pode ir consolidado ou precisa de embarque exclusivo":{lbl:"Consolidado ou exclusivo",q:"A carga",t:"radio",opts:["Pode ir consolidada","Precisa de embarque exclusivo"]},
+ "Se há peças frágeis ou sensíveis à umidade":{lbl:"Peças frágeis ou sensíveis",q:"Há peças frágeis ou sensíveis à umidade?",t:"radio",opts:["Não","Sim"]},
+ "Se precisa de acompanhante, alimentação e água":{lbl:"Acompanhante e cuidados",q:"Precisa de acompanhante, alimentação e água durante a viagem?",t:"text"}
+};
+const COMPOSTOS=new Set(["descncm","money","pack","peso","medidas","date2","recorr","seguro","pair"]);
+const GRUPOS_BASE={merc:{t:"Mercadoria",ic:"box"},vol:{t:"Volumes, peso e medidas",ic:"expand"},emb:{t:"Embarque e prazos",ic:"pin"}};
+
+/* ---------- ESTADO ---------- */
+const VAZIO=()=>({op:"",inc:"",modal:"",cargas:["geral"],emp:{cnpj:"",empresa:"",nome:"",cargo:"",fone:"",email:"",cidade:"",uf:"",rf:null},resp:{},obs:"",canal:"wpp"});
+let F=VAZIO(), passo=1, maxPasso=1, passoAnterior=1, CAMPOS=[], tCnpj=null, ultCnpj="";
+try{const s=JSON.parse(localStorage.getItem("syndex-ficha-v1")||"null");if(s&&s.emp&&s.resp){F=Object.assign(VAZIO(),s);F.emp=Object.assign(VAZIO().emp,s.emp);}}catch(e){}
+function salvar(){try{localStorage.setItem("syndex-ficha-v1",JSON.stringify(F))}catch(e){}}
+
+/* ---------- AUXILIARES ---------- */
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const txt=i=>typeof i==="string"?i:i.t;
+const vale=(i,op)=>typeof i==="string"||!i.op||i.op===op;
+const filtra=(l,op)=>(l||[]).filter(i=>vale(i,op)).map(txt);
+const num=v=>{const n=parseFloat(String(v||"").replace(/\./g,"").replace(",","."));return isFinite(n)?n:null;};
+const fmtN=(n,d=2)=>n==null?"":n.toLocaleString("pt-BR",{maximumFractionDigits:d});
+const fmtData=v=>v?v.split("-").reverse().join("/"):"";
+const fmtNcm=v=>{const d=v.replace(/\D/g,"").slice(0,8);return d.length>6?`${d.slice(0,4)}.${d.slice(4,6)}.${d.slice(6)}`:d.length>4?`${d.slice(0,4)}.${d.slice(4)}`:d;};
+const tick=`<span class="tick">${ic("check",12,3)}</span>`;
+const incNome=()=>F.inc==="NS"?"a definir":F.inc;
+const modNome=()=>F.modal==="ns"?"a definir":(MODAIS[F.modal]||{}).nome||"";
+
+function secoes(){
+  const op=F.op||"imp", out=[], g={merc:[],vol:[],emb:[]};
+  filtra(BASE.pedir,op).forEach(x=>g[(FS[x]&&FS[x].g)||"emb"].push(x));
+  ["merc","vol","emb"].forEach(k=>out.push({k,t:GRUPOS_BASE[k].t,ic:GRUPOS_BASE[k].ic,itens:g[k]}));
+  if(F.inc) out.push({k:"inc",t:F.inc==="NS"?"Condição de compra e venda":`Condição ${F.inc}`,ic:"doc",code:F.inc!=="NS"?F.inc:"",itens:F.inc==="NS"?NS_INC:filtra(INC[F.inc][op].pedir,op)});
+  if(F.modal) out.push({k:"modal",t:F.modal==="ns"?"Transporte":`Transporte ${MODAIS[F.modal].nome.toLowerCase()}`,ic:F.modal==="ns"?"pin":MODAL_IC[F.modal],itens:F.modal==="ns"?NS_MOD:filtra(MODAL_ITENS[F.modal].pedir,op)});
+  F.cargas.forEach(c=>out.push({k:"c-"+c,t:CARGAS[c].nome,ic:CARGA_IC[c],itens:filtra(CARGAS[c].pedir,op)}));
+  out.push({k:"br",t:op==="imp"?"Importação no Brasil":"Exportação no Brasil",ic:"br",itens:filtra(BRASIL[op].pedir,op)});
+  const vistos=new Set(), pular=new Set(F.modal==="maritimo"?["Porto de embarque","Porto de destino"]:[]);
+  out.forEach(s=>s.itens=s.itens.filter(x=>!pular.has(x)&&!vistos.has(x)&&vistos.add(x)));
+  return out.filter(s=>s.itens.length);
+}
+function respondido(x){const v=F.resp[x];if(v==null)return false;if(typeof v==="string")return v.trim()!=="";return Object.values(v).some(y=>String(y||"").trim()!=="");}
+function chaveFS(tipo){return Object.keys(FS).find(k=>FS[k].t===tipo&&FS[k].g);}
+function cubagem(){
+  const m=F.resp["Medidas de cada volume (C × L × A, em cm)"]||{}, p=F.resp["Tipo de embalagem, quantidade de volumes e se são empilháveis"]||{};
+  const c=num(m.c),l=num(m.l),a=num(m.a),q=num(p.q); if(!c||!l||!a) return null;
+  const un=c*l*a/1e6; return {un,total:q?un*q:null};
+}
+
+/* ---------- RENDERIZAÇÃO DOS CAMPOS ---------- */
+function radios(i,p,opts,val){return `<div class="rcs">${opts.map(o=>`<label class="rc"><input type="radio" name="r${i}${p}" value="${esc(o)}" data-r="${i}" data-p="${p}"${val===o?" checked":""}><span>${esc(o)}</span></label>`).join("")}</div>`;}
+function inp(i,p,v,ph,o={}){return `<input class="in${o.cls?" "+o.cls:""}" type="${o.tipo||"text"}" data-r="${i}" data-p="${p}" value="${esc(v||"")}" placeholder="${esc(ph||"")}" ${o.extra||""} aria-label="${esc(o.aria||ph||"")}">`;}
+function campo(x,i){
+  const s=FS[x]||{t:"text"}, q=s.q||x, v=F.resp[x], o=(v&&typeof v==="object")?v:{}, sv=typeof v==="string"?v:"";
+  let h="";
+  switch(s.t){
+    case "radio": h=radios(i,"v",s.opts,sv); break;
+    case "doc": h=radios(i,"v",["Vou enviar junto","Ainda não tenho"],sv); break;
+    case "descncm": h=`<textarea class="in" data-r="${i}" data-p="d" placeholder="O que é, para que serve, material" aria-label="Descrição da mercadoria">${esc(o.d||"")}</textarea><div class="row2"><label class="sub"><span>NCM ou HS code <small>(se souber)</small></span>${inp(i,"ncm",o.ncm,"0000.00.00",{cls:"mono",extra:'inputmode="numeric" maxlength="10"'})}</label></div>`; break;
+    case "money": h=`<div class="row2"><label class="sub">Valor${inp(i,"v",o.v,"Ex.: 25.000,00",{extra:'inputmode="decimal"'})}</label><label class="sub">Moeda<select class="in" data-r="${i}" data-p="m">${["USD","EUR","CNY","BRL","Outra"].map(m=>`<option${(o.m||"USD")===m?" selected":""}>${m}</option>`).join("")}</select></label></div>`; break;
+    case "pack": h=`<div class="row2"><label class="sub">Tipo<select class="in" data-r="${i}" data-p="t"><option value="">Escolha</option>${["Caixas","Paletes","Engradados","Big bags","Tambores","Rolos","Sem embalagem","Outra"].map(m=>`<option${o.t===m?" selected":""}>${m}</option>`).join("")}</select></label><label class="sub">Quantidade${inp(i,"q",o.q,"Ex.: 8",{extra:'inputmode="numeric"'})}</label></div><p class="lbl2">Os volumes podem ser empilhados?</p>${radios(i,"e",["Sim","Não","Não sei"],o.e)}`; break;
+    case "peso": h=`<div class="row2"><label class="sub">Peso bruto total (kg)${inp(i,"t",o.t,"Ex.: 3.500",{extra:'inputmode="decimal"'})}</label><label class="sub">Peso por volume (kg)${inp(i,"u",o.u,"Ex.: 437",{extra:'inputmode="decimal"'})}</label></div>`; break;
+    case "medidas": {const cb=cubagem();h=`<div class="row3"><label class="sub">Comprimento (cm)${inp(i,"c",o.c,"120",{extra:'inputmode="decimal"'})}</label><label class="sub">Largura (cm)${inp(i,"l",o.l,"80",{extra:'inputmode="decimal"'})}</label><label class="sub">Altura (cm)${inp(i,"a",o.a,"100",{extra:'inputmode="decimal"'})}</label></div><p class="calc" id="cub">${cubTxt(cb)}</p><p class="hint">Se os volumes têm medidas diferentes, use as do maior e explique em Observações.</p>`;break;}
+    case "date2": h=`<div class="row2"><label class="sub">A carga fica pronta em${inp(i,"p",o.p,"",{tipo:"date"})}</label><label class="sub">Precisa chegar até${inp(i,"c",o.c,"",{tipo:"date"})}</label></div>`; break;
+    case "recorr": h=`${radios(i,"t",["Pontual (só este)","Recorrente"],o.t)}<label class="sub" style="margin-top:8px">Se for recorrente, quantos embarques ou contêineres por mês?${inp(i,"q",o.q,"Ex.: 4 contêineres por mês")}</label>`; break;
+    case "seguro": h=`${radios(i,"s",["Sim","Não","Quero entender melhor"],o.s)}<label class="sub" style="margin-top:8px">Valor a segurar, se já souber${inp(i,"v",o.v,"Ex.: o valor da invoice + 10%")}</label>`; break;
+    case "pair": h=`<div class="row2"><label class="sub">${esc(s.a)}${inp(i,"a",o.a,s.pha)}</label><label class="sub">${esc(s.b)}${inp(i,"b",o.b,s.phb)}</label></div>`; break;
+    default: h=inp(i,"v",sv,s.ph||"Sua resposta",{aria:q});
+  }
+  return `<div class="q-item${respondido(x)?" feito":""}" data-q="${i}"><p class="q-t"><span class="q-dot"></span>${esc(q)}</p>${h}</div>`;
+}
+function cubTxt(cb){if(!cb)return "Preencha as medidas para calcular a cubagem.";return `Cubagem: <b>${fmtN(cb.un,3)} m³</b> por volume${cb.total!=null?` · <b>${fmtN(cb.total,2)} m³</b> no total`:" · informe a quantidade de volumes para o total"}`;}
+
+/* ---------- TELAS ---------- */
+function stepper(){
+  $("stepper").innerHTML=PASSOS.map((p,i)=>{const n=i+1,cl=n<passo?"done":n===passo?"cur":"",pode=n<=maxPasso;
+    return `<li class="${cl}"><button type="button" data-ir="${n}" ${pode?"":"disabled"} aria-current="${n===passo?"step":"false"}"><span class="c">${n<passo?ic("check",15,2.6):n}</span><span class="l">${p}</span></button></li>`;}).join("");
+}
+function telaEmpresa(){
+  const e=F.emp, f=(k,l,ph,o={})=>`<div class="field${o.cls?" "+o.cls:""}"><label for="e-${k}">${l}${o.req?' <em class="req">obrigatório</em>':""}</label><input id="e-${k}" data-e="${k}" type="${o.tipo||"text"}" value="${esc(e[k])}" placeholder="${ph}" ${o.extra||""}${o.mono?' class="mono"':""}>${o.stat?`<p class="fstat" id="${o.stat}"></p>`:""}<p class="ferr" id="err-${k}"></p></div>`;
+  return `<h2 class="q">Vamos começar pela sua empresa</h2><p class="qs">Digite o CNPJ e preenchemos o resto para você.</p>
+  <div class="form">
+    ${f("cnpj","CNPJ","00.000.000/0000-00",{mono:true,stat:"st-cnpj",extra:'autocomplete="off" maxlength="18" autocapitalize="characters"'})}
+    ${f("empresa","Empresa","Nome da empresa",{req:true,extra:'autocomplete="organization"'})}
+  </div><div id="rf-box">${rfMini()}</div>
+  <div class="form c3" style="margin-top:14px">
+    ${f("nome","Seu nome","Nome e sobrenome",{req:true,extra:'autocomplete="name"'})}
+    ${f("fone","Seu WhatsApp","(00) 00000-0000",{tipo:"tel",extra:'autocomplete="tel" inputmode="tel"'})}
+    ${f("email","Seu e-mail","nome@empresa.com.br",{tipo:"email",extra:'autocomplete="email"'})}
+  </div>`;
+}
+function rfMini(){
+  const rf=F.emp.rf; if(!rf) return "";
+  const ativa=/ATIVA/i.test(rf.situacao||"");
+  return `<div class="rf"><div class="rf-h"><span>${ic("check",15,2.4)}Encontramos sua empresa na Receita Federal</span>${rf.situacao?`<span class="sit ${ativa?"ok":"bad"}">${esc(rf.situacao.toUpperCase())}</span>`:""}</div><dl><dt>Razão social</dt><dd>${esc(rf.razao)}</dd>${rf.cidade?`<dt>Cidade</dt><dd>${esc(tc(rf.cidade))}/${esc(rf.uf)}</dd>`:""}</dl></div>`;
+}
+function telaOp(){
+  return `<h2 class="q">Você quer importar ou exportar?</h2><p class="qs">Assim mostramos só as perguntas que valem para você.</p>
+  <div class="g2">${["imp","exp"].map(k=>`<button type="button" class="choice" data-op="${k}" aria-pressed="${F.op===k}">${tick}<span class="ico">${ic(OP_CLI[k].ic,24)}</span><span><b>${OP_CLI[k].nome}</b><small>${OP_CLI[k].d}</small></span></button>`).join("")}</div>`;
+}
+function telaInc(){
+  const op=F.op||"imp", card=c=>`<button type="button" class="choice inc-c" data-inc="${c}" aria-pressed="${F.inc===c}">${tick}<span><b><span class="k">${c}</span>${esc(INC[c].nome)}</b><small>${INC_CLI[op][c]}</small></span></button>`;
+  return `<h2 class="q">Qual Incoterm foi combinado?</h2><p class="qs">É a condição de compra e venda que aparece na proforma ou no contrato, como FOB ou EXW. Se ainda não sabe, sem problema.</p>
+  <button type="button" class="choice ns" data-inc="NS" aria-pressed="${F.inc==="NS"}">${tick}<span class="ico">${ic("info",22)}</span><span><b>Ainda não sei</b><small>A Syndex ajuda a escolher a melhor condição para a sua operação.</small></span></button>
+  <p class="glabel" style="margin-top:18px">Os mais usados</p><div class="gc2">${["FOB","EXW","FCA","CIF"].map(card).join("")}</div>
+  <p class="glabel" style="margin-top:18px">Outros</p><div class="gc2">${["CFR","CPT","CIP","DAP","DPU","DDP","FAS"].map(card).join("")}</div>`;
+}
+function telaModal(){
+  const opts=[["maritimo","ship","Marítimo"],["aereo","plane","Aéreo"],["rodoviario","truck","Rodoviário"],["ns","info","Ainda não sei"]];
+  let nota="";
+  if(F.inc&&F.inc!=="NS"&&INC[F.inc].mar&&F.modal&&F.modal!=="maritimo"&&F.modal!=="ns") nota=`<div class="alert info"><span class="ai">${ic("info",20)}</span><p><strong>Tudo bem.</strong> ${F.inc} é usado no transporte marítimo; no ${MODAIS[F.modal].nome.toLowerCase()} o equivalente é ${MAR_EQUIV[F.inc]}. A Syndex ajusta isso na cotação.</p></div>`;
+  return `<h2 class="q">Como a carga vai viajar?</h2><p class="qs">O transporte internacional principal.</p>
+  <div class="g4">${opts.map(([k,i,n])=>`<button type="button" class="choice" data-modal="${k}" aria-pressed="${F.modal===k}">${tick}<span class="ico">${ic(i,24,1.6)}</span><span><b>${n}</b><small>${MODAL_CLI[k]}</small></span></button>`).join("")}</div>${nota}`;
+}
+function telaCarga(){
+  const al=F.cargas.includes("granel")&&F.modal==="aereo"?`<div class="alert warn"><span class="ai">${ic("alert",20)}</span><p><strong>Atenção.</strong> Granel não viaja por avião. Volte e escolha marítimo ou rodoviário, ou marque "Ainda não sei".</p></div>`:"";
+  return `<h2 class="q">Que tipo de carga é?</h2><p class="qs">Pode marcar mais de um, por exemplo perigosa e congelada.</p>
+  <div class="gc">${ORDEM_CARGAS.map(k=>`<button type="button" class="choice" data-carga="${k}" aria-pressed="${F.cargas.includes(k)}">${tick}<span class="ico">${ic(CARGA_IC[k],20)}</span><span><b>${CARGAS[k].nome}</b><small>${CARGA_CLI[k]}</small></span></button>`).join("")}</div>${al}`;
+}
+function telaDetalhes(){
+  const ss=secoes(); CAMPOS=[]; let total=0,ok=0;
+  const blocos=ss.map(s=>{const itens=s.itens.map(x=>{const i=CAMPOS.push(x)-1;total++;if(respondido(x))ok++;return campo(x,i);}).join("");
+    return `<section class="qsec"><h3><span class="si">${s.code?s.code:ic(s.ic,16)}</span>${esc(s.t)}</h3>${itens}</section>`;}).join("");
+  return `<h2 class="q">Detalhes da carga</h2><p class="qs">Responda o que souber. O que ficar em branco, a Syndex pergunta depois.</p>
+  <div class="prog-row sticky"><div class="prog"><i id="pbar" style="width:${total?ok/total*100:0}%"></i></div><span class="mono" id="ptxt">${ok} de ${total} respondidas</span></div>
+  ${blocos}
+  <section class="qsec"><h3><span class="si">${ic("doc",16)}</span>Observações</h3><div class="q-item"><p class="q-t"><span class="q-dot"></span>Algo mais que a Syndex deve saber?</p><textarea class="in" id="obs" placeholder="Ex.: medidas diferentes por volume, urgência, histórico da carga…">${esc(F.obs)}</textarea></div></section>`;
+}
+function telaEnviar(){
+  const c=F.canal;
+  return `<h2 class="q">Confira e envie</h2><p class="qs">Esse é o resumo que a Syndex vai receber. Você pode ajustar o texto antes de enviar.</p>
+  <div class="mail">
+    <div class="mail-h"><span class="to">Para: <b>Syndex</b> · ${c==="wpp"?`WhatsApp ${WPP_TXT}`:EMAIL_SYNDEX}</span>
+      <span class="seg2" role="group" aria-label="Como enviar"><button type="button" data-canal="wpp" aria-pressed="${c==="wpp"}">${ic("chat",14)}WhatsApp</button><button type="button" data-canal="email" aria-pressed="${c==="email"}">${ic("mail",14)}E-mail</button></span></div>
+    <textarea id="txt" aria-label="Resumo da solicitação">${esc(resumo(c))}</textarea>
+    <div class="mail-f">${c==="wpp"?`<a class="btn pri" id="enviar" href="#" target="_blank" rel="noopener">${ic("chat",16)}Enviar pelo WhatsApp</a>`:`<a class="btn pri" id="enviar" href="#">${ic("mail",16)}Abrir no meu e-mail</a>`}
+      <button class="btn" id="copiar" type="button">${ic("copy",16)}Copiar resumo</button><span class="ok" id="okmsg" role="status"></span></div>
+  </div>
+  ${docsPendentes().length?`<div class="alert info"><span class="ai">${ic("info",20)}</span><p><strong>Não esqueça os anexos.</strong> Depois de enviar, mande também: ${esc(docsPendentes().join(", "))}.</p></div>`:""}
+  <p class="hint" style="margin-top:14px">${c==="email"?`Se o e-mail não abrir sozinho, copie o resumo e envie para <b>${EMAIL_SYNDEX}</b>.`:`O WhatsApp abre com a mensagem pronta. É só tocar em enviar.`}</p>`;
+}
+function docsPendentes(){return Object.keys(F.resp).filter(x=>F.resp[x]==="Vou enviar junto").map(x=>(FS[x]&&FS[x].lbl)||x);}
+
+/* ---------- RESUMO ---------- */
+function valorTxt(x){
+  const s=FS[x]||{t:"text"}, v=F.resp[x]; if(!respondido(x)) return "";
+  if(typeof v==="string") return v.trim();
+  switch(s.t){
+    case "descncm": return [v.d&&v.d.trim(),v.ncm?`NCM ${v.ncm}`:""].filter(Boolean).join(" · ");
+    case "money": return v.v?`${v.m||"USD"} ${v.v}`:"";
+    case "pack": return [v.q?`${v.q}`:"",v.t?v.t.toLowerCase():"",v.e==="Sim"?"empilháveis":v.e==="Não"?"não empilháveis":""].filter(Boolean).join(" ").replace(/^(\d+) /,"$1 ");
+    case "peso": return [v.t?`${v.t} kg no total`:"",v.u?`${v.u} kg por volume`:""].filter(Boolean).join(" · ");
+    case "medidas": {const cb=cubagem();return [v.c&&v.l&&v.a?`${v.c} × ${v.l} × ${v.a} cm`:"",cb&&cb.total!=null?`cubagem total ${fmtN(cb.total,2)} m³`:cb?`${fmtN(cb.un,3)} m³ por volume`:""].filter(Boolean).join(" · ");}
+    case "date2": return [v.p?`pronta em ${fmtData(v.p)}`:"",v.c?`chegar até ${fmtData(v.c)}`:""].filter(Boolean).join(" · ");
+    case "recorr": return [v.t,v.q].filter(Boolean).join(" · ");
+    case "seguro": return [v.s,v.v?`valor: ${v.v}`:""].filter(Boolean).join(" · ");
+    case "pair": return [v.a,v.b].filter(Boolean).join(" → ");
+  }
+  return "";
+}
+function resumo(canal){
+  const W=canal==="wpp", B=s=>W?`*${s}*`:s.toUpperCase(), e=F.emp, L=[];
+  const op=F.op==="exp"?"Exportação":"Importação", cargas=F.cargas.map(c=>CARGAS[c].nome).join(", ");
+  L.push(B("Solicitação de cotação"),`${op} · Incoterm ${incNome()} · ${F.modal==="ns"?"Modal a definir":modNome()} · ${cargas}`,"");
+  L.push(B("Empresa"));
+  if(e.empresa)L.push(`Empresa: ${e.empresa}`);
+  if(e.cnpj&&e.cnpj.length===14)L.push(`CNPJ: ${fmtCnpj(e.cnpj)}`);
+  if(e.cidade)L.push(`Cidade: ${e.cidade}/${e.uf}`);
+  if(e.nome)L.push(`Contato: ${e.nome}`);
+  if(e.fone)L.push(`WhatsApp: ${e.fone}`);
+  if(e.email)L.push(`E-mail: ${e.email}`);
+  let pend=0;
+  secoes().forEach(s=>{const linhas=[];s.itens.forEach(x=>{const t=valorTxt(x);if(t)linhas.push(`${(FS[x]&&FS[x].lbl)||x}: ${t}`);else pend++;});
+    if(linhas.length){L.push("",B(s.t),...linhas);}});
+  if(F.obs.trim())L.push("",B("Observações"),F.obs.trim());
+  const docs=docsPendentes(); if(docs.length)L.push("",`Vou enviar em anexo: ${docs.join(", ")}.`);
+  if(pend)L.push("",`${pend} ${pend===1?"item ficou":"itens ficaram"} em branco para conversarmos.`);
+  L.push("","Enviado pela Ficha de cotação da Syndex.");
+  return L.join("\n");
+}
+function assunto(){return `Solicitação de cotação | ${F.op==="exp"?"Exportação":"Importação"} ${incNome()} | ${F.emp.empresa||"cliente"}`;}
+function linksEnvio(){
+  const t=$("txt"), a=$("enviar"); if(!t||!a) return;
+  a.href=F.canal==="wpp"?`https://wa.me/${WPP_SYNDEX}?text=${encodeURIComponent(t.value)}`:`mailto:${EMAIL_SYNDEX}?subject=${encodeURIComponent(assunto())}&body=${encodeURIComponent(t.value)}`;
+}
+function ajusta(){const t=$("txt");if(!t)return;t.style.height="auto";t.style.height=t.scrollHeight+"px";}
+
+/* ---------- NAVEGAÇÃO ---------- */
+function validar(){
+  if(passo===1){let ok=true;["empresa","nome"].forEach(k=>{const vazio=!F.emp[k].trim();const er=$("err-"+k),el=$("e-"+k);if(er)er.textContent=vazio?"Preencha este campo.":"";if(el)el.classList.toggle("bad",vazio);if(vazio)ok=false;});
+    if(!ok){const f=document.querySelector(".field input.bad");if(f)f.focus();} return ok;}
+  if(passo===2&&!F.op) return aviso("Escolha importar ou exportar.");
+  if(passo===3&&!F.inc) return aviso("Escolha o Incoterm ou marque \"Ainda não sei\".");
+  if(passo===4&&!F.modal) return aviso("Escolha o modal ou marque \"Ainda não sei\".");
+  return true;
+}
+function aviso(m){let el=$("aviso");if(!el){el=document.createElement("p");el.id="aviso";el.className="ferr big";$("stage").appendChild(el);}el.textContent=m;return false;}
+function render(foco){
+  stepper();
+  const telas=[null,telaEmpresa,telaOp,telaInc,telaModal,telaCarga,telaDetalhes,telaEnviar];
+  const st=$("stage"); st.innerHTML=telas[passo]();
+  const dir=passo>passoAnterior?"fwd":passo<passoAnterior?"back":""; passoAnterior=passo;
+  st.classList.remove("fwd","back"); if(dir){void st.offsetWidth; st.classList.add(dir);}
+  $("voltar").innerHTML=`${ic("back",16)}Voltar`; $("voltar").classList.toggle("invis",passo===1);
+  $("pos").textContent=`Passo ${passo} de ${PASSOS.length} · ${PASSOS[passo-1]}`;
+  $("prox").innerHTML=passo===6?`Revisar e enviar${ic("next",16)}`:passo===7?`${ic("reset",16)}Nova ficha`:`Continuar${ic("next",16)}`;
+  $("prox").className=passo===7?"btn":"btn pri";
+  if(passo===7){ajusta();linksEnvio();}
+  if(passo===1&&F.emp.cnpj&&!F.emp.rf){const el=$("e-cnpj");if(el&&cnpjValido(F.emp.cnpj))aoCnpj(el);}
+  salvar();
+  if(foco) document.querySelector(".wiz").scrollIntoView({block:"start",behavior:"smooth"});
+}
+function progresso(){
+  let t=0,o=0; CAMPOS.forEach(x=>{t++;if(respondido(x))o++;});
+  const b=$("pbar"),p=$("ptxt"); if(b)b.style.width=(t?o/t*100:0)+"%"; if(p)p.textContent=`${o} de ${t} respondidas`;
+}
+
+/* ---------- CNPJ ---------- */
+function aoCnpj(el){
+  const raw=soCnpj(el.value); el.value=fmtCnpj(raw); F.emp.cnpj=raw; el.classList.remove("bad"); clearTimeout(tCnpj);
+  const st=(c,h)=>{const s=$("st-cnpj");if(s){s.className="fstat "+c;s.innerHTML=h;}};
+  if(raw.length<14){st("",raw.length?`${14-raw.length} caracteres faltando`:"");if(!raw){F.emp.rf=null;const b=$("rf-box");if(b)b.innerHTML="";}return;}
+  if(!cnpjValido(raw)){el.classList.add("bad");st("err","CNPJ inválido: confira os números.");return;}
+  if(raw===ultCnpj&&F.emp.rf){st("ok",`${ic("check",13,2.6)}Empresa encontrada.`);return;}
+  st("",`<span class="spin"></span>Consultando a Receita Federal…`);
+  tCnpj=setTimeout(async()=>{
+    try{
+      const rf=await tenta([[`https://brasilapi.com.br/api/cnpj/v1/${raw}`,normBrasil],[`https://publica.cnpj.ws/cnpj/${raw}`,normWs]]);
+      if(F.emp.cnpj!==raw) return; ultCnpj=raw; F.emp.rf={razao:rf.razao,situacao:rf.situacao,cidade:rf.cidade,uf:rf.uf};
+      const nome=tc(rf.fantasia||rf.razao); F.emp.empresa=nome; const ee=$("e-empresa"); if(ee){ee.value=nome;ee.classList.remove("bad");} const er=$("err-empresa"); if(er)er.textContent="";
+      F.emp.cidade=tc(rf.cidade); F.emp.uf=rf.uf;
+      const b=$("rf-box"); if(b)b.innerHTML=rfMini(); st("ok",`${ic("check",13,2.6)}Empresa encontrada.`); salvar();
+      const n=$("e-nome"); if(n&&!n.value) n.focus();
+    }catch(e){
+      if(F.emp.cnpj!==raw) return;
+      if(e==="nao") st("err","Não encontramos esse CNPJ. Confira o número ou preencha os dados abaixo.");
+      else st("","Não conseguimos consultar agora. Preencha os dados abaixo.");
+    }
+  },350);
+}
+
+/* ---------- EVENTOS ---------- */
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  const av=$("aviso"); if(av&&(b.dataset.op||b.dataset.inc||b.dataset.modal)) av.remove();
+  if(b.dataset.op){if(F.op!==b.dataset.op){F.op=b.dataset.op;}render();}
+  else if(b.dataset.inc){F.inc=b.dataset.inc;render();}
+  else if(b.dataset.modal){F.modal=b.dataset.modal;render();}
+  else if(b.dataset.carga){const k=b.dataset.carga,ix=F.cargas.indexOf(k);
+    if(ix>=0){if(F.cargas.length>1)F.cargas.splice(ix,1);}else F.cargas.push(k);
+    F.cargas.sort((a,c)=>ORDEM_CARGAS.indexOf(a)-ORDEM_CARGAS.indexOf(c));render();}
+  else if(b.dataset.ir){const n=+b.dataset.ir;if(n<=maxPasso&&n!==passo){passo=n;render(true);}}
+  else if(b.dataset.canal){F.canal=b.dataset.canal;render();}
+  else if(b.id==="voltar"&&passo>1){passo--;render(true);}
+  else if(b.id==="prox"){
+    if(passo===7){
+      if(b.dataset.conf!=="1"){b.dataset.conf="1";b.innerHTML=`${ic("reset",16)}Toque de novo para apagar e recomeçar`;setTimeout(()=>{if(b.dataset.conf==="1"){b.dataset.conf="";b.innerHTML=`${ic("reset",16)}Nova ficha`;}},4000);return;}
+      b.dataset.conf="";F=VAZIO();ultCnpj="";passo=1;maxPasso=1;try{localStorage.removeItem("syndex-ficha-v1")}catch(err){}render(true);return;}
+    if(!validar()) return; passo++; maxPasso=Math.max(maxPasso,passo); render(true);}
+  else if(b.id==="copiar"){const t=$("txt"),ok=$("okmsg");(async()=>{try{await navigator.clipboard.writeText(t.value);ok.textContent="Resumo copiado.";}catch(err){t.select();let f=false;try{f=document.execCommand("copy")}catch(e2){}ok.textContent=f?"Resumo copiado.":"Selecionamos o texto: use Ctrl+C para copiar.";}setTimeout(()=>ok.textContent="",4000);})();}
+  else if(b.id==="tema"){const h=document.documentElement,n=h.getAttribute("data-tema")==="escuro"?"claro":"escuro";h.setAttribute("data-tema",n);try{localStorage.setItem("syndex-guia-tema",n)}catch(err){}rotuloTema();}
+});
+document.addEventListener("input",e=>{
+  const el=e.target;
+  if(el.dataset.e){const k=el.dataset.e;
+    if(k==="cnpj"){aoCnpj(el);salvar();return;}
+    F.emp[k]=el.value; if(el.value.trim()){el.classList.remove("bad");const er=$("err-"+k);if(er)er.textContent="";} salvar(); return;}
+  if(el.id==="obs"){F.obs=el.value;salvar();return;}
+  if(el.id==="txt"){ajusta();linksEnvio();return;}
+  if(el.dataset.r!==undefined){
+    const i=+el.dataset.r, p=el.dataset.p||"v", x=CAMPOS[i], s=FS[x]||{t:"text"};
+    if(p==="ncm") el.value=fmtNcm(el.value);
+    if(COMPOSTOS.has(s.t)){const o=(F.resp[x]&&typeof F.resp[x]==="object")?F.resp[x]:{};o[p]=el.value;F.resp[x]=o;}else F.resp[x]=el.value;
+    const box=document.querySelector(`[data-q="${i}"]`); if(box) box.classList.toggle("feito",respondido(x));
+    if(s.t==="medidas"||s.t==="pack"){const c=$("cub");if(c)c.innerHTML=cubTxt(cubagem());}
+    progresso(); salvar();
+  }
+});
+document.addEventListener("change",e=>{const el=e.target;if(el.tagName==="SELECT"||el.type==="radio"||el.type==="date"){el.dispatchEvent(new Event("input",{bubbles:true}));}});
+window.addEventListener("resize",ajusta);
+function rotuloTema(){const e=document.documentElement.getAttribute("data-tema")==="escuro";$("tema").innerHTML=e?`${ic("sun",15)}Tema claro`:`${ic("moon",15)}Tema escuro`;}
+rotuloTema(); render();
+
+</script>
+</body>
+</html>
