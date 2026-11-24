@@ -15,6 +15,7 @@ Funciona no computador e no celular. No celular dá para instalar como app:
 
 | Seção | Ferramenta | Onde abre |
 |---|---|---|
+| Escritório em versão game | Syndex HQ | Claude (escritório gamificado: crachás, ramais, organograma, mural, agenda da sala e quiz) |
 | Clientes | Syndex Ações | Portal (`/acoes`, dados salvos no aparelho) |
 | Clientes | Carteira por estado | Claude |
 | Clientes | Clientes Ativos | Claude (documento) |
